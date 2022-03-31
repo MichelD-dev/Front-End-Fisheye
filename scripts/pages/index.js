@@ -4,10 +4,10 @@ async function getPhotographers() {
   return data
 }
 
-async function displayData(photographers) {
+async function displayData(photographerss) {
   const photographersSection = document.querySelector('.photographers_section')
 
-  photographers.forEach(photographer => {
+  photographerss.forEach(photographer => {
     const photographerModel = photographerFactory(photographer)
     const userCardDOM = photographerModel.getUserCardDOM()
     photographersSection.appendChild(userCardDOM)
@@ -16,6 +16,7 @@ async function displayData(photographers) {
 
 async function init() {
   const { photographers } = await getPhotographers()
+  localStorage.setItem('photographers', JSON.stringify(photographers))
   displayData(photographers)
 }
 
