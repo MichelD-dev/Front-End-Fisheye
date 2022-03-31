@@ -1,31 +1,43 @@
 function photographerFactory(data) {
-  const { name: phName, portrait, city, country, tagline: tag, price: prc } = data
+  const {
+    name: phoName,
+    portrait,
+    city,
+    country,
+    tagline: tag,
+    price: rate,
+  } = data
 
   const picture = `assets/photographers/${portrait}`
 
   function getUserCardDOM() {
     const article = document.createElement('article')
     article.classList.add('photographer__card')
+    article.setAttribute('aria-label', 'Fiche photographe')
 
     const img = document.createElement('img')
     img.setAttribute('src', picture)
+    img.setAttribute('alt', `${phoName} - Fiche individuelle`)//FIXME vérifier si ce sera un lien
     img.classList.add('photographer__portrait')
-    img.setAttribute('alt', phName)
-
-    const name = document.createElement('name')
-    name.textContent = phName
+ 
+    const name = document.createElement('h2')
+    name.textContent = phoName
     name.classList.add('photographer__name')
-
+    name.setAttribute('aria-label', 'Nom du photographe')
+    
     const location = document.createElement('span')
     location.textContent = `${city}, ${country}`
     location.classList.add('photographer__location')
-
+    location.setAttribute('aria-label', 'Localisation du photographe')
+    
     const tagline = document.createElement('span')
     tagline.textContent = tag
-
+    tagline.setAttribute('aria-label', 'Citation du photographe')
+    
     const price = document.createElement('span')
-    price.textContent = `${prc}€/jour`
+    price.textContent = `${rate}€/jour`
     price.classList.add('photographer__price')
+    price.setAttribute('aria-label', 'Tarif journalier')
 
     article.appendChild(img)
     article.appendChild(name)
@@ -35,5 +47,5 @@ function photographerFactory(data) {
 
     return article
   }
-  return { name, picture, getUserCardDOM }
+  return { phoName, picture, getUserCardDOM }
 }
