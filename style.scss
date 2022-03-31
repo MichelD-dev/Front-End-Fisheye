@@ -1,58 +1,6 @@
-@import url('photographer.css');
+@charset 'utf-8';
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  margin: 0;
-}
+@use './sass/base/base';
 
-.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  height: 90px;
-  &.__title {
-    color: #901c1c;
-    margin-right: 100px;
-  }
-}
-
-.logo {
-  height: 50px;
-  margin-left: 100px;
-}
-
-.photographers_section {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 70px;
-  margin-top: 100px;
-}
-
-.photographer {
-  &__card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 8px;
-  }
-  &__name {
-    color: #d3573c;
-    font-size: 2.4rem;
-    margin: 25px 0 15px;
-  }
-  &__portrait {
-    border-radius: 50%;
-    height: 200px;
-    width: 200px;
-    object-fit: cover;
-  }
-  &__location {
-    color: #901c1c;
-    font-size: 1.2rem;
-  }
-  &__price {
-    color: grey;
-  }
-}
+@use './sass/pages/accueil';
+@use "./sass/pages/photographer";

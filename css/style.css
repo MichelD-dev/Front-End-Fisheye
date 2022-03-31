@@ -1,4 +1,37 @@
-@import url("photographer.css");
+html {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  user-select: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+p,
+figure {
+  margin: 0;
+}
+
 body {
   font-family: "DM Sans", sans-serif;
   margin: 0;
@@ -11,7 +44,7 @@ body {
   align-items: center;
   height: 90px;
 }
-.header.__title {
+.header__title {
   color: #901c1c;
   margin-right: 100px;
 }
@@ -28,6 +61,11 @@ body {
   margin-top: 100px;
 }
 
+.photographer-card__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .photographer__card {
   display: flex;
   justify-content: center;
