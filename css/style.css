@@ -71,6 +71,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  pointer-events: auto;
 }
 .photographer__card {
   display: flex;
@@ -82,6 +83,21 @@ body {
   border-radius: 15px;
   width: 350px;
   padding: 35px 0;
+  transition: all 0.15s linear;
+  pointer-events: none;
+}
+.photographer__card:hover {
+  transition: all 0.15s linear;
+  transform: scale(1.05);
+  box-shadow: 3px 9px 10px #ddd;
+}
+.photographer__card:hover > .photographer__portrait {
+  opacity: 0.5;
+}
+.photographer__card:active {
+  transform: scale(1);
+  box-shadow: none;
+  transition: all 0.08s linear;
 }
 .photographer__name {
   color: #d3573c;
@@ -100,12 +116,6 @@ body {
 }
 .photographer__price {
   color: grey;
-}
-
-.muted-link {
-  transition: all 0.1s linear;
-  transform: scale(1.05);
-  box-shadow: 3px 9px 10px #ddd;
 }
 
 #contact_modal {

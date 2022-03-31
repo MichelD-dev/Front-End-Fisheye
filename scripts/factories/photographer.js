@@ -14,8 +14,7 @@ function photographerFactory(data) {
   function getUserCardDOM() {
     const article = document.createElement('article')
     article.classList.add('photographer__card')
-    article.setAttribute('aria-label', 'Fiche photographe')
-    // article.classList.add('muted-link')
+     article.setAttribute('aria-label', 'Fiche photographe')
 
     const img = document.createElement('img')
     img.setAttribute('src', picture)
@@ -27,16 +26,9 @@ function photographerFactory(data) {
     name.classList.add('photographer__name')
     name.setAttribute('aria-label', 'Nom du photographe')
 
-    const hoverOnCard = direction => {
-      direction === 'in' && article.classList.add('muted-link')
-      direction === 'out' && article.classList.remove('muted-link')
-    }
-
     const articleHeader = document.createElement('a')
     articleHeader.setAttribute('href', `/photographer.html?id=${id}`)
     articleHeader.classList.add('photographer-card__header')
-    articleHeader.addEventListener('mouseover', () => hoverOnCard('in'))
-    articleHeader.addEventListener('mouseleave', () => hoverOnCard('out'))
     articleHeader.appendChild(img)
     articleHeader.appendChild(name)
 
