@@ -1,11 +1,6 @@
-import {  photographerFactory } from '../factories/photographer.js'
+import { photographerFactory } from '../factories/photographer.js'
 import { mediasFactory } from '../factories/medias.js'
-
-async function getPhotographers() {
-  const response = await fetch('../../data/photographers.json')
-  const data = await response.json()
-  return data
-}
+import getPhotographers from '../utils/fetch.js'
 
 async function displayData(photographers, medias) {
   const photographersSection = document.querySelector('.photographers_section')
@@ -22,10 +17,14 @@ async function displayData(photographers, medias) {
   })
 }
 
-async function init() {
-  const { photographers, medias } = await getPhotographers()
-  localStorage.setItem('photographers', JSON.stringify(photographers))
-  localStorage.setItem('medias', JSON.stringify(medias))
+async function init() {//FIXME mettre un spinner
+  let photographers = JSON.parse(localStorage.getItem('photographers'))
+  let medias = JSON.parse(localStorage.getItem('medias'))
+
+  if (!photographers || !medias) {
+    const { photographers, medias } = await getPhotographers()
+    displayData(photographers, medias)
+  }
   displayData(photographers, medias)
 }
 
