@@ -1,11 +1,26 @@
-//Mettre le code JavaScript lié à la page photographer.html
 import { photographerFactory } from '../factories/photographerFactory.js'
-import { mediasFactory } from '../factories/mediasFactory.js'
-import { displayModal, closeModal } from '../utils/contactForm.js'
+import { mediaFactory } from '../factories/mediaFactory.js'
 import getPhotographers from '../utils/fetch.js'
 
 let params = new URL(document.location).searchParams
 let id = parseInt(params.get('id'))
+
+async function displayData(photographers, medias) {
+  const mediasSection = document.querySelector('.medias-section')
+
+  const photographer = photographers.find(
+    photographer => photographer.id === id
+  )
+  const photographerModel = photographerFactory(photographer)
+  photographerModel.getUserPageDOM()
+
+  medias.forEach(media => {
+    if (media.photographerId !== id) return
+    const mediaModel = mediaFactory(media)
+    const article = mediaModel.getMediaCardDOM()
+    mediasSection.appendChild(article)
+  })
+}
 
 //TODO utilisation du storage plutôt que fetchs multiples
 
@@ -17,28 +32,12 @@ const getDatas = async () => {
   let medias = JSON.parse(localStorage.getItem('medias'))
 
   if (!photographers || !medias) {
-    const data = await getPhotographers()
-      return data
+    const { photographers, medias } = await getPhotographers()
+    displayData(photographers, medias)
   }
 
   spinner.setAttribute('hidden', '')
-  return { photographers, medias }
+  displayData(photographers, medias)
 }
 
-const { photographers, medias } = await getDatas()
-const photographer = photographers.find(photographer => photographer.id === id)
-
-const picture = `assets/photographers/${photographer.portrait}`
-
-document.querySelector('.photographer__name').textContent = photographer.name
-document.querySelector(
-  '.photographer__location'
-).textContent = `${photographer.city}, ${photographer.country}`
-document.querySelector('.photographer__tagline').textContent =
-  photographer.tagline
-document.querySelector('.photographer__portrait').setAttribute('src', picture)
-document
-  .querySelector('.photographer__portrait')
-  .setAttribute('alt', `${name} - Fiche individuelle`)
-
-mediasFactory(medias)
+getDatas()

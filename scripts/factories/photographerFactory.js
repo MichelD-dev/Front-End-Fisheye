@@ -11,6 +11,23 @@ export function photographerFactory(data) {
 
   const picture = `assets/photographers/${portrait}`
 
+  function getUserPageDOM() {
+    const name = document.querySelector('.photographer__name')
+    name.textContent = `${phoName}`
+
+    const location = document.querySelector('.photographer__location')
+    location.textContent = `${city}, ${country}`
+
+    const tagline = document.querySelector('.photographer__tagline')
+    tagline.textContent = `${tag}`
+
+    const portrait = document.querySelector('.photographer__portrait')
+    portrait.setAttribute('src', picture)
+    portrait.setAttribute('alt', `${phoName} - Fiche individuelle`)
+
+    return { name, location, tagline, portrait }
+  }
+
   function getUserCardDOM() {
     const article = document.createElement('article')
     article.classList.add('photographer__card')
@@ -53,5 +70,5 @@ export function photographerFactory(data) {
 
     return article
   }
-  return { phoName, picture, getUserCardDOM, data }
+  return { getUserCardDOM, getUserPageDOM }
 }

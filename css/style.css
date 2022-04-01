@@ -52,7 +52,7 @@ body {
   content: "";
   width: 80px;
   height: 80px;
-  border: 2px solid #f3f3f3;
+  border: 2px solid #fafafa;
   border-top: 3px solid #d3573c;
   border-radius: 100%;
   will-change: transform;
@@ -89,7 +89,7 @@ body {
   margin-left: 100px;
 }
 
-.photographers_section {
+.photographers-section {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 70px;
@@ -122,7 +122,7 @@ body {
 .photographer__card:hover {
   transition: all 0.15s linear;
   transform: scale(1.05);
-  box-shadow: 3px 9px 10px #ddd;
+  box-shadow: 3px 9px 10px #fafafa;
 }
 .photographer__card:hover .photographer__portrait {
   transition: opacity 0.25s linear;
@@ -149,11 +149,15 @@ body {
   font-size: 1.2rem;
 }
 .photographer__price {
-  color: grey;
+  color: #525252;
 }
 
 #contact_modal {
   display: none;
+}
+
+.main_photograph {
+  flex-direction: column;
 }
 
 .photograph-header {
@@ -241,6 +245,32 @@ form input {
   height: 68px;
   border: none;
   border-radius: 5px;
+}
+
+.medias-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 70px;
+  margin-top: 100px;
+  width: 100%;
+}
+
+.media-card {
+  justify-self: center;
+}
+.media-card__image {
+  width: 500px;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 7px;
+}
+
+.image__datas {
+  display: flex;
+  justify-content: space-between;
+  color: #901c1c;
+  padding-top: 10px;
+  font-size: 1.5rem;
 }
 
 /*# sourceMappingURL=style.css.map */
