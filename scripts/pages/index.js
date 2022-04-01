@@ -1,6 +1,9 @@
+import {  photographerFactory } from '../factories/photographer.js'
+import { mediasFactory } from '../factories/medias.js'
+
 async function getPhotographers() {
   const response = await fetch('../../data/photographers.json')
-  data = await response.json()
+  const data = await response.json()
   return data
 }
 

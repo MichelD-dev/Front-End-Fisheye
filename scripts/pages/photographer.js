@@ -1,4 +1,8 @@
 //Mettre le code JavaScript lié à la page photographer.html
+import {  photographerFactory } from '../factories/photographer.js'
+import { mediasFactory } from '../factories/medias.js'
+import { displayModal, closeModal } from '../utils/contactForm.js'
+
 let params = new URL(document.location).searchParams
 let id = parseInt(params.get('id'))
 

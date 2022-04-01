@@ -1,4 +1,4 @@
-const mediasFactory = data => {
+export function mediasFactory(data) {
   const { id, photographerId, title, image, likes, date, price } = data
   console.log(data)
   let params = new URL(document.location).searchParams
@@ -9,13 +9,13 @@ const mediasFactory = data => {
     photographer => photographer.id === ide
   )
 
-  const pictures = `assets/images/${photographer.name.split(' ')[0]}`
-  console.log(pictures);
+//   const pictures = `assets/images/${photographer.name.split(' ')[0]}`
+//   console.log(pictures);
 
 
 
   const array = []
-  array.push(`${pictures}/${image}`)
+//   array.push(`${pictures}/${image}`)
 
   function getMediaCardDOM() {
     const article = document.createElement('article')
