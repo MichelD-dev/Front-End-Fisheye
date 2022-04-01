@@ -4,20 +4,26 @@ async function getPhotographers() {
   return data
 }
 
-async function displayData(photographerss) {
+async function displayData(photographers, medias) {
   const photographersSection = document.querySelector('.photographers_section')
 
-  photographerss.forEach(photographer => {
+  photographers.forEach(photographer => {
     const photographerModel = photographerFactory(photographer)
     const userCardDOM = photographerModel.getUserCardDOM()
     photographersSection.appendChild(userCardDOM)
   })
+  medias.forEach(media => {
+    const mediasModel = mediasFactory(media)
+    const mediaCardDOM = mediasModel.getMediaCardDOM()
+    // mediasSection.appendChild(mediaCardDOM)
+  })
 }
 
 async function init() {
-  const { photographers } = await getPhotographers()
+  const { photographers, medias } = await getPhotographers()
   localStorage.setItem('photographers', JSON.stringify(photographers))
-  displayData(photographers)
+  localStorage.setItem('medias', JSON.stringify(medias))
+  displayData(photographers, medias)
 }
 
 init()

@@ -14,7 +14,7 @@ function photographerFactory(data) {
   function getUserCardDOM() {
     const article = document.createElement('article')
     article.classList.add('photographer__card')
-     article.setAttribute('aria-label', 'Fiche photographe')
+    article.setAttribute('aria-label', 'Fiche photographe')
 
     const img = document.createElement('img')
     img.setAttribute('src', picture)

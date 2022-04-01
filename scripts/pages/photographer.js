@@ -6,4 +6,12 @@ const photographers = JSON.parse(localStorage.getItem('photographers'))
 //TODO utilisation du storage plutôt que fetchs multiples
 const photographer = photographers.find(photographer => photographer.id === id)
 
-console.log(photographer)
+const picture = `assets/photographers/${photographer.portrait}`
+
+document.querySelector('.photographer__name').textContent = photographer.name
+document.querySelector('.photographer__location').textContent = `${photographer.city}, ${photographer.country}`
+document.querySelector('.photographer__tagline').textContent = photographer.tagline
+document.querySelector('.photographer__portrait').setAttribute('src', picture)
+document.querySelector('.photographer__portrait').setAttribute('alt', `${name} - Fiche individuelle`)
+
+mediasFactory(photographer)

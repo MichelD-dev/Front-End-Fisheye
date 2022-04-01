@@ -86,13 +86,17 @@ body {
   transition: all 0.15s linear;
   pointer-events: none;
 }
+.photographer__card .photographer__portrait {
+  transition: opacity 0.25s linear;
+}
 .photographer__card:hover {
   transition: all 0.15s linear;
   transform: scale(1.05);
   box-shadow: 3px 9px 10px #ddd;
 }
-.photographer__card:hover > .photographer__portrait {
-  opacity: 0.5;
+.photographer__card:hover .photographer__portrait {
+  transition: opacity 0.25s linear;
+  opacity: 0.7;
 }
 .photographer__card:active {
   transform: scale(1);
@@ -123,9 +127,23 @@ body {
 }
 
 .photograph-header {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   height: 300px;
   margin: 0 100px;
+  padding: 0 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.photograph-header__id {
+  display: flex;
+  flex-direction: column;
+}
+
+.photographer__info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .contact_button {
@@ -136,14 +154,14 @@ body {
   width: 170px;
   height: 70px;
   border: none;
-  background-color: #901C1C;
+  background-color: #901c1c;
   border-radius: 5px;
   cursor: pointer;
 }
 
 .modal {
   border-radius: 5px;
-  background-color: #DB8876;
+  background-color: #db8876;
   width: 50%;
   display: flex;
   flex-direction: column;
@@ -176,7 +194,7 @@ form {
 }
 
 form label {
-  color: #312E2E;
+  color: #312e2e;
   font-size: 36px;
 }
 
