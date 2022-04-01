@@ -119,12 +119,12 @@ body {
 .photographer__card .photographer__portrait {
   transition: opacity 0.25s linear;
 }
-.photographer__card:hover {
+.photographer__card:hover, .photographer__card:focus {
   transition: all 0.15s linear;
   transform: scale(1.05);
   box-shadow: 3px 9px 10px #fafafa;
 }
-.photographer__card:hover .photographer__portrait {
+.photographer__card:hover .photographer__portrait, .photographer__card:focus .photographer__portrait {
   transition: opacity 0.25s linear;
   opacity: 0.7;
 }
@@ -191,6 +191,20 @@ body {
   background-color: #901c1c;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.photograper__rate {
+  bottom: 0;
+  right: 20px;
+  position: fixed;
+  background-color: #d3573c;
+  display: flex;
+  justify-content: space-between;
+  gap: 60px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 18px 40px;
+  border-radius: 5px 5px 0 0;
 }
 
 .modal {

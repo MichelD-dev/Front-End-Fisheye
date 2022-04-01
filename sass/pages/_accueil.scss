@@ -88,7 +88,7 @@ body {
     & .photographer__portrait {
       transition: opacity 0.25s linear;
     }
-    &:hover {
+    &:hover, &:focus {
       transition: all 0.15s linear;
       transform: scale(1.05);
       box-shadow: 3px 9px 10px $quaternary-color;

@@ -20,7 +20,7 @@ export function mediaFactory(media) {
       }`
     )
     media.video && mediaCard.setAttribute('controls', '')
-    media.image && mediaCard.setAttribute('alt', ``)
+    media.image && mediaCard.setAttribute('alt', `${media.title}`)
     mediaCard.classList.add('media-card__image')
 
     const imgDatas = document.createElement('div')

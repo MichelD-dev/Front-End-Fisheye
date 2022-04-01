@@ -40,6 +40,20 @@
   cursor: pointer;
 }
 
+.photograper__rate {
+  bottom: 0;
+  right: 20px;
+  position: fixed;
+  background-color: $secondary-color;
+  display: flex;
+  justify-content: space-between;
+  gap:60px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 18px 40px;
+  border-radius: 5px 5px 0 0;
+}
+
 .modal {
   border-radius: 5px;
   background-color: $modal-bg;

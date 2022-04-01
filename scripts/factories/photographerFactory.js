@@ -43,7 +43,7 @@ export function photographerFactory(data) {
     name.classList.add('photographer__name')
     name.setAttribute('aria-label', 'Nom du photographe')
 
-    const articleHeader = document.createElement('a')
+    const articleHeader = document.createElement('a')  //TODO attribut pour link?
     articleHeader.setAttribute('href', `/photographer.html?id=${id}`)
     articleHeader.classList.add('photographer-card__header')
     articleHeader.appendChild(img)
