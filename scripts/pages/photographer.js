@@ -1,6 +1,6 @@
 //Mettre le code JavaScript lié à la page photographer.html
-import { photographerFactory } from '../factories/photographer.js'
-import { mediasFactory } from '../factories/medias.js'
+import { photographerFactory } from '../factories/photographerFactory.js'
+import { mediasFactory } from '../factories/mediasFactory.js'
 import { displayModal, closeModal } from '../utils/contactForm.js'
 import getPhotographers from '../utils/fetch.js'
 
@@ -10,13 +10,18 @@ let id = parseInt(params.get('id'))
 //TODO utilisation du storage plutôt que fetchs multiples
 
 const getDatas = async () => {
+  const spinner = document.getElementById('spinner')
+  spinner.removeAttribute('hidden')
+
   let photographers = JSON.parse(localStorage.getItem('photographers'))
   let medias = JSON.parse(localStorage.getItem('medias'))
 
   if (!photographers || !medias) {
     const data = await getPhotographers()
-    return data
+      return data
   }
+
+  spinner.setAttribute('hidden', '')
   return { photographers, medias }
 }
 
