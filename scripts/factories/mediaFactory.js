@@ -2,7 +2,7 @@ export function mediaFactory(media) {
   let params = new URL(document.location).searchParams
   let id = parseInt(params.get('id'))
 
-  const photographers = JSON.parse(localStorage.getItem('photographers'))
+  const { photographers } = JSON.parse(localStorage.getItem('data'))
   const photographer = photographers.find(
     photographer => photographer.id === id
   )

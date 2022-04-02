@@ -1,11 +1,11 @@
 @use '../utils/variables' as *;
 
-#contact_modal {
+#contact-modal {
   display: none;
 }
 
 .main_photograph {
-    flex-direction: column;
+  flex-direction: column;
 }
 .photograph-header {
   background-color: $quaternary-color;
@@ -27,7 +27,7 @@
   gap: 10px;
 }
 
-.contact_button {
+.contact-button {
   font-size: 20px;
   font-weight: bold;
   color: white;
@@ -40,17 +40,17 @@
   cursor: pointer;
 }
 
-.photograper__rate {
+.photographer__rate {
   bottom: 0;
   right: 20px;
   position: fixed;
   background-color: $secondary-color;
   display: flex;
   justify-content: space-between;
-  gap:60px;
-  font-size: 1.5rem;
+  gap: 60px;
+  font-size: 1.2rem;
   font-weight: bold;
-  padding: 18px 40px;
+  padding: 15px 40px;
   border-radius: 5px 5px 0 0;
 }
 
@@ -64,24 +64,38 @@
   justify-content: space-between;
   padding: 35px;
   margin: auto;
+  z-index: 1;
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
 }
 
-.modal header {
+.modal-header {
+  display: flex;
   justify-content: space-between;
   width: 100%;
+  font-size: 1.5rem;
+  text-align: center;
+  align-items: start;
+  &__text {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    & > * {
+      font-weight: 100 !important; //FIXME
+    }
+  }
+  &__name {
+    font-size: 2em;
+  }
 }
 
 .modal header img {
   cursor: pointer;
 }
 
-.modal header h2 {
-  font-size: 64px;
-  font-weight: normal;
-  text-align: center;
-}
-
-form {
+.form {
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -90,7 +104,8 @@ form {
 
 form label {
   color: #312e2e;
-  font-size: 36px;
+  font-size: 2rem;
+  width: 100%;
 }
 
 form div {
@@ -103,7 +118,18 @@ form div {
 
 form input {
   width: 100%;
+  font-size: 36px;
+  color: #312e2e;
   height: 68px;
+  border: none;
+  border-radius: 5px;
+}
+
+form textarea {
+  width: 100%;
+  height: 168px;
+  font-size: 36px;
+  color: #312e2e;
   border: none;
   border-radius: 5px;
 }
@@ -127,9 +153,9 @@ form input {
 }
 
 .image__datas {
-    display: flex;
-    justify-content: space-between;
-    color: $primary-color;
-    padding-top: 10px;
-    font-size: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  color: $primary-color;
+  padding-top: 10px;
+  font-size: 1.5rem;
 }

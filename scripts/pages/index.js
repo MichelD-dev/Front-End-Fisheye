@@ -15,14 +15,11 @@ async function init() {
   const spinner = document.getElementById('spinner')
   spinner.removeAttribute('hidden')
 
-  let photographers = JSON.parse(localStorage.getItem('photographers'))
-
-  if (!photographers) {
-    const { photographers } = await getPhotographers()
-    displayData(photographers)
-  }
-
+  const data =
+    JSON.parse(localStorage.getItem('data')) ?? (await getPhotographers())
+  const photographers = data ? data.photographers : null
   spinner.setAttribute('hidden', '')
+  if (!data) return console.error('NO DATA')
   displayData(photographers)
 }
 
