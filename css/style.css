@@ -122,7 +122,7 @@ body {
 .photographer__card:hover, .photographer__card:focus {
   transition: all 0.15s linear;
   transform: scale(1.05);
-  box-shadow: 3px 9px 10px #fafafa;
+  box-shadow: 3px 9px 10px #ddd;
 }
 .photographer__card:hover .photographer__portrait, .photographer__card:focus .photographer__portrait {
   transition: opacity 0.25s linear;
@@ -131,7 +131,7 @@ body {
 .photographer__card:active {
   transform: scale(1);
   box-shadow: none;
-  transition: all 0.08s linear;
+  transition: all 0.05s linear;
 }
 .photographer__name {
   color: #d3573c;
@@ -150,10 +150,6 @@ body {
 }
 .photographer__price {
   color: #525252;
-}
-
-#contact-modal {
-  display: none;
 }
 
 .main_photograph {
@@ -222,6 +218,18 @@ body {
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
+  animation: fadeIn 0.2s;
+}
+.modal__close {
+  background-color: transparent;
+  border: none;
+}
+.modal[aria-hidden=false] {
+  animation-name: fadeOut;
+}
+
+.hidden {
+  display: none;
 }
 
 .modal-header {
@@ -311,6 +319,23 @@ form textarea {
   color: #901c1c;
   padding-top: 10px;
   font-size: 1.5rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

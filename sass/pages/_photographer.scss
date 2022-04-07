@@ -1,9 +1,5 @@
 @use '../utils/variables' as *;
 
-#contact-modal {
-  display: none;
-}
-
 .main_photograph {
   flex-direction: column;
 }
@@ -69,6 +65,18 @@
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
+  animation: fadeIn .2s;
+  &__close {
+    background-color: transparent;
+    border: none;
+  }
+  &[aria-hidden="false"] {
+    animation-name: fadeOut;
+  }
+}
+
+.hidden {
+  display: none;
 }
 
 .modal-header {
@@ -158,4 +166,22 @@ form textarea {
   color: $primary-color;
   padding-top: 10px;
   font-size: 1.5rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

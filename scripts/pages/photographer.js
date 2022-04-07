@@ -1,7 +1,7 @@
 import { photographerFactory } from '../factories/photographerFactory.js'
 import { mediaFactory } from '../factories/mediaFactory.js'
 import getPhotographers from '../utils/fetch.js'
-import modal from '../utils/contactForm.js'
+import { modalDisplay, focusInModal } from '../utils/contactForm.js'
 
 let params = new URL(document.location).searchParams
 let id = parseInt(params.get('id'))
@@ -35,17 +35,27 @@ const getDatas = async () => {
 
 getDatas()
 
-document
-  .querySelector('.contact-button')
-  .addEventListener('click', () => modal('display'))
+const showModal = () => {
+  previouslyFocusedElement = document.querySelector(':focus')
+  modalDisplay('show', previouslyFocusedElement)
+  // document
+  //   .querySelector('.contact-button')
+  //   .removeEventListener('click', showModal)
+  document.getElementById('firstname').focus()
+}
 
-document.querySelector('.modal-close').addEventListener('click', () => modal('close'))
+let previouslyFocusedElement = null
 
-document.querySelector('[name="form"]').addEventListener('submit', e => {
-  e.preventDefault()
-  console.log(e.currentTarget.firstname.value)
-  console.log(e.currentTarget.lastname.value)
-  console.log(e.currentTarget.email.value)
-  console.log(e.currentTarget.message.value)
-  modal('close')
+document.querySelector('.contact-button').addEventListener('click', showModal)
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape' || e.key === 'Esc') {
+    modalDisplay('hide', previouslyFocusedElement)
+  }
+  if (
+    e.key === 'Tab' &&
+    document.querySelector('.modal').hasAttribute('aria-modal')
+  ) {
+    focusInModal(e)
+  }
 })

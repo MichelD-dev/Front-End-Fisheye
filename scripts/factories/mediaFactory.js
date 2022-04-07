@@ -19,8 +19,8 @@ export function mediaFactory(media) {
         media.image || media.video
       }`
     )
+    media.image && mediaCard.setAttribute('alt', ``)//FIXME
     media.video && mediaCard.setAttribute('controls', '')
-    media.image && mediaCard.setAttribute('alt', `${media.title}`)
     mediaCard.classList.add('media-card__image')
 
     const imgDatas = document.createElement('div')
@@ -36,11 +36,11 @@ export function mediaFactory(media) {
     const likeIcon = document.createElement('i')
     likeIcon.classList.add('fa-solid', 'fa-heart')
 
+    article.appendChild(mediaCard)
+    article.appendChild(imgDatas)
     imgDatas.appendChild(imgTitle)
     imgDatas.appendChild(imgLikes)
     imgLikes.appendChild(likeIcon)
-    article.appendChild(mediaCard)
-    article.appendChild(imgDatas)
 
     return article
   }
