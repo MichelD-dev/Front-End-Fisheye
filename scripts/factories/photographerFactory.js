@@ -12,6 +12,8 @@ export function photographerFactory(data) {
   const picture = `assets/photographers/${portrait}`
 
   function getUserPageDOM() {
+    document.title = `Fisheye | ${phoName}`
+    
     const name = document.querySelector('.photographer__name')
     name.textContent = `${phoName}`
 

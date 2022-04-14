@@ -61,16 +61,16 @@
   padding: 35px;
   margin: auto;
   z-index: 1;
-  position: absolute;
+  position: fixed;
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
-  animation: fadeIn .2s;
+  animation: fadeIn 0.2s;
   &__close {
     background-color: transparent;
     border: none;
   }
-  &[aria-hidden="false"] {
+  &[aria-hidden='false'] {
     animation-name: fadeOut;
   }
 }
@@ -142,6 +142,64 @@ form textarea {
   border-radius: 5px;
 }
 
+#lightbox {
+  background-color: #fff;
+  width: 100vw;
+  height: 100vh;
+}
+
+.lightbox {
+  height: 90vh;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  &__right {
+    position: relative;
+  }
+  &__previous {
+    padding-right: 25px;
+  }
+  &__next {
+    height: 100%;
+    padding: 0 15px 0 25px;
+  }
+  &__close {
+    color: black;
+    position: absolute;
+    right: 0;
+    width: 100%;
+  }
+  &__previous,
+  &__next,
+  &__close {
+    cursor: pointer;
+    border: none;
+    color: #901c1c;
+    background-color: transparent;
+  }
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    & img {
+      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+    }
+    & video {
+      width: 100%;
+      border-radius: 5px;
+    }
+  }
+
+  &__text {
+    color: $primary-color;
+    padding-top: 5px;
+    font-size: 1.5rem;
+  }
+}
+
 .medias-section {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -152,6 +210,7 @@ form textarea {
 
 .media-card {
   justify-self: center;
+  cursor: pointer;
   &__image {
     width: 500px;
     height: 500px;
@@ -166,6 +225,20 @@ form textarea {
   color: $primary-color;
   padding-top: 10px;
   font-size: 1.5rem;
+}
+
+/**
+ * Visually hide an element, but leave it available for screen readers
+ */
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 @keyframes fadeIn {

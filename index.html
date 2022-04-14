@@ -2,12 +2,14 @@
 <html lang="fr">
 
 <head>
-  <link href="css/style.css" rel="stylesheet" type="text/css" />
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolios de photographes indépendants" />
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet" />
   <script type="module" src="scripts/pages/index.js"></script>
-  <title>Fisheye - Portfolios de photographes indépendants</title>
+  <title>Fisheye</title>
 </head>
 
 <body>
@@ -18,7 +20,10 @@
     <h1 class="header__title">Nos photographes</h1>
   </header>
   <main id="main">
-    <div hidden id="spinner"></div>
+    <div hidden id="spinner" role="progressbar" aria-valuetext="Chargement des photos" aria-busy="true"
+      aria-live="assertive" aria-valuemin="0" aria-valuemax="100">
+      <!-- FIXME -->
+    </div>
     <div class="photographers-section" aria-label="Les photographes"></div>
   </main>
 </body>

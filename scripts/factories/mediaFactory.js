@@ -1,7 +1,8 @@
-export function mediaFactory(media) {
-  let params = new URL(document.location).searchParams
-  let id = parseInt(params.get('id'))
+import { lightboxDisplay } from '../utils/modals.js'
 
+export function mediaFactory(media) {
+  let id = +new URLSearchParams(document.location.search).get('id')
+  // console.log(id);
   const { photographers } = JSON.parse(localStorage.getItem('data'))
   const photographer = photographers.find(
     photographer => photographer.id === id
@@ -10,19 +11,21 @@ export function mediaFactory(media) {
   function getMediaCardDOM() {
     const article = document.createElement('article')
     article.classList.add('media-card')
+    article.addEventListener('click', () =>
+      lightboxDisplay('show', photographer, media.id, media.image)
+    )
     // article.setAttribute('aria-label', title) //FIXME title
 
     const mediaCard = document.createElement(media.image ? 'img' : 'video')
     mediaCard.setAttribute(
       'src',
-      `../../assets/images/${photographer.name.split(' ')[0]}/${
+      `../../assets/thumbnails/${photographer.name.split(' ')[0]}/${
         media.image || media.video
       }`
     )
-    media.image && mediaCard.setAttribute('alt', ``)//FIXME
-    media.video && mediaCard.setAttribute('controls', '')
-    mediaCard.classList.add('media-card__image')
+    media.image && mediaCard.setAttribute('alt', media.title)
 
+    mediaCard.classList.add('media-card__image')
     const imgDatas = document.createElement('div')
     imgDatas.classList.add('image__datas')
 

@@ -16,6 +16,6 @@ export default async function getPhotographers() {
     return data
   } catch (err) {
     spinner.setAttribute('hidden', '')
-    console.error("La connexion n'a pu être établie")
+    console.error("La connexion n'a pu être établie", err)
   }
 }

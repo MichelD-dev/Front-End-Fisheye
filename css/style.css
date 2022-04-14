@@ -214,7 +214,7 @@ body {
   padding: 35px;
   margin: auto;
   z-index: 1;
-  position: absolute;
+  position: fixed;
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
@@ -295,6 +295,61 @@ form textarea {
   border-radius: 5px;
 }
 
+#lightbox {
+  background-color: #fff;
+  width: 100vw;
+  height: 100vh;
+}
+
+.lightbox {
+  height: 90vh;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.lightbox__right {
+  position: relative;
+}
+.lightbox__previous {
+  padding-right: 25px;
+}
+.lightbox__next {
+  height: 100%;
+  padding: 0 15px 0 25px;
+}
+.lightbox__close {
+  color: black;
+  position: absolute;
+  right: 0;
+  width: 100%;
+}
+.lightbox__previous, .lightbox__next, .lightbox__close {
+  cursor: pointer;
+  border: none;
+  color: #901c1c;
+  background-color: transparent;
+}
+.lightbox__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.lightbox__container img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+.lightbox__container video {
+  width: 100%;
+  border-radius: 5px;
+}
+.lightbox__text {
+  color: #901c1c;
+  padding-top: 5px;
+  font-size: 1.5rem;
+}
+
 .medias-section {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -305,6 +360,7 @@ form textarea {
 
 .media-card {
   justify-self: center;
+  cursor: pointer;
 }
 .media-card__image {
   width: 500px;
@@ -319,6 +375,20 @@ form textarea {
   color: #901c1c;
   padding-top: 10px;
   font-size: 1.5rem;
+}
+
+/**
+ * Visually hide an element, but leave it available for screen readers
+ */
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 @keyframes fadeIn {
