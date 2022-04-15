@@ -10,14 +10,14 @@ const videoDisplay = document.createElement('video')
 const hideModal = modal => {
   console.log(imageDisplay, videoDisplay)
   if (modal === lightbox) {
-    lightboxContainer.removeChild(imageDisplay)
-    lightboxContainer.removeChild(videoDisplay)
+    imageDisplay.classList.add('hidden')
+    videoDisplay.classList.add('hidden')
   }
   document.querySelector('.lightbox__text').textContent = ''
   document
     .querySelector(modal === modal ? '.modal__close' : '.lightbox__close')
     .removeEventListener('click', () => formDisplay('hide'))
-  modal.setAttribute('aria-hidden', true)
+  modal.ariaHidden = true
   modal.removeAttribute('aria-modal')
   modal.classList.add('hidden')
 }
@@ -34,14 +34,14 @@ const formDisplay = (action, previouslyFocusedElement) => {
     document.getElementById('firstname').focus()
     modal.classList.remove('hidden')
     modal.removeAttribute('aria-hidden')
-    modal.setAttribute('aria-modal', true)
+    modal.ariaModal = true
     focusables = [...modal.querySelectorAll(focusableElements)]
     document
       .querySelector('.modal__close')
       .addEventListener('click', () => hideModal(modal))
     document
       .querySelector('[name="form"]')
-      .addEventListener('submit', formSubmit)
+      .addEventListener('submit', e => formSubmit(e, previouslyFocusedElement))
   }
   if (action === 'hide') {
     modal.addEventListener('animationend', hideModal(modal))
@@ -54,7 +54,7 @@ const formDisplay = (action, previouslyFocusedElement) => {
 /**
  * SOUMISSION DU FORMULAIRE
  */
-const formSubmit = e => {
+const formSubmit = (e, previouslyFocusedElement) => {
   e.preventDefault()
   console.log(e.currentTarget.firstname.value)
   console.log(e.currentTarget.lastname.value)
@@ -110,8 +110,8 @@ const lightboxDisplay = (action, photographer, imageId) => {
   /* Récupération de l'index du média dans le tableau des médias du photographe */
   const imagePositionInMediasArray = photographerMedias.indexOf(media)
 
-  videoDisplay.setAttribute('controls', '')
-  videoDisplay.setAttribute('type', 'video/mp4')
+  videoDisplay.controls = true
+  videoDisplay.setAttribute('type', 'video/mp4') //FIXME videoDisplay.type ne fonctionne pas
 
   lightboxContainer.insertBefore(videoDisplay, lightboxContainer.firstChild)
   lightboxContainer.insertBefore(imageDisplay, lightboxContainer.firstChild)
@@ -127,31 +127,25 @@ const lightboxDisplay = (action, photographer, imageId) => {
       /* On passe la balise video en display: none */
       videoDisplay.classList.add('hidden')
       /* On définit la source de l'image */
-      imageDisplay.setAttribute(
-        'src',
-        `../../assets/images/${photographer.name.split(' ')[0]}/${
-          photographerMedias[imagePositionInMediasArray].image
-        }`
-      )
+      imageDisplay.src = `../../assets/images/${
+        photographer.name.split(' ')[0]
+      }/${photographerMedias[imagePositionInMediasArray].image}`
     }
     /* Si le média est une vidéo */
     if (media.video) {
       /* On passe la balise image en display: none */
       imageDisplay.classList.add('hidden')
       /* On définit la source de la vidéo */
-      videoDisplay.setAttribute(
-        'src',
-        `../../assets/images/${photographer.name.split(' ')[0]}/${
-          photographerMedias[imagePositionInMediasArray].video
-        }`
-      )
+      videoDisplay.src = `../../assets/images/${
+        photographer.name.split(' ')[0]
+      }/${photographerMedias[imagePositionInMediasArray].video}`
     }
 
     /* On affiche la lightbox */
     const lightbox = document.getElementById('lightbox')
     lightbox.classList.remove('hidden')
     lightbox.removeAttribute('aria-hidden')
-    lightbox.setAttribute('aria-modal', true)
+    lightbox.ariaModal = true
     document
       .querySelector('.lightbox__close')
       .addEventListener('click', () => hideModal(lightbox))
@@ -176,22 +170,16 @@ const lightboxDisplay = (action, photographer, imageId) => {
     if (photographerMedias[i].image) {
       imageDisplay.classList.remove('hidden')
       videoDisplay.classList.add('hidden')
-      imageDisplay.setAttribute(
-        'src',
-        `../../assets/images/${photographer.name.split(' ')[0]}/${
-          photographerMedias[i].image
-        }`
-      )
+      imageDisplay.src = `../../assets/images/${
+        photographer.name.split(' ')[0]
+      }/${photographerMedias[i].image}`
     }
     if (photographerMedias[i].video) {
       imageDisplay.classList.add('hidden')
       videoDisplay.classList.remove('hidden')
-      videoDisplay.setAttribute(
-        'src',
-        `../../assets/images/${photographer.name.split(' ')[0]}/${
-          photographerMedias[i].video
-        }`
-      )
+      videoDisplay.src = `../../assets/images/${
+        photographer.name.split(' ')[0]
+      }/${photographerMedias[i].video}`
     }
     document.querySelector('.lightbox__text').textContent =
       photographerMedias[i].title
@@ -210,23 +198,17 @@ const lightboxDisplay = (action, photographer, imageId) => {
         imageDisplay.classList.remove('hidden')
         videoDisplay.classList.add('hidden')
         photographerMedias[i].image &&
-          imageDisplay.setAttribute(
-            'src',
-            `../../assets/images/${photographer.name.split(' ')[0]}/${
-              photographerMedias[i].image
-            }`
-          )
+          (imageDisplay.src = `../../assets/images/${
+            photographer.name.split(' ')[0]
+          }/${photographerMedias[i].image}`)
       }
       if (photographerMedias[i].video) {
         imageDisplay.classList.add('hidden')
         videoDisplay.classList.remove('hidden')
         photographerMedias[i].video &&
-          videoDisplay.setAttribute(
-            'src',
-            `../../assets/images/${photographer.name.split(' ')[0]}/${
-              photographerMedias[i].video
-            }`
-          )
+          (videoDisplay.src = `../../assets/images/${
+            photographer.name.split(' ')[0]
+          }/${photographerMedias[i].video}`)
       }
       document.querySelector('.lightbox__text').textContent =
         photographerMedias[i].title

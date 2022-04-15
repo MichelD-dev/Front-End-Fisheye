@@ -13,7 +13,7 @@ export function photographerFactory(data) {
 
   function getUserPageDOM() {
     document.title = `Fisheye | ${phoName}`
-    
+
     const name = document.querySelector('.photographer__name')
     name.textContent = `${phoName}`
 
@@ -24,8 +24,8 @@ export function photographerFactory(data) {
     tagline.textContent = `${tag}`
 
     const portrait = document.querySelector('.photographer__portrait')
-    portrait.setAttribute('src', picture)
-    portrait.setAttribute('alt', `${phoName} - Fiche individuelle`)
+    portrait.src = picture
+    portrait.alt = `${phoName} - Fiche individuelle`
 
     return { name, location, tagline, portrait }
   }
@@ -33,20 +33,20 @@ export function photographerFactory(data) {
   function getUserCardDOM() {
     const article = document.createElement('article')
     article.classList.add('photographer__card')
-    article.setAttribute('aria-label', 'Fiche photographe')
+    article.ariaLabel = 'Fiche photographe'
 
     const img = document.createElement('img')
-    img.setAttribute('src', picture)
-    img.setAttribute('alt', `${phoName} - Fiche individuelle`)
+    img.src = picture
+    img.alt = `${phoName} - Fiche individuelle`
     img.classList.add('photographer__portrait')
 
     const name = document.createElement('h2')
     name.textContent = phoName
     name.classList.add('photographer__name')
-    name.setAttribute('aria-label', 'Nom du photographe')
+    name.ariaLabel = 'Nom du photographe'
 
-    const articleHeader = document.createElement('a')  //TODO aria-label pour link?
-    articleHeader.setAttribute('href', `/photographer.html?id=${id}`)
+    const articleHeader = document.createElement('a') //TODO aria-label pour link?
+    articleHeader.href = `/photographer.html?id=${id}`
     articleHeader.classList.add('photographer-card__header')
     articleHeader.appendChild(img)
     articleHeader.appendChild(name)
@@ -54,16 +54,16 @@ export function photographerFactory(data) {
     const location = document.createElement('span')
     location.textContent = `${city}, ${country}`
     location.classList.add('photographer__location')
-    location.setAttribute('aria-label', 'Localisation du photographe')
+    location.ariaLabel = 'Localisation du photographe'
 
     const tagline = document.createElement('span')
     tagline.textContent = tag
-    tagline.setAttribute('aria-label', 'Slogan du photographe')
+    tagline.ariaLabel = 'Slogan du photographe'
 
     const price = document.createElement('span')
     price.textContent = `${rate}€/jour`
     price.classList.add('photographer__price')
-    price.setAttribute('aria-label', 'Tarif journalier')
+    price.ariaLabel = 'Tarif journalier'
 
     article.appendChild(articleHeader)
     article.appendChild(location)

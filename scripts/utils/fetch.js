@@ -5,17 +5,17 @@ export default async function getPhotographers() {
   try {
     const response = await fetch('../../data/photographers.json')
     if (!response.ok) {
-      spinner.setAttribute('hidden', '')
+      spinner.hidden = true
       console.error(`Une erreur est survenue: ${response.status}`)
     }
     const data = await response.json()
 
     localStorage.setItem('data', JSON.stringify(data))
-    spinner.setAttribute('hidden', '')
+    spinner.hidden = true
 
     return data
   } catch (err) {
-    spinner.setAttribute('hidden', '')
+    spinner.hidden = true
     console.error("La connexion n'a pu être établie", err)
   }
 }

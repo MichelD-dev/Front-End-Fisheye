@@ -14,16 +14,14 @@ export function mediaFactory(media) {
     article.addEventListener('click', () =>
       lightboxDisplay('show', photographer, media.id, media.image)
     )
-    // article.setAttribute('aria-label', title) //FIXME title
+    // article.ariaLabel = title) //FIXME title
 
     const mediaCard = document.createElement(media.image ? 'img' : 'video')
-    mediaCard.setAttribute(
-      'src',
-      `../../assets/thumbnails/${photographer.name.split(' ')[0]}/${
+    mediaCard.src = (`../../assets/thumbnails/${photographer.name.split(' ')[0]}/${
         media.image || media.video
       }`
     )
-    media.image && mediaCard.setAttribute('alt', media.title)
+    media.image && (mediaCard.alt = media.title)
 
     mediaCard.classList.add('media-card__image')
     const imgDatas = document.createElement('div')

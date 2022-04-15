@@ -18,7 +18,7 @@ async function init() {
   const data =
     JSON.parse(localStorage.getItem('data')) ?? (await getPhotographers())
   const photographers = data ? data.photographers : null
-  spinner.setAttribute('hidden', '')
+  spinner.hidden = true
   if (!data) return console.error('NO DATA')
   displayData(photographers)
 }
