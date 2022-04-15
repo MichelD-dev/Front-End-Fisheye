@@ -7,12 +7,18 @@ export function mediaFactory(media) {
   const photographer = photographers.find(
     photographer => photographer.id === id
   )
+    /* Récupération des données */
+    const { medias } = JSON.parse(localStorage.getItem('data'))
+    /* Filtrage des données selon le photographe */
+    const photographerMedias = medias.filter(
+      media => media.photographerId === photographer.id
+    )
 
   function getMediaCardDOM() {
     const article = document.createElement('article')
     article.classList.add('media-card')
     article.addEventListener('click', () =>
-      lightboxDisplay('show', photographer, media.id, media.image)
+      lightboxDisplay('show', photographer, photographerMedias, media.id)
     )
     // article.ariaLabel = title) //FIXME title
 

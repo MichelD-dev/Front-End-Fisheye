@@ -95,17 +95,9 @@ const focusInModal = e => {
 /**
  * MODALE LIGHTBOX
  */
-const lightboxDisplay = (action, photographer, imageId) => {
-  /* Récupération des données */
-  const { medias } = JSON.parse(localStorage.getItem('data'))
-
-  /* Filtrage des données selon le photographe */
-  const photographerMedias = medias.filter(
-    media => media.photographerId === photographer.id
-  )
-
+const lightboxDisplay = (action, photographer, photographerMedias, imageId) => {
   /* Récupération du média à afficher dans la lightbox */
-  const [media] = medias.filter(media => media.id === imageId)
+  const [media] = photographerMedias.filter(media => media.id === imageId)
 
   /* Récupération de l'index du média dans le tableau des médias du photographe */
   const imagePositionInMediasArray = photographerMedias.indexOf(media)
@@ -126,6 +118,7 @@ const lightboxDisplay = (action, photographer, imageId) => {
     if (media.image) {
       /* On passe la balise video en display: none */
       videoDisplay.classList.add('hidden')
+      imageDisplay.classList.remove('hidden')
       /* On définit la source de l'image */
       imageDisplay.src = `../../assets/images/${
         photographer.name.split(' ')[0]
@@ -135,6 +128,7 @@ const lightboxDisplay = (action, photographer, imageId) => {
     if (media.video) {
       /* On passe la balise image en display: none */
       imageDisplay.classList.add('hidden')
+      videoDisplay.classList.remove('hidden')
       /* On définit la source de la vidéo */
       videoDisplay.src = `../../assets/images/${
         photographer.name.split(' ')[0]
