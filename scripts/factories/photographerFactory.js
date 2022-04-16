@@ -34,6 +34,7 @@ export function photographerFactory(data) {
     const article = document.createElement('article')
     article.classList.add('photographer__card')
     article.ariaLabel = 'Fiche photographe'
+    article.tabIndex = '0'
 
     const img = document.createElement('img')
     img.src = picture
@@ -50,6 +51,7 @@ export function photographerFactory(data) {
     articleHeader.classList.add('photographer-card__header')
     articleHeader.appendChild(img)
     articleHeader.appendChild(name)
+    articleHeader.tabIndex = '-1'
 
     const location = document.createElement('span')
     location.textContent = `${city}, ${country}`
@@ -69,6 +71,12 @@ export function photographerFactory(data) {
     article.appendChild(location)
     article.appendChild(tagline)
     article.appendChild(price)
+
+    article.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        articleHeader.click()
+      }
+    })
 
     return article
   }

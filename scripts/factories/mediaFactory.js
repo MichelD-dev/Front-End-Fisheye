@@ -7,12 +7,12 @@ export function mediaFactory(media) {
   const photographer = photographers.find(
     photographer => photographer.id === id
   )
-    /* Récupération des données */
-    const { medias } = JSON.parse(localStorage.getItem('data'))
-    /* Filtrage des données selon le photographe */
-    const photographerMedias = medias.filter(
-      media => media.photographerId === photographer.id
-    )
+  /* Récupération des données */
+  const { medias } = JSON.parse(localStorage.getItem('data'))
+  /* Filtrage des données selon le photographe */
+  const photographerMedias = medias.filter(
+    media => media.photographerId === photographer.id
+  )
 
   function getMediaCardDOM() {
     const article = document.createElement('article')
@@ -20,13 +20,13 @@ export function mediaFactory(media) {
     article.addEventListener('click', () =>
       lightboxDisplay('show', photographer, photographerMedias, media.id)
     )
+    article.tabIndex = '0'
     // article.ariaLabel = title) //FIXME title
 
     const mediaCard = document.createElement(media.image ? 'img' : 'video')
-    mediaCard.src = (`../../assets/thumbnails/${photographer.name.split(' ')[0]}/${
-        media.image || media.video
-      }`
-    )
+    mediaCard.src = `../../assets/thumbnails/${
+      photographer.name.split(' ')[0]
+    }/${media.image || media.video}`
     media.image && (mediaCard.alt = media.title)
 
     mediaCard.classList.add('media-card__image')
