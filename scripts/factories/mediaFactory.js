@@ -21,6 +21,11 @@ export function mediaFactory(media) {
       lightboxDisplay('show', photographer, photographerMedias, media.id)
     )
     article.tabIndex = '0'
+    article.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        article.click()
+      }
+    })
     // article.ariaLabel = title) //FIXME title
 
     const mediaCard = document.createElement(media.image ? 'img' : 'video')

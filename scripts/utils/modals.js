@@ -98,22 +98,21 @@ const focusInModal = e => {
 const lightboxDisplay = (action, photographer, photographerMedias, imageId) => {
   /* Récupération du média à afficher dans la lightbox */
   const [media] = photographerMedias.filter(media => media.id === imageId)
-
   /* Récupération de l'index du média dans le tableau des médias du photographe */
   const imagePositionInMediasArray = photographerMedias.indexOf(media)
 
-  videoDisplay.controls = true
-  videoDisplay.setAttribute('type', 'video/mp4') //FIXME videoDisplay.type ne fonctionne pas
-
-  lightboxContainer.insertBefore(videoDisplay, lightboxContainer.firstChild)
-  lightboxContainer.insertBefore(imageDisplay, lightboxContainer.firstChild)
-
-  /* Affichage du titre du média dans la balise figcaption */
-  document.querySelector('.lightbox__text').textContent =
-    photographerMedias[imagePositionInMediasArray].title
-
   /* AFFICHAGE DU MEDIA */
   if (action === 'show') {
+    videoDisplay.controls = true
+    videoDisplay.setAttribute('type', 'video/mp4') //FIXME videoDisplay.type ne fonctionne pas
+
+    lightboxContainer.insertBefore(videoDisplay, lightboxContainer.firstChild)
+    lightboxContainer.insertBefore(imageDisplay, lightboxContainer.firstChild)
+
+    /* Affichage du titre du média dans la balise figcaption */
+    document.querySelector('.lightbox__text').textContent =
+      photographerMedias[imagePositionInMediasArray].title
+
     /* Si le média est une image */
     if (media.image) {
       /* On passe la balise video en display: none */
@@ -157,7 +156,7 @@ const lightboxDisplay = (action, photographer, photographerMedias, imageId) => {
   /**
    * BOUTON NEXT
    */
-  document.querySelector('.lightbox__next').addEventListener('click', () => {
+  const displayNextMedia = () => {
     i += 1
     if (i === photographerMedias.length) i = 0
 
@@ -177,36 +176,53 @@ const lightboxDisplay = (action, photographer, photographerMedias, imageId) => {
     }
     document.querySelector('.lightbox__text').textContent =
       photographerMedias[i].title
+  }
+  document.querySelector('.lightbox__next').addEventListener('click', () => {
+    displayNextMedia()
+  })
+  window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') {
+      displayNextMedia()
+    }
   })
 
   /**
    * BOUTON PREVIOUS
    */
+  const displayPreviousMedia = () => {
+    i -= 1
+    if (i === -1) i = photographerMedias.length - 1
+
+    if (photographerMedias[i].image) {
+      imageDisplay.classList.remove('hidden')
+      videoDisplay.classList.add('hidden')
+      photographerMedias[i].image &&
+        (imageDisplay.src = `../../assets/images/${
+          photographer.name.split(' ')[0]
+        }/${photographerMedias[i].image}`)
+    }
+    if (photographerMedias[i].video) {
+      imageDisplay.classList.add('hidden')
+      videoDisplay.classList.remove('hidden')
+      photographerMedias[i].video &&
+        (videoDisplay.src = `../../assets/images/${
+          photographer.name.split(' ')[0]
+        }/${photographerMedias[i].video}`)
+    }
+    document.querySelector('.lightbox__text').textContent =
+      photographerMedias[i].title
+  }
+
   document
     .querySelector('.lightbox__previous')
     .addEventListener('click', () => {
-      i -= 1
-      if (i === -1) i = photographerMedias.length - 1
-
-      if (photographerMedias[i].image) {
-        imageDisplay.classList.remove('hidden')
-        videoDisplay.classList.add('hidden')
-        photographerMedias[i].image &&
-          (imageDisplay.src = `../../assets/images/${
-            photographer.name.split(' ')[0]
-          }/${photographerMedias[i].image}`)
-      }
-      if (photographerMedias[i].video) {
-        imageDisplay.classList.add('hidden')
-        videoDisplay.classList.remove('hidden')
-        photographerMedias[i].video &&
-          (videoDisplay.src = `../../assets/images/${
-            photographer.name.split(' ')[0]
-          }/${photographerMedias[i].video}`)
-      }
-      document.querySelector('.lightbox__text').textContent =
-        photographerMedias[i].title
+      displayPreviousMedia()
     })
+  window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') {
+      displayPreviousMedia()
+    }
+  })
 }
 
 // -------------------------------------------------------------------- //

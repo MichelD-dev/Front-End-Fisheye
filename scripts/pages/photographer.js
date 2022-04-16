@@ -1,7 +1,7 @@
 import { photographerFactory } from '../factories/photographerFactory.js'
 import { mediaFactory } from '../factories/mediaFactory.js'
 import getPhotographers from '../utils/fetch.js'
-import { formDisplay, focusInModal } from '../utils/modals.js'
+import { formDisplay, focusInModal, lightboxDisplay } from '../utils/modals.js'
 
 let params = new URL(document.location).searchParams
 let id = parseInt(params.get('id'))
@@ -42,6 +42,7 @@ document
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape' || e.key === 'Esc') {
     formDisplay('hide', previouslyFocusedElement)
+    lightboxDisplay('hide')
   }
   if (
     e.key === 'Tab' &&
