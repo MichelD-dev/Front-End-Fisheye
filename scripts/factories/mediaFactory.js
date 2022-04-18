@@ -1,29 +1,22 @@
 import { lightboxDisplay } from '../utils/modals.js'
 
-export function mediaFactory(media) {
-  let id = +new URLSearchParams(document.location.search).get('id')
-  // console.log(id);
-  const { photographers } = JSON.parse(localStorage.getItem('data'))
-  const photographer = photographers.find(
-    photographer => photographer.id === id
-  )
-  /* Récupération des données */
-  const { medias } = JSON.parse(localStorage.getItem('data'))
-  /* Filtrage des données selon le photographe */
-  const photographerMedias = medias.filter(
-    media => media.photographerId === photographer.id
-  )
-
+export function mediaFactory(
+  media,
+  likesList,
+  photographer,
+  sortedPhotographerMedias
+) {
   function getMediaCardDOM() {
     const article = document.createElement('article')
     article.classList.add('media-card')
-    article.addEventListener('click', () =>
-      lightboxDisplay('show', photographer, photographerMedias, media.id)
-    )
+
     article.tabIndex = '0'
     article.addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        article.click()
+      if (
+        e.key === 'Enter' &&
+        document.getElementById('lightbox').classList.contains('hidden')
+      ) {
+        mediaCard.click()
       }
     })
     // article.ariaLabel = title) //FIXME title
@@ -33,8 +26,15 @@ export function mediaFactory(media) {
       photographer.name.split(' ')[0]
     }/${media.image || media.video}`
     media.image && (mediaCard.alt = media.title)
-
     mediaCard.classList.add('media-card__image')
+    mediaCard.addEventListener('click', () =>
+      lightboxDisplay('show', photographer, sortedPhotographerMedias, media.id)
+    )
+    mediaCard.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        mediaCard.click()
+      }
+    })
     const imgDatas = document.createElement('div')
     imgDatas.classList.add('image__datas')
 
@@ -51,10 +51,45 @@ export function mediaFactory(media) {
     article.appendChild(mediaCard)
     article.appendChild(imgDatas)
     imgDatas.appendChild(imgTitle)
-    imgDatas.appendChild(imgLikes)
-    imgLikes.appendChild(likeIcon)
+    imgDatas.appendChild(likes)
+    likes.appendChild(likesNbr)
+    likesNbr.insertAdjacentHTML('afterend', `<i class="fa-solid fa-heart"><i>`)
 
     return article
   }
-  return { getMediaCardDOM }
+  const likes = document.createElement('p')
+  const likesNbr = document.createElement('span')
+  likesNbr.id = `${media.id}-likes-count`
+
+  let likesTotal = likesList
+    .map(media => media.likes)
+    .reduce((total, current) => total + current, 0)
+
+  document.querySelector('.photographer__likes').textContent = `${likesTotal} `
+
+  const incrementLikes = () => {
+    //TODO ajout d'un like au clavier?
+    media.likes += 1
+    likesNbr.textContent = `${media.likes} `
+    likesNbr.removeEventListener('click', incrementLikes)
+    likesList = likesList.map(obj => {
+      if (obj.id === media.id) {
+        return { ...obj, likes: media.likes }
+      }
+      return obj
+    })
+
+    likesTotal = likesList
+      .map(media => media.likes)
+      .reduce((total, current) => total + current, 0)
+
+    document.querySelector(
+      '.photographer__likes'
+    ).textContent = `${likesTotal} `
+  }
+
+  likesNbr.addEventListener('click', incrementLikes)
+  likesNbr.textContent = `${media.likes} `
+
+  return { getMediaCardDOM, incrementLikes }
 }

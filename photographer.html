@@ -1,90 +1,139 @@
 <!DOCTYPE html>
 <html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfolios de photographes indépendants"
+    />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/9adb84594d.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="scripts/pages/photographer.js"></script>
+    <title>Fisheye - photographe</title>
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portfolios de photographes indépendants" />
-  <link href="css/style.css" rel="stylesheet" type="text/css" />
-  <link rel="icon" type="image/png" href="assets/favicon.png" />
-  <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/9adb84594d.js" crossorigin="anonymous"></script>
-  <script type="module" src="scripts/pages/photographer.js"></script>
-  <title>Fisheye - photographe</title>
-</head>
+  <body>
+    <header class="header" role="banner">
+      <a href="./index.html" aria-label="Page d'accueil">
+        <img
+          src="assets/logo/logo.png"
+          class="logo"
+          alt="Logo de FishEye - Page d'accueil"
+        />
+      </a>
+    </header>
+    <main id="main main_photograph">
+      <div class="photograph-header">
+        <!--FIXME centrage-->
+        <div class="photograph-header__id">
+          <h1 class="photographer__name"></h1>
+          <div class="photographer__info">
+            <span class="photographer__location"></span>
+            <span class="photographer__tagline"></span>
+          </div>
+        </div>
+        <button class="contact-button">Contactez-moi</button>
+        <img class="photographer__portrait" src="" />
+      </div>
 
-<body>
-  <header class="header" role="banner">
-    <a href="./index.html" aria-label="Page d'accueil">
-      <img src="assets/logo/logo.png" class="logo" alt="Logo de FishEye - Page d'accueil" />
-    </a>
-  </header>
-  <main id="main main_photograph">
-    <div class="photograph-header">
-      <!--FIXME centrage-->
-      <div class="photograph-header__id">
-        <h1 class="photographer__name"></h1>
-        <div class="photographer__info">
-          <span class="photographer__location"></span>
-          <span class="photographer__tagline"></span>
+      <div class="custom-select">
+        <label for="medias-sort">Trier par </label>
+
+        <select>
+          <option value="popularity">Popularité</option>
+          <option value="date">Date</option>
+          <option value="title">Titre</option>
+        </select>
+      </div>
+
+      <div hidden id="spinner"></div>
+      <section class="medias__section"></section>
+      <div class="photographer__rate">
+        <p>
+          <span class="photographer__likes"></span
+          ><i class="fa-solid fa-heart"></i>
+        </p>
+        <span>300€ / jour</span>
+      </div>
+    </main>
+
+    <aside
+      class="modal hidden"
+      id="form"
+      aria-hidden="true"
+      role="form"
+      aria-labelledby="modal-title"
+    >
+      <header class="modal-header">
+        <div class="modal-header__text">
+          <h1 id="modal-title">Contactez-moi</h1>
+          <span class="modal-header__name">Mimi Keel</span>
+        </div>
+        <button class="modal__close">
+          <img src="assets/icons/close.svg" />
+        </button>
+      </header>
+      <span class="name"></span>
+      <form name="form">
+        <div>
+          <label
+            ><span class="visually-hidden" aria-hidden="true">Prénom</span>Votre
+            prénom</label
+          >
+          <input id="firstname" name="firstname" />
+          <label
+            ><span class="visually-hidden" aria-hidden="true">Nom</span>Votre
+            nom</label
+          >
+          <input name="lastname" />
+          <label
+            ><span class="visually-hidden" aria-hidden="true">Email</span>Votre
+            email</label
+          >
+          <input type="email" name="email" />
+          <label
+            ><span class="visually-hidden" aria-hidden="true"
+              >Votre message</span
+            >Votre message</label
+          >
+          <textarea name="message"></textarea>
+        </div>
+        <button class="contact-button submit">Envoyer</button>
+      </form>
+    </aside>
+
+    <aside
+      class="modal hidden"
+      id="lightbox"
+      aria-hidden="true"
+      role="form"
+      aria-labelledby="modal-title"
+    >
+      <div class="lightbox">
+        <button class="lightbox__previous">
+          <i class="fa-solid fa-chevron-left fa-3x"></i>
+        </button>
+        <figure class="lightbox__container">
+          <figcaption class="lightbox__text"></figcaption>
+        </figure>
+        <div class="lightbox__right">
+          <button class="lightbox__close">
+            <img src="assets/icons/lightboxClose.svg" />
+          </button>
+          <button class="lightbox__next">
+            <i class="fa-solid fa-chevron-right fa-3x"></i>
+          </button>
         </div>
       </div>
-      <button class="contact-button">Contactez-moi</button>
-      <img class="photographer__portrait" src="" />
-    </div>
-    <div hidden id="spinner"></div>
-    <section class="medias-section"></section>
-    <div class="photographer__rate">
-      <span>297 081 <i class="fa-solid fa-heart"></i></span>
-      <span>300€/jour</span>
-    </div>
-  </main>
-
-  <aside class="modal hidden" id="modal" aria-hidden="true" role="form" aria-labelledby="modal-title">
-    <header class="modal-header">
-      <div class="modal-header__text">
-        <h1 id="modal-title">Contactez-moi</h1>
-        <span class="modal-header__name">Mimi Keel</span>
-      </div>
-      <button class="modal__close">
-        <img src="assets/icons/close.svg" />
-      </button>
-    </header>
-    <span class="name"></span>
-    <form name="form">
-      <div>
-        <label><span class="visually-hidden" aria-hidden="true">Prénom</span>Votre prénom</label>
-        <input id="firstname" name="firstname" />
-        <label><span class="visually-hidden" aria-hidden="true">Nom</span>Votre nom</label>
-        <input name="lastname" />
-        <label><span class="visually-hidden" aria-hidden="true">Email</span>Votre email</label>
-        <input type="email" name="email" />
-        <label><span class="visually-hidden" aria-hidden="true">Votre message</span>Votre message</label>
-        <textarea name="message"></textarea>
-      </div>
-      <button class="contact-button submit">Envoyer</button>
-    </form>
-  </aside>
-
-  <aside class="modal hidden" id="lightbox" aria-hidden="true" role="form" aria-labelledby="modal-title">
-    <div class="lightbox">
-      <button class="lightbox__previous">
-        <i class="fa-solid fa-chevron-left fa-3x"></i>
-      </button>
-      <figure class="lightbox__container">
-        <figcaption class="lightbox__text"></figcaption>
-      </figure>
-      <div class="lightbox__right">
-        <button class="lightbox__close">
-          <img src="assets/icons/lightboxClose.svg" />
-        </button>
-        <button class="lightbox__next">
-          <i class="fa-solid fa-chevron-right fa-3x"></i>
-        </button>
-      </div>
-    </div>
-  </aside>
-
-</body>
-
+    </aside>
+  </body>
 </html>
