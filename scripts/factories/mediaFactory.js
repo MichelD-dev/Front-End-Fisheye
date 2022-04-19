@@ -1,4 +1,4 @@
-import { lightboxDisplay } from '../utils/modals.js'
+import { lightboxDisplay } from '../modals/lightbox.js'
 
 export function mediaFactory(
   media,
@@ -14,7 +14,7 @@ export function mediaFactory(
     article.addEventListener('keydown', e => {
       if (
         e.key === 'Enter' &&
-        document.getElementById('lightbox').classList.contains('hidden')
+        document.getElementById('lightbox').hasAttribute('aria-hidden')
       ) {
         mediaCard.click()
       }

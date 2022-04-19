@@ -154,12 +154,13 @@ body {
 
 .main_photograph {
   flex-direction: column;
+  margin: 0 auto;
+  width: 95vw;
 }
 
 .photograph-header {
   background-color: #fafafa;
   height: 300px;
-  margin: 0 100px;
   padding: 0 50px;
   display: flex;
   align-items: center;
@@ -219,14 +220,18 @@ body {
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
-  animation: fadeIn 0.2s;
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s;
 }
 .modal__close {
   background-color: transparent;
   border: none;
 }
-.modal[aria-hidden=false] {
-  animation-name: fadeOut;
+.modal[aria-hidden=true] {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.3s, opacity 0.3s;
 }
 
 .hidden {
@@ -339,7 +344,6 @@ form textarea {
   object-fit: contain;
   width: 100%;
   height: 100%;
-  border-radius: 5px;
 }
 .lightbox__container video {
   width: 100%;
@@ -365,6 +369,7 @@ form textarea {
   display: flex;
   width: 300px;
   justify-content: space-between;
+  align-items: center;
   font-size: 20px;
 }
 
@@ -447,12 +452,13 @@ form textarea {
 }
 
 .media-card {
+  width: 100%;
   justify-self: center;
   cursor: pointer;
 }
 .media-card__image {
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 7px;
 }
@@ -477,23 +483,6 @@ form textarea {
   position: absolute;
   white-space: nowrap;
   width: 1px;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
 }
 
 /*# sourceMappingURL=style.css.map */
