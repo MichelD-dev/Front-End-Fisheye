@@ -1,7 +1,10 @@
 import { photographerFactory } from '../factories/photographerFactory.js'
 import getPhotographers from '../utils/fetch.js'
 
-async function displayData(photographers) {
+/**
+ * AFFICHAGE DE LA PAGE D'ACCUEIL
+ */
+async function displayPhotographers(photographers) {
   const photographersSection = document.querySelector('.photographers-section')
 
   photographers.forEach(photographer => {
@@ -15,13 +18,22 @@ async function init() {
   const spinner = document.getElementById('spinner')
   spinner.removeAttribute('hidden')
 
+  /**
+   * Récupération des données
+   */
   const data =
     JSON.parse(localStorage.getItem('data')) ?? (await getPhotographers())
   const photographers = data ? data.photographers : null
   spinner.hidden = true
   if (!data) return console.error('NO DATA')
-  displayData(photographers)
+
+  /**
+   * Affichage des photographes
+   */
+  displayPhotographers(photographers)
 }
 
+/**
+ * Initialisation
+ */
 init()
-

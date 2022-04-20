@@ -4,35 +4,52 @@ import getPhotographers from '../utils/fetch.js'
 import { formDisplay, focusInModal } from '../modals/form.js'
 import { lightboxDisplay } from '../modals/lightbox.js'
 
+/**
+ * Récupération de l'id du photographe
+ */
 let id = +new URLSearchParams(document.location.search).get('id')
-let previouslyFocusedElement = null
 
-async function displayData(photographer, sortedPhotographerMedias) {
+/**
+ * Initialisation de la variable objet possédant le focus
+ */
+// let previouslyFocusedElement = null
+
+/**
+ * AFFICHAGE DE LA PAGE PHOTOGRAPHE
+ */
+async function displayMedias(photographer, sortedPhotographerMedias) {
   const mediasSection = document.querySelector('.medias__section')
 
+  /**
+   * On réinitialise la grille d'images
+   */
   while (mediasSection.firstChild) {
     mediasSection.removeChild(mediasSection.lastChild)
   }
 
+  /**
+   * Affichage des données du photographe
+   */
   const photographerModel = photographerFactory(photographer)
   photographerModel.getUserPageDOM()
 
-  let likesList = []
-
+  /**
+   * Récupération des cartes images du photographe
+   */
   sortedPhotographerMedias.forEach(media => {
     if (media.photographerId !== id) return
-    // const mediaModel = mediaFactory(media, previouslyFocusedElement)
-    likesList.push(media)
 
     const mediaModel = mediaFactory(
       media,
-      likesList,
       photographer,
       sortedPhotographerMedias
     )
+
     const article = mediaModel.getMediaCardDOM()
 
-    /* Journalisation de la valeur de la variable `likes` dans la console. */
+    /**
+     * Affichage des cartes images du photographe
+     */
     mediasSection.appendChild(article) //TODO? mettre une ul dans la grid et les articles dans des li?
   })
 }
@@ -129,6 +146,8 @@ document.addEventListener('click', closeAllSelect)
 // -------------------------------------------------------------------- //
 // -------------------------------------------------------------------- //
 
+/* Récupération des données selon la catégorie sélectionnée */
+/* ---------------------------------------------------- */
 const sortSelector = document.querySelector('.select-selected')
 sortSelector.tabIndex = '0'
 sortSelector.addEventListener('click', () => {
@@ -136,15 +155,27 @@ sortSelector.addEventListener('click', () => {
   getDatas(sortingChoice)
 })
 
+/**
+ * Récupération d'un photographe et des médias associés par critère de tri
+ */
 const getMediasSorting = (photographers, medias, sortingChoice) => {
+  /**
+   * Définition du photographe d'après son id
+   */
   const photographer = photographers.find(
     photographer => photographer.id === id
   )
-  /* Filtrage des données selon le photographe */
+
+  /**
+   * Filtrage des données selon le photographe
+   */
   const photographerMedias = medias.filter(
     media => media.photographerId === photographer.id
   )
 
+  /**
+   * Tri de l'ordre d'affichage des images selon choix utilisateur
+   */
   let sortedPhotographerMedias
   if (sortingChoice === 'Titre') {
     sortedPhotographerMedias = photographerMedias.sort((a, b) =>
@@ -164,33 +195,46 @@ const getMediasSorting = (photographers, medias, sortingChoice) => {
   return { photographer, sortedPhotographerMedias }
 }
 
+/**
+ * Récupération des données photographes/médias, par popularité par défaut
+ */
 const getDatas = async (sortingChoice = 'Popularité') => {
   const { photographers, medias } =
     JSON.parse(localStorage.getItem('data')) || (await getPhotographers())
 
+  /**
+   * Récupération d'un photographe et des médias associés par critère de tri
+   */
   const { photographer, sortedPhotographerMedias } = getMediasSorting(
     photographers,
     medias,
     sortingChoice
   )
 
-  displayData(photographer, sortedPhotographerMedias)
+  /**
+   * Affichage des médias
+   */
+  displayMedias(photographer, sortedPhotographerMedias)
 }
-
-// tri par titre
 
 getDatas()
 
+/**
+ * Bouton d'affichage du formulaire de contact
+ */
 document
   .querySelector('.contact-button')
   .addEventListener('click', () =>
-    formDisplay('show', previouslyFocusedElement)
+    formDisplay('show')
   )
 
+/**
+ * Navigation au clavier dans le formulaire de <contact></contact>
+ */
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape' || e.key === 'Esc') {
-    formDisplay('hide', previouslyFocusedElement)
-    lightboxDisplay('hide', previouslyFocusedElement)
+    formDisplay('hide')
+    lightboxDisplay('hide')
   }
   if (
     e.key === 'Tab' &&

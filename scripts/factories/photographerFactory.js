@@ -11,6 +11,9 @@ export function photographerFactory(data) {
 
   const picture = `assets/photographers/${portrait}`
 
+/**
+  * Création des éléments DOM du photographe - page photographe
+ */
   function getUserPageDOM() {
     document.title = `Fisheye | ${phoName}`
 
@@ -30,6 +33,9 @@ export function photographerFactory(data) {
     return { name, location, tagline, portrait }
   }
 
+  /**
+  * Création des éléments DOM des photographes - page d'accueil
+ */
   function getUserCardDOM() {
     const article = document.createElement('article')
     article.classList.add('photographer__card')
