@@ -26,12 +26,12 @@ export const formDisplay = action => {
     document.getElementById('firstname').focus()
 
     /**
-     * On créée un tableau des éléments focusables
+     * On crée un tableau des éléments focusables
      */
     focusables = [...modal.querySelectorAll(focusableElements)]
 
     /**
-     * On place un écouteur d'évènement Vlick sur le bouton de fermeture
+     * On place un écouteur d'évènement Click sur le bouton de fermeture
      */
     document
       .querySelector('.modal__close')
@@ -114,7 +114,7 @@ let focusables = []
  * GESTION DU FOCUS
  * Changement de focus au clavier et maintien du focus dans la modale
  */
-export const focusInModal = e => {//TODO faire la même pour le selecteur
+export const focusInModal = e => {
   const modal = document.querySelector('#form')
   e.preventDefault()
   let index = focusables.findIndex(

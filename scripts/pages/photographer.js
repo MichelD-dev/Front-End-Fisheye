@@ -152,7 +152,7 @@ document
     this.querySelector('.select').classList.toggle('open')
   })
 
-  /**
+/**
  * On ouvre le selecteur avec le clavier
  */
 document
@@ -166,26 +166,30 @@ document
 /**
  * Affichage de l'option selectionnée
  */
+const selectDisplay = option => {
+  for (const hidden of document.querySelectorAll('.custom-option.hidden')) {
+    hidden.classList.remove('hidden')
+  }
+  if (!option.classList.contains('selected')) {
+    option.parentNode
+      .querySelector('.custom-option.selected')
+      .classList.remove('selected')
+    option.classList.add('selected')
+    option.classList.add('hidden')
+    option
+      .closest('.select')
+      .querySelector('.select__trigger span').textContent = option.textContent
+  }
+}
+
 for (const option of document.querySelectorAll('.custom-option')) {
   option.addEventListener('click', () => {
-    for (const hidden of document.querySelectorAll('.custom-option.hidden')) {
-      hidden.classList.remove('hidden')
-    }
-    if (!option.classList.contains('selected')) {
-      option.parentNode
-        .querySelector('.custom-option.selected')
-        .classList.remove('selected')
-      option.classList.add('selected')
-      option.classList.add('hidden')
-      option
-        .closest('.select')
-        .querySelector('.select__trigger span').textContent = option.textContent
-    }
+    selectDisplay(option)
   })
 }
 
 /**
- * On ferme le selecter lorsque l'utilisateur clique quelque part dans la fenêtre
+ * On ferme le selecteur lorsque l'utilisateur clique quelque part dans la fenêtre
  */
 window.addEventListener('click', e => {
   const select = document.querySelector('.select')
@@ -203,3 +207,57 @@ for (const selected of document.querySelectorAll('.custom-option')) {
     getDatas(sortingChoice)
   })
 }
+
+/**
+ * On récupère le selecteur
+ */
+const selector = document.querySelector('.custom-options')
+
+/**
+ * On récupère les éléments qui acquerront le focus dans le selecteur
+ */
+const focusableElements = 'span'
+
+/**
+ * GESTION DU FOCUS //FIXME
+ * Changement de focus au clavier et maintien du focus dans le selecteur
+ */
+const focusInSelector = (e, focusedSelection) => {
+  /**
+   * On crée un tableau des éléments focusables
+   */
+  let focusables = [...selector.querySelectorAll(focusableElements)]
+
+  e.preventDefault()
+  let index = focusables.findIndex(elem => elem === focusedSelection)
+
+  focusables[index].classList.remove('selected', 'hidden')
+  e.shiftKey === true ? index-- : index++
+  if (index >= focusables.length) {
+    index = 0
+  }
+  if (index < 0) {
+    index = focusables.length - 1
+  }
+  let option = focusables[index]
+  option.focus()
+  option.classList.add('selected', 'hidden')
+  console.log(option);
+  selectDisplay(option)
+}
+
+/**
+ * Navigation au clavier dans le selecteur
+ */
+let focusedSelection
+window.addEventListener('keydown', e => {
+  // if (e.key === 'Escape' || e.key === 'Esc') {
+  //   formDisplay('hide')
+  //   lightboxDisplay('hide')
+  // }
+  if (e.key === 'Tab' && document.querySelector('.select.open')) {
+    focusedSelection = document.querySelector('.selected')
+
+    focusInSelector(e, focusedSelection)
+  }
+})

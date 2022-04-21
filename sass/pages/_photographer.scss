@@ -312,7 +312,7 @@ form {
   // background-color: color.scale($primary-color, $lightness: 50%, $saturation: -30%);
 }
 .custom-option:last-of-type:not(.selected) {
-  border-radius: 0 0 7px 7px; //FIXME 
+  border-radius: 0 0 7px 7px; //FIXME
   box-shadow: 0 3px 10px #aaa;
 }
 label[for='medias-sort'] {
@@ -358,11 +358,36 @@ label[for='medias-sort'] {
   width: 100%;
   justify-self: center;
   cursor: pointer;
+  padding: 4px;
   &__image {
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 7px;
+    transform: scale(1);
+    transition: all 0.15s linear;
+    &:hover {
+      transition: all 0.15s linear;
+      transform: scale(1.02);
+      box-shadow: 3px 6px 10px #ddd;
+      opacity: 0.7;
+    }
+  }
+  &:focus {
+    border-radius: 0; //FIXME
+    & .media-card__image {
+      transition: all 0.15s linear;
+      transform: scale(1.02);//FIXME scale+ lors d'un click sur like...
+      box-shadow: 3px 6px 10px #ddd;
+      opacity: 0.7;
+    }
+    &:active {
+      & .media-card__image {
+        transform: scale(1);
+        box-shadow: none;
+        transition: all 0.05s linear;
+      }
+    }
   }
 }
 

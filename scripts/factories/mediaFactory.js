@@ -9,7 +9,7 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
       //TODO ajout d'un like au clavier?
       media.likes += 1
       likesNbr.textContent = `${media.likes} `
-      likesNbr.removeEventListener('click', incrementLikes)
+      likes.removeEventListener('click', incrementLikes)
       sortedPhotographerMedias = sortedPhotographerMedias.map(obj => {
         if (obj.id === media.id) {
           return { ...obj, likes: media.likes }
@@ -71,7 +71,7 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     /**
      * Création des gestionnaires d'évènement sur les médias
      */
-    likesNbr.addEventListener('click', incrementLikes)
+    likes.addEventListener('click', incrementLikes)
 
     mediaCard.addEventListener('click', () =>
       lightboxDisplay('show', photographer, sortedPhotographerMedias, media.id)
