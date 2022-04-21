@@ -114,7 +114,7 @@ let focusables = []
  * GESTION DU FOCUS
  * Changement de focus au clavier et maintien du focus dans la modale
  */
-export const focusInModal = e => {
+export const focusInModal = e => {//TODO faire la même pour le selecteur
   const modal = document.querySelector('#form')
   e.preventDefault()
   let index = focusables.findIndex(

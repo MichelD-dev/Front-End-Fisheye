@@ -54,107 +54,6 @@ async function displayMedias(photographer, sortedPhotographerMedias) {
   })
 }
 
-// -------------------------------------------------------------------- //
-// -------------------------------------------------------------------- //
-
-var x, i, j, l, ll, selElmnt, a, b, c
-/* Look for any elements with the class "custom-select": */
-x = document.getElementsByClassName('custom-select')
-l = x.length
-for (i = 0; i < l; i++) {
-  selElmnt = x[i].getElementsByTagName('select')[0]
-  ll = selElmnt.length
-  /* For each element, create a new DIV that will act as the selected item: */
-  a = document.createElement('DIV')
-  a.setAttribute('class', 'select-selected')
-  a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML
-  x[i].appendChild(a)
-  /* For each element, create a new DIV that will contain the option list: */
-  b = document.createElement('DIV')
-  b.setAttribute('class', 'select-items select-hide')
-  for (j = 1; j < ll; j++) {
-    /* For each option in the original select element,
-    create a new DIV that will act as an option item: */
-    c = document.createElement('DIV')
-    c.innerHTML = selElmnt.options[j].innerHTML
-    c.addEventListener('click', function (e) {
-      /* When an item is clicked, update the original select box,
-        and the selected item: */
-      var y, i, k, s, h, sl, yl
-      s = this.parentNode.parentNode.getElementsByTagName('select')[0]
-      sl = s.length
-      h = this.parentNode.previousSibling
-      for (i = 0; i < sl; i++) {
-        if (s.options[i].innerHTML == this.innerHTML) {
-          s.selectedIndex = i
-          h.innerHTML = this.innerHTML
-          y = this.parentNode.getElementsByClassName('same-as-selected')
-          yl = y.length
-          for (k = 0; k < yl; k++) {
-            y[k].removeAttribute('class')
-          }
-          this.setAttribute('class', 'same-as-selected')
-          break
-        }
-      }
-      h.click()
-    })
-    b.appendChild(c)
-  }
-  x[i].appendChild(b)
-  a.addEventListener('click', function (e) {
-    /* When the select box is clicked, close any other select boxes,
-    and open/close the current select box: */
-    e.stopPropagation()
-    closeAllSelect(this)
-    this.nextSibling.classList.toggle('select-hide')
-    this.classList.toggle('select-arrow-active')
-  })
-}
-
-function closeAllSelect(elmnt) {
-  /* A function that will close all select boxes in the document,
-  except the current select box: */
-  var x,
-    y,
-    i,
-    xl,
-    yl,
-    arrNo = []
-  x = document.getElementsByClassName('select-items')
-  y = document.getElementsByClassName('select-selected')
-  xl = x.length
-  yl = y.length
-  for (i = 0; i < yl; i++) {
-    if (elmnt == y[i]) {
-      arrNo.push(i)
-    } else {
-      y[i].classList.remove('select-arrow-active')
-    }
-  }
-  for (i = 0; i < xl; i++) {
-    if (arrNo.indexOf(i)) {
-      x[i].classList.add('select-hide')
-    }
-  }
-}
-
-/* If the user clicks anywhere outside the select box,
-then close all select boxes: */
-document.addEventListener('click', closeAllSelect)
-
-// -------------------------------------------------------------------- //
-// -------------------------------------------------------------------- //
-
-/* Récupération des données selon la catégorie sélectionnée */
-/* ---------------------------------------------------- */
-const sortSelector = document.querySelector('.select-selected')
-sortSelector.tabIndex = '0'
-sortSelector.addEventListener('click', () => {
-  const sortingChoice = sortSelector.innerHTML
-  getDatas(sortingChoice)
-})
-
 /**
  * Récupération d'un photographe et des médias associés par critère de tri
  */
@@ -224,12 +123,10 @@ getDatas()
  */
 document
   .querySelector('.contact-button')
-  .addEventListener('click', () =>
-    formDisplay('show')
-  )
+  .addEventListener('click', () => formDisplay('show'))
 
 /**
- * Navigation au clavier dans le formulaire de <contact></contact>
+ * Navigation au clavier dans le formulaire de contact
  */
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape' || e.key === 'Esc') {
@@ -243,3 +140,66 @@ window.addEventListener('keydown', e => {
     focusInModal(e)
   }
 })
+
+/*----------------------------------------------------------------- */
+
+/**
+ * On ouvre le selecteur
+ */
+document
+  .querySelector('.select-wrapper')
+  .addEventListener('click', function () {
+    this.querySelector('.select').classList.toggle('open')
+  })
+
+  /**
+ * On ouvre le selecteur avec le clavier
+ */
+document
+  .querySelector('.select-wrapper')
+  .addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      this.querySelector('.select').classList.toggle('open')
+    }
+  })
+
+/**
+ * Affichage de l'option selectionnée
+ */
+for (const option of document.querySelectorAll('.custom-option')) {
+  option.addEventListener('click', () => {
+    for (const hidden of document.querySelectorAll('.custom-option.hidden')) {
+      hidden.classList.remove('hidden')
+    }
+    if (!option.classList.contains('selected')) {
+      option.parentNode
+        .querySelector('.custom-option.selected')
+        .classList.remove('selected')
+      option.classList.add('selected')
+      option.classList.add('hidden')
+      option
+        .closest('.select')
+        .querySelector('.select__trigger span').textContent = option.textContent
+    }
+  })
+}
+
+/**
+ * On ferme le selecter lorsque l'utilisateur clique quelque part dans la fenêtre
+ */
+window.addEventListener('click', e => {
+  const select = document.querySelector('.select')
+  if (!select.contains(e.target)) {
+    select.classList.remove('open')
+  }
+})
+
+/**
+ * Récupération des données selon la catégorie sélectionnée
+ */
+for (const selected of document.querySelectorAll('.custom-option')) {
+  selected.addEventListener('click', () => {
+    const sortingChoice = selected.textContent
+    getDatas(sortingChoice)
+  })
+}

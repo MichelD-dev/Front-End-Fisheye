@@ -1,5 +1,7 @@
 @use '../utils/variables' as *;
 
+@use 'sass:color';
+
 .main_photograph {
   flex-direction: column;
   margin: 0 auto;
@@ -87,10 +89,6 @@
     opacity: 0;
     transition: visibility 0s 0.3s, opacity 0.3s;
   }
-}
-
-.hidden {
-  display: none;
 }
 
 .modal-header {
@@ -229,92 +227,133 @@ form {
     width: 100%;
   }
 }
-/* The container must be positioned relative: */
-.custom-select {
+
+/* ------------------------------------------------------- */
+.select-wrapper {
+  margin-left: 20px;
   position: relative;
-  display: flex;
-  width: 300px;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 20px;
+  width: 22%;
+  display: inline-block;
 }
-
-.custom-select {
-  & select {
-    display: none; /*hide original SELECT element: */
-  }
-}
-
-.select-selected {
-  color: white;
-  padding: 11px 16px;
-  width: 200px;
-  height: 50px;
-  border: none;
-  background-color: $primary-color;
-  border-radius: 5px 5px 0 0;
-}
-
-/* Style the arrow inside the select element: */
-.select-selected:after {
-  position: absolute;
-  content: '';
-  top: 22px;
-  right: 20px;
-  width: 0;
-  height: 0;
-  border: 6px solid transparent;
-  border-color: #fff transparent transparent transparent;
-}
-
-/* Point the arrow upwards when the select box is open (active): */
-.select-selected.select-arrow-active:after {
-  border-color: transparent transparent #fff transparent;
-  top: 15px;
-}
-
-/* style the items (options), including the selected item: */
-.select-items div {
-  padding: 20px 16px;
-}
-.select-items div,
-.select-selected {
-  color: #ffffff;
-  cursor: pointer;
+.select {
+  position: relative;
   display: flex;
   flex-direction: column;
 }
-
-/* Style items (options): */
-.select-items {
-  position: absolute;
-  background-color: $primary-color;
-  top: 100%;
-  right: 0;
-  z-index: 99;
+.select__trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 20px;
-  width: 200px;
-  &:last-child {
-    border-radius: 0 0 5px 5px;
+  font-weight: bold;
+  color: white;
+  padding: 11px 30px;
+  margin-bottom: -1px;
+  height: 65px;
+  border: none;
+  background-color: $primary-color;
+  border-radius: 7px;
+  cursor: pointer;
+  &:focus {
+    outline: 4px solid black;
   }
 }
-
-/* Hide the items when the select box is closed: */
-.select-hide {
-  display: none;
-}
-
-.select-items div:hover,
-.same-as-selected {
-  background-color: rgba(0, 0, 0, 0.1);
-}
-.select-items div:before {
+.custom-options {
+  position: absolute;
   display: block;
-  content: '';
-  background: white;
-  height: 1px;
-  margin-top: -20px;
+  top: 96%;
+  left: 0;
+  right: 0;
+
+  background: #fff;
+  transition: all 0.5s;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 2;
 }
+.select.open .custom-options {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+.custom-option {
+  display: block;
+  line-height: 60px;
+  transition: all 0.5s;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  padding: 1px 30px;
+  height: 60px;
+  border: none;
+  background-color: $primary-color;
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    height: 2px;
+    margin: 0 auto;
+    background-color: white;
+    width: 90%;
+    position: absolute;
+    top: 0px;
+    left: 12px;
+  }
+}
+.custom-option:hover {
+  cursor: pointer;
+  // background-color: color.scale($primary-color, $lightness: 17%);
+}
+.custom-option.selected {
+  // color: #ffffff;
+  // background-color: color.scale($primary-color, $lightness: 50%, $saturation: -30%);
+}
+.custom-option:last-of-type:not(.selected) {
+  border-radius: 0 0 7px 7px; //FIXME 
+  box-shadow: 0 3px 10px #aaa;
+}
+label[for='medias-sort'] {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.arrow {
+  position: relative;
+  height: 15px;
+  width: 15px;
+}
+.arrow::before,
+.arrow::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  width: 0.2rem;
+  height: 100%;
+  transition: all 0.5s;
+}
+.arrow::before {
+  left: -3px;
+  transform: rotate(-45deg);
+  background-color: white;
+}
+.arrow::after {
+  left: 6px;
+  transform: rotate(45deg);
+  background-color: white;
+}
+.open .arrow::before {
+  left: -3px;
+  transform: rotate(45deg);
+}
+.open .arrow::after {
+  left: 6px;
+  transform: rotate(-45deg);
+}
+
+/* --------------------------------------------------------- */
+
 .media-card {
   width: 100%;
   justify-self: center;
@@ -347,4 +386,8 @@ form {
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+.hidden {
+  display: none;
 }
