@@ -1,6 +1,6 @@
 @use '../utils/variables' as *;
 
-@use 'sass:color';
+// @use 'sass:color';
 
 .main_photograph {
   flex-direction: column;
@@ -359,6 +359,8 @@ label[for='medias-sort'] {
   justify-self: center;
   cursor: pointer;
   padding: 4px;
+  overflow: hidden;
+  position: relative;
   &__image {
     width: 100%;
     aspect-ratio: 1 / 1;
@@ -377,17 +379,26 @@ label[for='medias-sort'] {
     border-radius: 0; //FIXME
     & .media-card__image {
       transition: all 0.15s linear;
-      transform: scale(1.02);//FIXME scale+ lors d'un click sur like...
+      transform: scale(1.02); //FIXME scale+ lors d'un click sur like...
       box-shadow: 3px 6px 10px #ddd;
       opacity: 0.7;
     }
-    &:active {
-      & .media-card__image {
-        transform: scale(1);
-        box-shadow: none;
-        transition: all 0.05s linear;
-      }
+  }
+  &:active {
+    & .media-card__image {
+      transform: scale(1);
+      box-shadow: none;
+      transition: all 0.05s linear;
     }
+  }
+  &__likesNbr {
+    white-space: nowrap;
+  }
+  &__like {
+    position: absolute;
+    color: rgba($primary-color, 0.8);
+    top: 25px;
+    right: 25px;
   }
 }
 

@@ -5,18 +5,26 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     /**
      * Incrémentation unique du nombre de likes
      */
-    const incrementLikes = () => {
+    const addOrRemoveLike = () => {
+      const like = document.querySelector('.media-card__like')
       //TODO ajout d'un like au clavier?
-      media.likes += 1
+      if (like) {
+        article.removeChild(like)
+        media.likes -= 1
+      }
+      if (!like) {
+        article.appendChild(displayedLikeOnMedia)
+        media.likes += 1
+      }
       likesNbr.textContent = `${media.likes} `
-      likes.removeEventListener('click', incrementLikes)
+      // likes.removeEventListener('click', addOrRemoveLike)
       sortedPhotographerMedias = sortedPhotographerMedias.map(obj => {
         if (obj.id === media.id) {
           return { ...obj, likes: media.likes }
         }
         return obj
       })
-
+      // console.log(article)
       /**
        * Incrémentation du nombre total de likes du photographe
        */
@@ -52,6 +60,7 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     imgTitle.textContent = media.title
 
     const likes = document.createElement('p')
+    likes.classList.add('media-card__likesNbr')
 
     const likesNbr = document.createElement('span')
     likesNbr.textContent = `${media.likes} `
@@ -59,10 +68,21 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     const likeIcon = document.createElement('i')
     likeIcon.classList.add('fa-solid', 'fa-heart')
 
-    document.querySelector('.photographer__rate').textContent = `${photographer.price}€ / jour `
+    const displayedLikeOnMedia = document.createElement('i')
+    displayedLikeOnMedia.classList.add(
+      'fa-solid',
+      'fa-heart',
+      'fa-2x',
+      'media-card__like'
+    )
+
+    document.querySelector(
+      '.photographer__rate'
+    ).textContent = `${photographer.price}€ / jour `
 
     article.appendChild(mediaCard)
     article.appendChild(imgDatas)
+    // article.appendChild(displayedLikeOnMedia)
     imgDatas.appendChild(imgTitle)
     imgDatas.appendChild(likes)
     likes.appendChild(likesNbr)
@@ -71,7 +91,7 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     /**
      * Création des gestionnaires d'évènement sur les médias
      */
-    likes.addEventListener('click', incrementLikes)
+    likes.addEventListener('click', addOrRemoveLike)
 
     mediaCard.addEventListener('click', () =>
       lightboxDisplay('show', photographer, sortedPhotographerMedias, media.id)
@@ -97,6 +117,6 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     .reduce((total, current) => total + current, 0)
 
   document.querySelector('.photographer__likes').textContent = `${likesTotal} `
- 
+
   return { getMediaCardDOM }
 }
