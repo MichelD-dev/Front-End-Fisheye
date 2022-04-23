@@ -232,7 +232,7 @@ form {
 .select-wrapper {
   margin-left: 20px;
   position: relative;
-  width: 22%;
+  width: 300px;
   display: inline-block;
 }
 .select {
@@ -275,7 +275,7 @@ form {
 
 .select.open {
   .select__trigger {
- border-radius: 7px 7px 0 0;
+    border-radius: 7px 7px 0 0;
   }
 }
 .select.open .custom-options {
@@ -316,7 +316,7 @@ form {
   // color: #ffffff;
   // background-color: color.scale($primary-color, $lightness: 50%, $saturation: -30%);
 }
-.custom-option_last  {
+.custom-option_last {
   border-radius: 0 0 7px 7px; //FIXME
   box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
 }

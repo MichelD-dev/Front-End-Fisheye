@@ -111,7 +111,7 @@ const getMediasSorting = (photographers, medias, sortingChoice) => {
   notSelectedsOptionsArray = [
     ...document.querySelectorAll('.custom-option '),
   ].filter(el => !el.classList.contains('selected'))
-  console.log(notSelectedsOptionsArray)
+  // console.log(notSelectedsOptionsArray)
 
   /**
    * Border-radius placé dynamiquement en bas de la dernière selection non choisie

@@ -365,7 +365,7 @@ form textarea:focus {
 .select-wrapper {
   margin-left: 20px;
   position: relative;
-  width: 22%;
+  width: 300px;
   display: inline-block;
 }
 

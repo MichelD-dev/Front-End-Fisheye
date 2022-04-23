@@ -6,14 +6,22 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
      * Incrémentation unique du nombre de likes
      */
     const addOrRemoveLike = () => {
+      const [mediaCard] = [...document.querySelectorAll('.media-card')].filter(
+        media => media.id === article.id
+      )
+      console.log(mediaCard)
       const like = document.querySelector('.media-card__like')
+      // console.log(mediaCard.contains(like));
+      console.log(displayedLikeOnMedia)
+console.log(like);
       //TODO ajout d'un like au clavier?
-      if (like) {
-        article.removeChild(like)
+      if (mediaCard.contains(like)) {
+        mediaCard.removeChild(like)
+
         media.likes -= 1
-      }
-      if (!like) {
-        article.appendChild(displayedLikeOnMedia)
+      } else if (!mediaCard.contains(like)) {
+        mediaCard.appendChild(displayedLikeOnMedia)
+  
         media.likes += 1
       }
       likesNbr.textContent = `${media.likes} `
@@ -24,7 +32,7 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
         }
         return obj
       })
-      // console.log(article)
+
       /**
        * Incrémentation du nombre total de likes du photographe
        */
@@ -44,6 +52,7 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     article.classList.add('media-card')
     // article.ariaLabel = title) //FIXME title
     article.tabIndex = '0'
+    article.id = media.id
 
     const mediaCard = document.createElement(media.image ? 'img' : 'video')
     mediaCard.src = `../../assets/thumbnails/${
