@@ -81,7 +81,7 @@ const formSubmit = (e, previouslyFocusedElement) => {
     e.currentTarget.firstname.value,
     e.currentTarget.lastname.value,
     e.currentTarget.email.value,
-    e.currentTarget.message.value,
+    e.currentTarget.message.value.trim(),
   ])
 
   /* On vide les champs du formulaire */

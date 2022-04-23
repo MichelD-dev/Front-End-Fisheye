@@ -53,6 +53,10 @@ async function displayMedias(photographer, sortedPhotographerMedias) {
     mediasSection.appendChild(article) //TODO? mettre une ul dans la grid et les articles dans des li?
   })
 }
+/**
+ * Déclaration d'un tableau des selections non choisies
+ */
+let notSelectedsOptionsArray = []
 
 /**
  * Récupération d'un photographe et des médias associés par critère de tri
@@ -91,6 +95,31 @@ const getMediasSorting = (photographers, medias, sortingChoice) => {
       (a, b) => a.date - b.date
     )
   }
+
+  /**
+   * On retire le border-radius de la dernière selection avant de positionner une nouvelle selection en dernière position
+   */
+  if (notSelectedsOptionsArray.length !== 0) {
+    notSelectedsOptionsArray[
+      notSelectedsOptionsArray.length - 1
+    ].classList.remove('custom-option_last')
+  }
+
+  /**
+   * Mise en tableau des selections non choisies
+   */
+  notSelectedsOptionsArray = [
+    ...document.querySelectorAll('.custom-option '),
+  ].filter(el => !el.classList.contains('selected'))
+  console.log(notSelectedsOptionsArray)
+
+  /**
+   * Border-radius placé dynamiquement en bas de la dernière selection non choisie
+   */
+  notSelectedsOptionsArray[notSelectedsOptionsArray.length - 1].classList.add(
+    'custom-option_last'
+  )
+
   return { photographer, sortedPhotographerMedias }
 }
 
@@ -216,48 +245,48 @@ const selector = document.querySelector('.custom-options')
 /**
  * On récupère les éléments qui acquerront le focus dans le selecteur
  */
-const focusableElements = 'span'
+// const focusableElements = 'span'
 
-/**
- * GESTION DU FOCUS //FIXME
- * Changement de focus au clavier et maintien du focus dans le selecteur
- */
-const focusInSelector = (e, focusedSelection) => {
-  /**
-   * On crée un tableau des éléments focusables
-   */
-  let focusables = [...selector.querySelectorAll(focusableElements)]
+// /**
+//  * GESTION DU FOCUS //FIXME
+//  * Changement de focus au clavier et maintien du focus dans le selecteur
+//  */
+// const focusInSelector = (e, focusedSelection) => {
+//   /**
+//    * On crée un tableau des éléments focusables
+//    */
+//   let focusables = [...selector.querySelectorAll(focusableElements)]
 
-  e.preventDefault()
-  let index = focusables.findIndex(elem => elem === focusedSelection)
+//   e.preventDefault()
+//   let index = focusables.findIndex(elem => elem === focusedSelection)
 
-  focusables[index].classList.remove('selected', 'hidden')
-  e.shiftKey === true ? index-- : index++
-  if (index >= focusables.length) {
-    index = 0
-  }
-  if (index < 0) {
-    index = focusables.length - 1
-  }
-  let option = focusables[index]
-  option.focus()
-  option.classList.add('selected', 'hidden')
-  console.log(option);
-  selectDisplay(option)
-}
+//   focusables[index].classList.remove('selected', 'hidden')
+//   e.shiftKey === true ? index-- : index++
+//   if (index >= focusables.length) {
+//     index = 0
+//   }
+//   if (index < 0) {
+//     index = focusables.length - 1
+//   }
+//   let option = focusables[index]
+//   option.focus()
+//   option.classList.add('selected', 'hidden')
+//   console.log(option)
+//   selectDisplay(option)
+// }
 
-/**
- * Navigation au clavier dans le selecteur
- */
-let focusedSelection
-window.addEventListener('keydown', e => {
-  // if (e.key === 'Escape' || e.key === 'Esc') {
-  //   formDisplay('hide')
-  //   lightboxDisplay('hide')
-  // }
-  if (e.key === 'Tab' && document.querySelector('.select.open')) {
-    focusedSelection = document.querySelector('.selected')
+// /**
+//  * Navigation au clavier dans le selecteur
+//  */
+// let focusedSelection
+// window.addEventListener('keydown', e => {
+//   // if (e.key === 'Escape' || e.key === 'Esc') {
+//   //   formDisplay('hide')
+//   //   lightboxDisplay('hide')
+//   // }
+//   if (e.key === 'Tab' && document.querySelector('.select.open')) {
+//     focusedSelection = document.querySelector('.selected')
 
-    focusInSelector(e, focusedSelection)
-  }
-})
+//     focusInSelector(e, focusedSelection)
+//   }
+// })

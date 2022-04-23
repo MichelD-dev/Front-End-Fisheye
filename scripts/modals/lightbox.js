@@ -20,7 +20,7 @@ export const lightboxDisplay = (
    * AFFICHAGE DU MEDIA
    */
   previouslyFocusedElement = document.querySelector(':focus')
-
+  document.querySelector('.medias__section').classList.add('hidden')
   /**
    *  Récupération du média à afficher dans la lightbox
    */
@@ -37,11 +37,12 @@ export const lightboxDisplay = (
      */
     videoDisplay.controls = true //TODO Gestion des controls au clavier?
     videoDisplay.setAttribute('type', 'video/mp4')
+    videoDisplay.setAttribute('tabIndex', '0')
 
     /**
      * Insertion du média dans le container lightbox avant son titre, en fonction de * * son type
      */
-    lightboxContainer.appendChild(videoDisplay, lightboxContainer.firstChild)
+    lightboxContainer.insertBefore(videoDisplay, lightboxContainer.firstChild)
     lightboxContainer.insertBefore(imageDisplay, lightboxContainer.firstChild)
 
     /**
@@ -198,6 +199,7 @@ export const lightboxDisplay = (
     document
       .querySelector('.lightbox__previous')
       .removeEventListener('click', displayPreviousMedia)
+      document.querySelector('.medias__section').classList.remove('hidden')
   }
   window.removeEventListener('keydown', e => {
     if (e.key === 'ArrowLeft') {
