@@ -1,6 +1,10 @@
 import { lightboxDisplay } from '../modals/lightbox.js'
 
+/**
+ * On initialise un tableau des ids des médias likés
+ */
 let likedImages = []
+
 export function mediaFactory(media, photographer, sortedPhotographerMedias) {
   function getMediaCardDOM() {
     /**
@@ -126,14 +130,14 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     imgDatas.appendChild(likes)
     likes.appendChild(likesNbr)
     likesNbr.insertAdjacentHTML('afterend', `<i class="fa-solid fa-heart"><i>`)
-
+    console.log(displayedLikeOnMedia);
     /**
      * Création des gestionnaires d'évènement sur les médias
      */
     likes.addEventListener('click', addOrRemoveLike)
 
     mediaCard.addEventListener('click', () =>
-      lightboxDisplay('show', photographer, sortedPhotographerMedias, media.id)
+      lightboxDisplay('show', photographer, sortedPhotographerMedias, media.id, displayedLikeOnMedia)
     )
 
     article.addEventListener('keydown', e => {

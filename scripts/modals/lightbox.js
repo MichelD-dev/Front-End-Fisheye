@@ -14,8 +14,9 @@ export const lightboxDisplay = (
   photographer,
   sortedPhotographerMedias = [],
   imageId,
-  previouslyFocusedElement
-) => {
+  previouslyFocusedElement,
+  displayedLikeOnMedia
+) => {console.log(displayedLikeOnMedia.outerHTML);
   /**
    * AFFICHAGE DU MEDIA
    */
@@ -199,7 +200,7 @@ export const lightboxDisplay = (
     document
       .querySelector('.lightbox__previous')
       .removeEventListener('click', displayPreviousMedia)
-      document.querySelector('.medias__section').classList.remove('hidden')
+    document.querySelector('.medias__section').classList.remove('hidden')
   }
   window.removeEventListener('keydown', e => {
     if (e.key === 'ArrowLeft') {
