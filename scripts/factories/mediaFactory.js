@@ -1,35 +1,64 @@
 import { lightboxDisplay } from '../modals/lightbox.js'
 
+let likedImages = []
 export function mediaFactory(media, photographer, sortedPhotographerMedias) {
   function getMediaCardDOM() {
     /**
-     * Incrémentation unique du nombre de likes
+     * Ajout/retrait like sur média
      */
     const addOrRemoveLike = () => {
+      /**
+       * On récupère le média sur lequel on ajoute/enlève un like
+       */
       const [mediaCard] = [...document.querySelectorAll('.media-card')].filter(
         media => media.id === article.id
       )
-      console.log(mediaCard)
-      const like = document.querySelector('.media-card__like')
-      // console.log(mediaCard.contains(like));
-      console.log(displayedLikeOnMedia)
-console.log(like);
       //TODO ajout d'un like au clavier?
-      if (mediaCard.contains(like)) {
-        mediaCard.removeChild(like)
 
+      /**
+       * Si le like est apparent, on le fait disparaitre et on décrémente le compteur total de likes
+       */
+      if (!mediaCard.children[2].classList.contains('hidden')) {
+        mediaCard.children[2].classList.add('hidden')
         media.likes -= 1
-      } else if (!mediaCard.contains(like)) {
-        mediaCard.appendChild(displayedLikeOnMedia)
-  
+        /* On actualise le tableau des ids des medias likés sans le like retiré*/
+        likedImages = likedImages.filter(
+          likedImageId => likedImageId !== mediaCard.id
+        )
+        /* On le mémorise  dans le local storage */
+        localStorage.setItem(
+          "photographer's liked medias",
+          JSON.stringify(likedImages)
+        )
+
+        /**
+         * Si le like est caché, on le fait apparaître et on incrémente le compteur total de likes
+         */
+      } else {
+        mediaCard.children[2].classList.remove('hidden')
         media.likes += 1
+        /* On actualise le tableau des ids des medias likés avec le nouveau like*/
+        likedImages.push(mediaCard.id)
+        /* On le mémorise  dans le local storage */
+        localStorage.setItem(
+          "photographer's liked medias",
+          JSON.stringify(likedImages)
+        )
       }
+
+      /**
+       * Affichage nombre total de likes
+       */
       likesNbr.textContent = `${media.likes} `
-      // likes.removeEventListener('click', addOrRemoveLike)
+
       sortedPhotographerMedias = sortedPhotographerMedias.map(obj => {
         if (obj.id === media.id) {
+          /**
+           * On retourne un tableau des médias avec nombre de likes individuel actualisé
+           */
           return { ...obj, likes: media.likes }
         }
+        /* Sinon, on retourne un tbleau non modifié */
         return obj
       })
 
@@ -82,7 +111,8 @@ console.log(like);
       'fa-solid',
       'fa-heart',
       'fa-2x',
-      'media-card__like'
+      'media-card__like',
+      'hidden'
     )
 
     document.querySelector(
@@ -91,7 +121,7 @@ console.log(like);
 
     article.appendChild(mediaCard)
     article.appendChild(imgDatas)
-    // article.appendChild(displayedLikeOnMedia)
+    article.appendChild(displayedLikeOnMedia)
     imgDatas.appendChild(imgTitle)
     imgDatas.appendChild(likes)
     likes.appendChild(likesNbr)
