@@ -10,7 +10,7 @@ export default async function getPhotographers() {
     }
     const data = await response.json()
 
-    localStorage.setItem('data', JSON.stringify(data))
+    localStorage.setItem('original datas', JSON.stringify(data))
     spinner.hidden = true
 
     return data

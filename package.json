@@ -4,8 +4,8 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "sass": "sass --watch ./style.scss:./css/style.css",
-    "tsc": "tsc *.ts --watch"
+    "sass": "sass -w ./style.scss:./css/style.css",
+    "tsc": "tsc *.ts -w"
   },
   "repository": "https://github.com/MichelD-dev/Front-End-Fisheye.git",
   "author": "michelD-dev <delaunaymichel@hotmail.fr>",

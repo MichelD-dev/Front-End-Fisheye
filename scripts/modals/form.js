@@ -46,7 +46,7 @@ export const formDisplay = action => {
   }
 
   if (action === 'hide') {
-    console.log(previouslyFocusedElement) //FIXME comment retrouver le focus sur le bouton contact
+    // console.log(previouslyFocusedElement) //FIXME comment retrouver le focus sur le bouton contact
 
     /**
      * On vide les champs du formulaire

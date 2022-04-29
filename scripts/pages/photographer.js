@@ -1,8 +1,9 @@
 import { photographerFactory } from '../factories/photographerFactory.js'
 import { mediaFactory } from '../factories/mediaFactory.js'
-import getPhotographers from '../utils/fetch.js'
+import getPhotographers from '../utils/fetchAPI.js'
 import { formDisplay, focusInModal } from '../modals/form.js'
 import { lightboxDisplay } from '../modals/lightbox.js'
+import { storeLikes } from '../utils/likesAPI.js'
 
 /**
  * Récupération de l'id du photographe
@@ -17,7 +18,7 @@ let id = +new URLSearchParams(document.location.search).get('id')
 /**
  * AFFICHAGE DE LA PAGE PHOTOGRAPHE
  */
-async function displayMedias(photographer, sortedPhotographerMedias) {
+export async function displayMedias(photographer, sortedPhotographerMedias) {
   const mediasSection = document.querySelector('.medias__section')
 
   /**
@@ -50,7 +51,7 @@ async function displayMedias(photographer, sortedPhotographerMedias) {
     /**
      * Affichage des cartes images du photographe
      */
-    mediasSection.appendChild(article) //TODO? mettre une ul dans la grid et les articles dans des li?
+    mediasSection.appendChild(article)
   })
 }
 /**
@@ -128,7 +129,7 @@ const getMediasSorting = (photographers, medias, sortingChoice) => {
  */
 const getDatas = async (sortingChoice = 'Popularité') => {
   const { photographers, medias } =
-    JSON.parse(localStorage.getItem('data')) || (await getPhotographers())
+    JSON.parse(localStorage.getItem('original datas')) || (await getPhotographers())
 
   /**
    * Récupération d'un photographe et des médias associés par critère de tri
@@ -138,6 +139,22 @@ const getDatas = async (sortingChoice = 'Popularité') => {
     medias,
     sortingChoice
   )
+
+  {
+    //TODO {}?
+    /**
+     * Stockage de toutes les images du photographe dans le local storage
+     */
+    let likedMedias = []
+
+    sortedPhotographerMedias.forEach(media => {
+      likedMedias = [
+        ...likedMedias,
+        { id: media.id, likes: media.likes, isLikedByMe: false },
+      ]
+      storeLikes(likedMedias)
+    })
+  }
 
   /**
    * Affichage des médias
@@ -179,6 +196,7 @@ document
   .querySelector('.select-wrapper')
   .addEventListener('click', function () {
     this.querySelector('.select').classList.toggle('open')
+    document.querySelector('.selected').focus()
   })
 
 /**
@@ -189,6 +207,7 @@ document
   .addEventListener('keydown', function (e) {
     if (e.key === 'Enter') {
       this.querySelector('.select').classList.toggle('open')
+      document.querySelector('.selected').focus()
     }
   })
 
@@ -245,13 +264,14 @@ const selector = document.querySelector('.custom-options')
 /**
  * On récupère les éléments qui acquerront le focus dans le selecteur
  */
-const focusableElements = 'span'
+const focusableElements = ['.select__trigger', '.custom-option', '.selected']
 
 // /**
 //  * GESTION DU FOCUS //FIXME
 //  * Changement de focus au clavier et maintien du focus dans le selecteur
 //  */
 const focusInSelector = e => {
+  e.preventDefault()
   //   /**
   //    * On crée un tableau des éléments focusables
   //    */
@@ -262,9 +282,10 @@ const focusInSelector = e => {
     ),
     document.querySelector('.select'),
   ]
-  console.log(document.querySelector(':focus').innerHTML)
-  console.log(focusables)
-  e.preventDefault()
+  // console.log(document.querySelector(':focus').innerHTML)
+  // console.log(focusables)
+
+  // let index =  document.querySelector('.selected')
   let index = focusables.findIndex(f => f === document.querySelector(':focus'))
   console.log(index)
   focusables[index].classList.remove('selected', 'hidden')

@@ -1,110 +1,164 @@
 <!DOCTYPE html>
 <html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfolios de photographes indépendants"
+    />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      FontAwesomeConfig = { keepOriginalSource: false }
+    </script>
+    <script
+      src="https://kit.fontawesome.com/9adb84594d.js"
+      data-auto-a11y
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="scripts/pages/photographer.js"></script>
+    <title>Fisheye - photographe</title>
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portfolios de photographes indépendants" />
-  <link href="css/style.css" rel="stylesheet" type="text/css" />
-  <link rel="icon" type="image/png" href="assets/favicon.png" />
-  <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/9adb84594d.js" crossorigin="anonymous"></script>
-  <script type="module" src="scripts/pages/photographer.js"></script>
-  <title>Fisheye - photographe</title>
-</head>
-
-<body>
-  <header class="header" role="banner">
-    <a href="./index.html" aria-label="Page d'accueil">
-      <img src="assets/logo/logo.png" class="logo" alt="Logo de FishEye - Page d'accueil" />
-    </a>
-  </header>
-  <main class="main main_photograph">
-    <div class="photograph-header">
-      <!--FIXME centrage-->
-      <div class="photograph-header__id">
-        <h1 class="photographer__name"></h1>
-        <div class="photographer__info">
-          <span class="photographer__location"></span>
-          <span class="photographer__tagline"></span>
-        </div>
-      </div>
-      <button class="contact-button">Contactez-moi</button>
-      <img class="photographer__portrait" src="" />
-    </div>
-
-    <label for="medias-sort">Trier par </label>
-    <div class="select-wrapper" tabindex="0">
-      <div class="select">
-        <div tabindex="0" class="select__trigger">
-          <span>Popularité</span>
-          <div class="arrow"></div>
-        </div>
-        <div class="custom-options">
-          <span tabindex="0" class="custom-option selected hidden" data-value="popularity">Popularité</span>
-          <span tabindex="0" class="custom-option" data-value="date">Date</span>
-          <span tabindex="0" class="custom-option" data-value="title">Titre</span>
-        </div>
-      </div>
-    </div>
-
-    <div hidden id="spinner"></div>
-    <section class="medias__section"></section>
-    <div class="photographer__data">
-      <p>
-        <span class="photographer__likes"></span><i class="fa-solid fa-heart"></i>
-      </p>
-      <span class="photographer__rate"></span>
-    </div>
-  </main>
-
-  <aside class="modal" id="form" aria-hidden="true" role="form" aria-labelledby="modal-title">
-    <header class="modal-header">
-      <div class="modal-header__text">
-        <h1 id="modal-title">Contactez-moi</h1>
-        <span class="modal-header__name">Mimi Keel</span>
-      </div>
-      <button class="modal__close">
-        <img src="assets/icons/close.svg" />
-      </button>
+  <body>
+    <header class="header" role="banner">
+      <a href="./index.html" aria-label="Page d'accueil">
+        <span class="visually-hidden">Logo de FishEye</span>
+        <img
+          src="assets/logo/logo.png"
+          class="logo"
+          alt="Logo de FishEye - Page d'accueil"
+        />
+      </a>
     </header>
-    <span class="name"></span>
-    <form name="form">
-      <div>
-        <label><span class="visually-hidden" aria-hidden="true">Prénom</span>Votre
-          prénom</label>
-        <input id="firstname" name="firstname" />
-        <label><span class="visually-hidden" aria-hidden="true">Nom</span>Votre
-          nom</label>
-        <input name="lastname" />
-        <label><span class="visually-hidden" aria-hidden="true">Email</span>Votre
-          email</label>
-        <input type="email" name="email" />
-        <label><span class="visually-hidden" aria-hidden="true">Votre message</span>Votre message</label>
-        <textarea name="message"></textarea>
+    <main class="main main_photograph">
+      <div class="photograph-header">
+        <!--FIXME centrage-->
+        <div class="photograph-header__id">
+          <h1 class="photographer__name"></h1>
+          <div class="photographer__info">
+            <span class="photographer__location"></span>
+            <span class="photographer__tagline"></span>
+          </div>
+        </div>
+        <button class="contact-button">Contactez-moi</button>
+        <img
+          class="photographer__portrait"
+          src=""
+          alt="Portrait du photographe"
+        />
       </div>
-      <button class="contact-button submit">Envoyer</button>
-    </form>
-  </aside>
 
-  <aside class="modal" id="lightbox" aria-hidden="true" role="form" aria-labelledby="modal-title">
-    <div class="lightbox">
-      <button class="lightbox__previous">
-        <i class="fa-solid fa-chevron-left fa-3x"></i>
-      </button>
-      <figure class="lightbox__container">
-        <figcaption class="lightbox__text"></figcaption>
-      </figure>
-      <div class="lightbox__right">
-        <button class="lightbox__close">
-          <img src="assets/icons/lightboxClose.svg" />
-        </button>
-        <button class="lightbox__next">
-          <i class="fa-solid fa-chevron-right fa-3x"></i>
-        </button>
+      <label for="medias-sort">Trier par </label>
+      <div class="select-wrapper">
+        <div class="select">
+          <div tabindex="0" class="select__trigger">
+            <span>Popularité</span>
+            <div class="arrow"></div>
+          </div>
+          <div class="custom-options">
+            <span
+              tabindex="0"
+              class="custom-option selected hidden"
+              data-value="popularity"
+              >Popularité</span
+            >
+            <span tabindex="0" class="custom-option" data-value="date"
+              >Date</span
+            >
+            <span tabindex="0" class="custom-option" data-value="title"
+              >Titre</span
+            >
+          </div>
+        </div>
       </div>
-    </div>
-  </aside>
-</body>
 
+      <div hidden id="spinner"></div>
+      <section class="medias__section"></section>
+      <div class="photographer__data">
+        <p>
+          <span class="photographer__likes"></span
+          ><i class="fa-solid fa-heart"></i>
+        </p>
+        <span class="photographer__rate"></span>
+      </div>
+    </main>
+
+    <aside
+      class="modal"
+      id="form"
+      aria-hidden="true"
+      role="form"
+      aria-labelledby="modal-title"
+    >
+      <header class="modal-header">
+        <div class="modal-header__text">
+          <h1 id="modal-title">Contactez-moi</h1>
+          <span class="modal-header__name">Mimi Keel</span>
+        </div>
+        <button class="modal__close">
+          <img src="assets/icons/close.svg" alt="bouton de fermeture" />
+        </button>
+      </header>
+      <span class="name"></span>
+      <form id="form" name="form">
+        <div>
+          <label><span class="visually-hidden" aria-hidden="true">Prénom</span>Votre
+            prénom</label>
+          <input id="firstname" name="firstname" /><br />
+          <span id="firstname-error" class="error-message"></span><br />
+          <label><span class="visually-hidden" aria-hidden="true">Nom</span>Votre
+            nom</label>
+          <input id="lastname" name="lastname" /><br />
+          <span id="lastname-error" class="error-message"></span><br />
+          <label><span class="visually-hidden" aria-hidden="true">Email</span>Votre
+            email</label>
+          <input id="email" type="email" name="email" /><br />
+          <span id="email-error" class="error-message"></span><br />
+          <label><span class="visually-hidden" aria-hidden="true">Votre message</span>Votre message</label>
+          <textarea id="message" name="message"></textarea>
+        </div>
+        <button class="contact-button submit">Envoyer</button>
+      </form>
+    </aside>
+
+    <aside
+      class="modal"
+      id="lightbox"
+      aria-hidden="true"
+      role="lightbox"
+      aria-labelledby="modal-title"
+    >
+      <div class="lightbox">
+        <button class="lightbox__previous">
+          <span class="visually-hidden">Image précédente</span>
+          <i class="fa-solid fa-chevron-left fa-3x"></i>
+        </button>
+        <figure class="lightbox-container">
+          <figcaption class="lightbox-caption">
+            <span class="lightbox-caption__text"></span>
+            <input type="checkbox" id="like" class="lightbox-caption__like-btn" />
+            <label class="lightbox-caption__like-label" for="like">
+          </figcaption>
+        </figure>
+        <div class="lightbox__right">
+          <button class="lightbox__close">
+            <img
+              src="assets/icons/lightboxClose.svg"
+              alt="bouton de fermeture"
+            />
+          </button>
+          <button class="lightbox__next">
+            <span class="visually-hidden">Image suivante</span>
+            <i class="fa-solid fa-chevron-right fa-3x"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+  </body>
 </html>

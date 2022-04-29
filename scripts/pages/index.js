@@ -1,5 +1,5 @@
 import { photographerFactory } from '../factories/photographerFactory.js'
-import getPhotographers from '../utils/fetch.js'
+import getPhotographers from '../utils/fetchAPI.js'
 
 /**
  * Affichage de la page d'acceuil
@@ -25,7 +25,7 @@ async function init() {
    * Récupération des données
    */
   const data =
-    JSON.parse(localStorage.getItem('data')) ?? (await getPhotographers())
+    JSON.parse(localStorage.getItem('original datas')) ?? (await getPhotographers())
   const photographers = data ? data.photographers : null
   if (!data) return console.error('NO DATA')
 

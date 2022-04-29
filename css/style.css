@@ -1,3 +1,4 @@
+@charset "UTF-8";
 html {
   box-sizing: border-box;
 }
@@ -47,7 +48,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-
 #spinner::after {
   content: "";
   width: 80px;
@@ -171,12 +171,6 @@ body {
   flex-direction: column;
 }
 
-.photographer__info {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
 .contact-button {
   font-size: 20px;
   font-weight: bold;
@@ -193,6 +187,11 @@ body {
   outline: 4px solid black;
 }
 
+.photographer__info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .photographer__data {
   width: 320px;
   bottom: 0;
@@ -240,7 +239,6 @@ body {
   opacity: 0;
   transition: visibility 0s 0.3s, opacity 0.3s;
 }
-
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -260,7 +258,6 @@ body {
 .modal-header__name {
   font-size: 2em;
 }
-
 .modal header img {
   cursor: pointer;
 }
@@ -333,17 +330,19 @@ form textarea:focus {
   color: #901c1c;
   background-color: transparent;
 }
-.lightbox__container {
+.lightbox-container {
+  height: auto;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.lightbox__container img {
+.lightbox-container img {
   object-fit: contain;
   width: 100%;
   height: 100%;
 }
-.lightbox__container video {
+.lightbox-container video {
   width: 100%;
   border-radius: 5px;
 }
@@ -351,6 +350,51 @@ form textarea:focus {
   color: #901c1c;
   padding-top: 5px;
   font-size: 1.5rem;
+}
+.lightbox-caption {
+  color: #901c1c;
+  padding-top: 5px;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+.lightbox-caption > svg {
+  font-size: 2.2rem;
+  margin-right: 15px;
+  cursor: pointer;
+}
+.lightbox-caption__like-btn {
+  display: none;
+}
+.lightbox-caption__like-btn:checked + label > .lightbox-caption__like_inactive {
+  opacity: 0;
+}
+.lightbox-caption__like-btn:checked + label > .lightbox-caption__like_active {
+  opacity: 1;
+}
+.lightbox-caption__like-label {
+  position: relative;
+}
+.lightbox-caption__like_inactive {
+  position: absolute;
+  color: rgba(82, 82, 82, 0.35);
+  opacity: 1;
+  right: 0;
+  transition: opacity 150ms;
+  font-size: 2.2rem;
+  margin-right: 15px;
+  cursor: pointer;
+  z-index: 2;
+}
+.lightbox-caption__like_active {
+  position: absolute;
+  color: #901c1c;
+  right: 0;
+  opacity: 0;
+  transition: opacity 150ms;
+  font-size: 2.2rem;
+  margin-right: 15px;
+  cursor: pointer;
 }
 
 .medias__section {
@@ -362,19 +406,17 @@ form textarea:focus {
 }
 
 /* ------------------------------------------------------- */
+.select {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
 .select-wrapper {
   margin-left: 20px;
   position: relative;
   width: 300px;
   display: inline-block;
 }
-
-.select {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
 .select__trigger {
   position: relative;
   display: flex;
@@ -519,10 +561,8 @@ label[for=medias-sort] {
   box-shadow: 3px 6px 10px #ddd;
   opacity: 0.7;
 }
-.media-card:focus {
+.media-card__image:focus {
   border-radius: 0;
-}
-.media-card:focus .media-card__image {
   transition: all 0.15s linear;
   transform: scale(1.02);
   box-shadow: 3px 6px 10px #ddd;
@@ -541,6 +581,10 @@ label[for=medias-sort] {
   color: rgba(144, 28, 28, 0.8);
   top: 25px;
   right: 25px;
+  background-color: white;
+  border-radius: 50%;
+  padding: 9px 7px 6px 7px;
+  transition: all 0.15s linear;
 }
 
 .image__datas {
@@ -551,8 +595,12 @@ label[for=medias-sort] {
   font-size: 1.5rem;
 }
 
+.hidden {
+  display: none;
+}
+
 /**
- * Visually hide an element, but leave it available for screen readers
+ * Cache un élément, mais le laisse apparent pour un screen reader
  */
 .visually-hidden {
   border: 0;
@@ -563,10 +611,6 @@ label[for=medias-sort] {
   position: absolute;
   white-space: nowrap;
   width: 1px;
-}
-
-.hidden {
-  display: none;
 }
 
 /*# sourceMappingURL=style.css.map */

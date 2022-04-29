@@ -5,26 +5,27 @@ body {
   margin: 0;
 }
 
-#spinner:not([hidden]) {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#spinner::after {
-  content: "";
-  width: 80px;
-  height: 80px;
-  border: 2px solid $quaternary-color;
-  border-top: 3px solid $secondary-color;
-  border-radius: 100%;
-  will-change: transform;
-  animation: spin 1s infinite linear
+#spinner {
+  &:not([hidden]) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &::after {
+    content: '';
+    width: 80px;
+    height: 80px;
+    border: 2px solid $quaternary-color;
+    border-top: 3px solid $secondary-color;
+    border-radius: 100%;
+    will-change: transform;
+    animation: spin 1s infinite linear;
+  }
 }
 
 @keyframes spin {
@@ -88,7 +89,8 @@ body {
     & .photographer__portrait {
       transition: opacity 0.25s linear;
     }
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       transition: all 0.15s linear;
       transform: scale(1.05);
       box-shadow: 3px 9px 10px #ddd;
