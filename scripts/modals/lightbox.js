@@ -1,14 +1,9 @@
-import { displayMedias } from '../pages/photographer.js'
+import * as DOM from '../utils/domElements.js'
 import {
-  addOrRemoveLike,
-  getTotalOfLikes,
   loadLikes,
   printLikeOnLightbox,
   printTotalOfLikes,
-  storeLikes,
-} from '../utils/likesAPI.js'
-
-const lightboxContainer = document.querySelector('.lightbox-container')
+} from '../API/likesAPI.js'
 
 /**
  * Création des balises img et video dans la balise figure
@@ -16,7 +11,7 @@ const lightboxContainer = document.querySelector('.lightbox-container')
 const imageDisplay = document.createElement('img')
 const videoDisplay = document.createElement('video')
 
-const caption = document.querySelector('.lightbox-caption__like-label')
+
 const activeLike = document.createElement('i')
 const inactiveLike = document.createElement('i')
 activeLike.classList.add(
@@ -29,8 +24,8 @@ inactiveLike.classList.add(
   'fa-solid',
   'fa-heart'
 )
-caption.appendChild(inactiveLike)
-caption.appendChild(activeLike)
+DOM.caption.appendChild(inactiveLike)
+DOM.caption.appendChild(activeLike)
 
 // const likeIcon = document.querySelector('.lightbox-caption__like')
 let imagePositionInMediasArray = -1
@@ -49,7 +44,7 @@ export const lightboxDisplay = (
    * AFFICHAGE DU MEDIA
    */
   previouslyFocusedElement = document.querySelector(':focus')
-  document.querySelector('.medias__section').classList.add('hidden')
+  DOM.mediasSection.classList.add('hidden')
 
   /**
    *  Récupération du média à afficher dans la lightbox
@@ -78,8 +73,14 @@ export const lightboxDisplay = (
       /**
        * Insertion du média dans le container lightbox avant son titre, en fonction de * * son type
        */
-      lightboxContainer.insertBefore(videoDisplay, lightboxContainer.firstChild)
-      lightboxContainer.insertBefore(imageDisplay, lightboxContainer.firstChild)
+      DOM.lightboxContainer.insertBefore(
+        videoDisplay,
+        DOM.lightboxContainer.firstChild
+      )
+      DOM.lightboxContainer.insertBefore(
+        imageDisplay,
+        DOM.lightboxContainer.firstChild
+      )
 
       /**
        * Affichage du titre du média dans la balise figcaption
@@ -198,8 +199,7 @@ export const lightboxDisplay = (
    * BOUTON NEXT
    */
   const displayNextMedia = (sortedPhotographerMedias, photographer) => {
-    // console.log(sortedPhotographerMedias)
-    if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
+     if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
       return
     }
 
@@ -322,7 +322,7 @@ export const lightboxDisplay = (
     modal.ariaHidden = true
     modal.removeAttribute('aria-modal')
 
-    document.querySelector('.medias__section').classList.remove('hidden')
+    DOM.mediasSection.classList.remove('hidden')
 
     printTotalOfLikes()
   }

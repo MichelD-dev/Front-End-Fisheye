@@ -1,9 +1,10 @@
+import * as DOM from '../utils/domElements.js'
 import { photographerFactory } from '../factories/photographerFactory.js'
 import { mediaFactory } from '../factories/mediaFactory.js'
-import getPhotographers from '../utils/fetchAPI.js'
 import { formDisplay, focusInModal } from '../modals/form.js'
 import { lightboxDisplay } from '../modals/lightbox.js'
-import { storeLikes } from '../utils/likesAPI.js'
+import { storeLikes } from '../API/likesAPI.js'
+import getFetchedDatas from '../API/fetchAPI.js'
 
 /**
  * Récupération de l'id du photographe
@@ -19,13 +20,11 @@ let id = +new URLSearchParams(document.location.search).get('id')
  * AFFICHAGE DE LA PAGE PHOTOGRAPHE
  */
 export async function displayMedias(photographer, sortedPhotographerMedias) {
-  const mediasSection = document.querySelector('.medias__section')
-
   /**
    * On réinitialise la grille d'images
    */
-  while (mediasSection.firstChild) {
-    mediasSection.removeChild(mediasSection.lastChild)
+  while (DOM.mediasSection.firstChild) {
+    DOM.mediasSection.removeChild(DOM.mediasSection.lastChild)
   }
 
   /**
@@ -51,7 +50,7 @@ export async function displayMedias(photographer, sortedPhotographerMedias) {
     /**
      * Affichage des cartes images du photographe
      */
-    mediasSection.appendChild(article)
+    DOM.mediasSection.appendChild(article)
   })
 }
 /**
@@ -112,7 +111,6 @@ const getMediasSorting = (photographers, medias, sortingChoice) => {
   notSelectedsOptionsArray = [
     ...document.querySelectorAll('.custom-option '),
   ].filter(el => !el.classList.contains('selected'))
-  // console.log(notSelectedsOptionsArray)
 
   /**
    * Border-radius placé dynamiquement en bas de la dernière selection non choisie
@@ -128,11 +126,13 @@ const getMediasSorting = (photographers, medias, sortingChoice) => {
  * Récupération des données photographes/médias, par popularité par défaut
  */
 const getDatas = async (sortingChoice = 'Popularité') => {
-  const { photographers, medias } =
-    JSON.parse(localStorage.getItem('original datas')) || (await getPhotographers())
+  /**
+   * Récupération de l'ensemble des data
+   */
+  const { photographers, medias } = await getFetchedDatas()
 
   /**
-   * Récupération d'un photographe et des médias associés par critère de tri
+   * Récupération d'un photographe spécifique et des médias associés par critère de tri
    */
   const { photographer, sortedPhotographerMedias } = getMediasSorting(
     photographers,
@@ -167,9 +167,7 @@ getDatas()
 /**
  * Bouton d'affichage du formulaire de contact
  */
-document
-  .querySelector('.contact-button')
-  .addEventListener('click', () => formDisplay('show'))
+DOM.contactBtn.addEventListener('click', () => formDisplay('show'))
 
 /**
  * Navigation au clavier dans le formulaire de contact
@@ -179,15 +177,12 @@ window.addEventListener('keydown', e => {
     formDisplay('hide')
     lightboxDisplay('hide')
   }
-  if (
-    e.key === 'Tab' &&
-    document.querySelector('.modal').hasAttribute('aria-modal')
-  ) {
+  if (e.key === 'Tab' && DOM.modal.hasAttribute('aria-modal')) {
     focusInModal(e)
   }
 })
 
-/*----------------------------------------------------------------- */
+/*------------------------- SELECTEUR ------------------------ */
 
 /**
  * On ouvre le selecteur

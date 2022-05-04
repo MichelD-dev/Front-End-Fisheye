@@ -267,7 +267,7 @@ form {
 }
 form label {
   color: #312e2e;
-  font-size: 2rem;
+  font-size: 1.6rem;
 }
 form div {
   display: flex;
@@ -276,7 +276,7 @@ form div {
 }
 form input {
   width: 100%;
-  font-size: 36px;
+  font-size: 28px;
   color: #312e2e;
   height: 68px;
   border: none;
@@ -287,13 +287,26 @@ form input:focus {
 }
 form textarea {
   height: 168px;
-  font-size: 36px;
+  font-size: 28px;
   color: #312e2e;
   border: none;
   border-radius: 5px;
 }
 form textarea:focus {
   outline: 3px solid black;
+}
+
+.success {
+  border: 2px solid green;
+}
+
+.error {
+  border: 2px solid red;
+}
+
+.error-message {
+  font-size: 1.5rem;
+  color: red;
 }
 
 #lightbox {

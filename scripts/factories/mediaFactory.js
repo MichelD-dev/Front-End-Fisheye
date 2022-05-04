@@ -3,7 +3,7 @@ import {
   addOrRemoveLike,
   loadLikes,
   getTotalOfLikes,
-} from '../utils/likesAPI.js'
+} from '../API/likesAPI.js'
 
 export function mediaFactory(media, photographer, sortedPhotographerMedias) {
   function getMediaCardDOM() {

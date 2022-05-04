@@ -1,20 +1,21 @@
-// ------------------------------------------------------------- //
-// -------------------LOCAL STORAGE ---------------------------- //
-// ------------------------------------------------------------- //
+import * as DOM from '../utils/domElements.js'
 
 /**
  * On stocke les likes du photographe dans le local storage
  */
 export const storeLikes = likes => {
-  localStorage.setItem('photographer\'s liked medias', JSON.stringify(likes))
+  localStorage.setItem("photographer's liked medias", JSON.stringify(likes))
 }
 
 /**
  * On récupère les likes du photographe dans le local storage
  */
 export const loadLikes = () => {
-  return JSON.parse(localStorage.getItem('photographer\'s liked medias'))
+  return JSON.parse(localStorage.getItem("photographer's liked medias"))
 }
+
+// ------------------------------------------------------------ //
+// ------------------------------------------------------------ //
 
 /**
  * On initialise un tableau des ids des médias likés
@@ -22,9 +23,9 @@ export const loadLikes = () => {
 let likedImages = loadLikes()
 const article = document.createElement('article')
 
-// /**
-//  * Ajout/retrait like sur média
-//  */
+/**
+ * Ajout/retrait like sur média
+ */
 export const addOrRemoveLike = media => {
   /**
    * On récupère le média sur lequel on ajoute/enlève un like
@@ -33,7 +34,7 @@ export const addOrRemoveLike = media => {
     elem => +elem.id === media.id
   )
 
-  if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
+  if (DOM.lightbox.hasAttribute('aria-hidden')) {
     /**
      * Si le like est apparent, on le fait disparaitre et on décrémente le compteur total de likes
      */
@@ -132,14 +133,10 @@ export const getTotalOfLikes = () => {
  * Affichage du nombre total de likes du photographe
  */
 export const printTotalOfLikes = () => {
-  document.querySelector(
-    '.photographer__likes'
-  ).textContent = `${getTotalOfLikes()} `
+  DOM.totalLikesNbr.textContent = `${getTotalOfLikes()} `
 }
 
 printTotalOfLikes()
-
-const likeCheckbox = document.querySelector('.lightbox-caption__like-btn')
 
 /**
  * Affichage du like dans la lightbox
@@ -149,10 +146,11 @@ export const printLikeOnLightbox = media => {
     //FIXME nécessaire?
     likedImages.map(likedImage => {
       if (likedImage.id === media.id) {
-        likeCheckbox.checked = likedImage.isLikedByMe
+        DOM.hiddenLikeCheckbox.checked = likedImage.isLikedByMe
       }
     })
-    if (!likeCheckbox.checked) {
+
+    if (!DOM.hiddenLikeCheckbox.checked) {
       media.likes += 1
 
       /* On modifie le nombre de likes sur les images existantes dans le tableau */
@@ -168,7 +166,8 @@ export const printLikeOnLightbox = media => {
 
       return
     }
-    if (likeCheckbox.checked) {
+    
+    if (DOM.hiddenLikeCheckbox.checked) {
       media.likes -= 1
 
       /* On actualise le tableau des ids des medias likés sans le like retiré */

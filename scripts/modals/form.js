@@ -1,9 +1,15 @@
+import * as DOM from '../utils/domElements.js'
+import { validate } from '../utils/formValidation.js'
+
+/**
+ * Prédéclaration de l'élément ayant le focus à l'appel du formulaire
+ */
+let previouslyFocusedElement = null
+
 /**
  * MODALE FORMULAIRE
  */
 export const formDisplay = action => {
-  const modal = document.querySelector('#form')
-  let previouslyFocusedElement = null
   /**
    * Ouverture de la modale formulaire
    */
@@ -12,61 +18,60 @@ export const formDisplay = action => {
      * Mémorisation présence du focus sur bouton de contact
      */
     previouslyFocusedElement = document.activeElement
-    console.log(previouslyFocusedElement)
 
     /**
      * On rend la modale formulaire visible
      */
-    modal.removeAttribute('aria-hidden')
-    modal.ariaModal = true
+    DOM.modalForm.removeAttribute('aria-hidden')
+    DOM.modalForm.ariaModal = true
 
     /**
      * On place le focus sur le premier champ
      */
-    document.getElementById('firstname').focus()
+    DOM.firstNameInput.focus()
 
     /**
      * On crée un tableau des éléments focusables
      */
-    focusables = [...modal.querySelectorAll(focusableElements)]
+    focusables = [...DOM.modalForm.querySelectorAll(focusableElements)]
 
     /**
      * On place un écouteur d'évènement Click sur le bouton de fermeture
      */
-    document
-      .querySelector('.modal__close')
-      .addEventListener('click', closeFormModal)
+    DOM.modalCloseBtn.addEventListener('click', closeFormModal)
 
     /**
      * On place un écouteur d'évènement Submit sur le formulaire
      */
-    document
-      .querySelector('[name="form"]')
-      .addEventListener('submit', formSubmit)
+    DOM.modalForm.onsubmit = formSubmit
   }
 
   if (action === 'hide') {
-    // console.log(previouslyFocusedElement) //FIXME comment retrouver le focus sur le bouton contact
+    /**
+     * A la fermeture, retour du focus sur le bouton de contact
+     */
+    if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
 
     /**
-     * On vide les champs du formulaire
+     * On vide les champs du formulaire de leur contenu et on supprimme les messages d'erreur
      */
-    document
-      .querySelectorAll('input:not([type="button"]):not([type="submit"])')
+    DOM.modalForm
+      .querySelectorAll('input:not([type="submit"]), textArea')
       .forEach(input => {
+        input.classList.remove('error', 'success')
         input.value = ''
       })
+
     /**
      * On retire l'écouteur d'évènement du bouton de fermeture da la modale
      */
-    document
-      .querySelector('.modal__close')
-      .removeEventListener('click', closeFormModal)
+    DOM.modalCloseBtn.removeEventListener('click', closeFormModal)
+
     /**
      * On passe la modale en hidden
      */
-    modal.ariaHidden = true
-    modal.removeAttribute('aria-modal')
+    DOM.modalForm.ariaHidden = true
+    DOM.modalForm.removeAttribute('aria-modal')
   }
 }
 
@@ -77,31 +82,25 @@ export const formDisplay = action => {
  */
 const formSubmit = (e, previouslyFocusedElement) => {
   e.preventDefault()
-  console.table([
-    e.currentTarget.firstname.value,
-    e.currentTarget.lastname.value,
-    e.currentTarget.email.value,
-    e.currentTarget.message.value.trim(),
-  ])
 
-  /* On vide les champs du formulaire */
-  document
-    .querySelectorAll(
-      'input:not([type="button"]):not([type="submit"]), textarea'
-    )
-    .forEach(input => {
-      input.value = ''
-    })
+  if (!validate(e)) return
+
+  console.table([
+    DOM.firstNameInput.value,
+    DOM.lastNameInput.value,
+    DOM.emailInput.value,
+    DOM.messageInput.value,
+  ])
 
   /**
    * On retire l'écouteur d'évènement Submit sur le formulaire
    */
-  document
-    .querySelector('[name="form"]')
-    .removeEventListener('submit', formSubmit)
+  DOM.modalForm.removeEventListener('submit', formSubmit)
 
-  /* On ferme la modale et on remet le focus sur le bouton de contact */
-  formDisplay('hide')
+  /**
+   * On ferme la modale et on remet le focus sur le bouton de contact
+   */
+  closeFormModal()
 }
 
 /**
@@ -115,10 +114,9 @@ let focusables = []
  * Changement de focus au clavier et maintien du focus dans la modale
  */
 export const focusInModal = e => {
-  const modal = document.querySelector('#form')
   e.preventDefault()
   let index = focusables.findIndex(
-    elem => elem === modal.querySelector(':focus')
+    elem => elem === DOM.modalForm.querySelector(':focus')
   )
   e.shiftKey === true ? index-- : index++
   if (index >= focusables.length) {
