@@ -1,9 +1,5 @@
 import { lightboxDisplay } from '../modals/lightbox.js'
-import {
-  addOrRemoveLike,
-  loadLikes,
-  getTotalOfLikes,
-} from '../API/likesAPI.js'
+import { addOrRemoveLike, loadLikes, getTotalOfLikes } from '../API/likesAPI.js'
 
 export function mediaFactory(media, photographer, sortedPhotographerMedias) {
   function getMediaCardDOM() {
@@ -14,7 +10,7 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     article.classList.add('media-card')
     // article.ariaLabel = title) //FIXME title
     article.id = media.id
-    
+
     const mediaCard = document.createElement(media.image ? 'img' : 'video')
     mediaCard.src = `../../assets/thumbnails/${
       photographer.name.split(' ')[0]
@@ -22,7 +18,7 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     media.image && (mediaCard.alt = media.title)
     mediaCard.classList.add('media-card__image')
     mediaCard.tabIndex = '0'
-    
+
     const imgDatas = document.createElement('div')
     imgDatas.classList.add('image__datas')
 
@@ -63,7 +59,15 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     likesNbr.insertAdjacentHTML('afterend', `<i class="fa-solid fa-heart"><i>`)
 
     /**
-     * Ajout/retrait d'un like, et affichage nombre de likes
+     * Ajout/retrait d'un like
+     */
+    likes.addEventListener('click', () => {
+      addOrRemoveLike(media)
+      printLikesNbr()
+    })
+
+    /**
+     * Affichage nombre de likes
      */
     const printLikesNbr = () => {
       loadLikes().find(likedImage => {
@@ -76,11 +80,7 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
         }
       })
     }
-    likes.addEventListener('click', () => {
-      addOrRemoveLike(media)
-      printLikesNbr()
-    })
-    
+
     /**
      * Ouverture de la modale au click sur thumbnail
      */
@@ -95,14 +95,14 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
       if (
         e.key === 'Enter' &&
         document.getElementById('lightbox').hasAttribute('aria-hidden')
-        ) {
+      ) {
         mediaCard.click()
       }
     })
 
     return article
   }
-  
+
   getTotalOfLikes()
 
   return { getMediaCardDOM }

@@ -1,7 +1,5 @@
 // DOM Elements
 
-export const spinner = document.getElementById('spinner')
-
 export const photographersSection = document.querySelector(
   '.photographers-section'
 )

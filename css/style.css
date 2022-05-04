@@ -38,35 +38,6 @@ body {
   margin: 0;
 }
 
-#spinner:not([hidden]) {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#spinner::after {
-  content: "";
-  width: 80px;
-  height: 80px;
-  border: 2px solid #fafafa;
-  border-top: 3px solid #d3573c;
-  border-radius: 100%;
-  will-change: transform;
-  animation: spin 1s infinite linear;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 #main {
   display: flex;
   justify-content: center;
@@ -150,6 +121,68 @@ body {
 }
 .photographer__price {
   color: #525252;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: #f0f3f5;
+  }
+  100% {
+    background-color: #c2cfd6;
+    opacity: 0.8;
+  }
+}
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+.skeleton__card {
+  transition: opacity 500ms ease-in-out;
+}
+.skeleton__text {
+  width: 65%;
+  height: 0.7rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.25rem;
+}
+.skeleton__text_media {
+  width: 95%;
+  height: 2rem;
+  margin-top: 1.5rem;
+}
+.skeleton__title {
+  width: 90%;
+  margin-top: 3.4rem;
+  height: 1.7rem;
+  margin-bottom: 2.7rem;
+  border-radius: 0.25rem;
+}
+.skeleton__image {
+  border-radius: 50%;
+  height: 190px;
+  width: 190px;
+}
+.skeleton__image_media {
+  border-radius: 7px;
+  width: 95%;
+  aspect-ratio: 1/1;
+}
+
+.fadeout {
+  opacity: 0 !important;
+}
+
+.fadein {
+  opacity: 1 !important;
+}
+
+.card {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+#card-template {
+  opacity: 0;
+  transition: opacity 1000ms ease-in-out;
 }
 
 .main_photograph {
@@ -559,6 +592,8 @@ label[for=medias-sort] {
   padding: 4px;
   overflow: hidden;
   position: relative;
+  transition: opacity 500ms ease-in-out;
+  opacity: 0;
 }
 .media-card__image {
   width: 100%;

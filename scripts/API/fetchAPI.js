@@ -1,12 +1,11 @@
-import * as DOM from '../utils/domElements.js'
+import getSkeletons from '../utils/skeletons.js'
 
 const getFetchedDatas = async () => {
-  DOM.spinner.removeAttribute('hidden')
-
+  getSkeletons('print')
   const { photographers, medias } =
-    JSON.parse(localStorage.getItem('original datas')) ?? (await fetchDatas())
-
-  DOM.spinner.hidden = true
+  JSON.parse(localStorage.getItem('original datas')) ?? (await fetchDatas())
+  
+  getSkeletons('hide')
 
   return { photographers, medias }
 }

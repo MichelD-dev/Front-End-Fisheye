@@ -38,7 +38,7 @@ export function photographerFactory(data) {
  */
   function getUserCardDOM() {
     const article = document.createElement('article')
-    article.classList.add('photographer__card')
+    article.classList.add('photographer__card', 'card')
     article.ariaLabel = 'Fiche photographe'
     article.tabIndex = '0'
 

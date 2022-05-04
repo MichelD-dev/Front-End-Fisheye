@@ -1,15 +1,18 @@
 import * as DOM from '../utils/domElements.js'
 import { photographerFactory } from '../factories/photographerFactory.js'
-import getPhotographers from '../API/fetchAPI.js'
+import getFetchedDatas from '../API/fetchAPI.js'
 
 /**
- * Affichage de la page d'acceuil
+ * Affichage de la page d'accueil
  */
 async function displayPhotographers(photographers) {
   photographers.forEach(photographer => {
     const photographerModel = photographerFactory(photographer)
     const userCardDOM = photographerModel.getUserCardDOM()
     DOM.photographersSection.appendChild(userCardDOM)
+    setTimeout(() => {
+      userCardDOM.classList.add('fadein')
+    }, 1000)
   })
 }
 
@@ -17,22 +20,11 @@ async function displayPhotographers(photographers) {
  * Initialisation
  */
 async function init() {
-  DOM.spinner.removeAttribute('hidden')
-
-  /**
-   * Récupération des données
-   */
-  const data =
-    JSON.parse(localStorage.getItem('original datas')) ??
-    (await getPhotographers())
-  const photographers = data ? data.photographers : null
-  if (!data) return console.error('NO DATA')
-
-  /**
-   * Affichage des photographes
-   */
-  displayPhotographers(photographers)
-  DOM.spinner.hidden = true
+  /* Récupération des données */
+  await getFetchedDatas().then(({ photographers }) => {
+    /* Affichage des photographes */
+    displayPhotographers(photographers)
+  })
 }
 
 init()

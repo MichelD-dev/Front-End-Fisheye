@@ -21,7 +21,6 @@ export const loadLikes = () => {
  * On initialise un tableau des ids des médias likés
  */
 let likedImages = loadLikes()
-const article = document.createElement('article')
 
 /**
  * Ajout/retrait like sur média

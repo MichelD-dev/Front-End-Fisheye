@@ -5,12 +5,12 @@ import { formDisplay, focusInModal } from '../modals/form.js'
 import { lightboxDisplay } from '../modals/lightbox.js'
 import { storeLikes } from '../API/likesAPI.js'
 import getFetchedDatas from '../API/fetchAPI.js'
+import getSkeletons from '../utils/skeletons.js'
 
 /**
  * Récupération de l'id du photographe
  */
 let id = +new URLSearchParams(document.location.search).get('id')
-
 /**
  * Initialisation de la variable objet possédant le focus
  */
@@ -32,10 +32,12 @@ export async function displayMedias(photographer, sortedPhotographerMedias) {
    */
   const photographerModel = photographerFactory(photographer)
   photographerModel.getUserPageDOM()
+  getSkeletons('print')
 
   /**
    * Récupération des cartes images du photographe
    */
+
   sortedPhotographerMedias.forEach(media => {
     if (media.photographerId !== id) return
 
@@ -50,9 +52,14 @@ export async function displayMedias(photographer, sortedPhotographerMedias) {
     /**
      * Affichage des cartes images du photographe
      */
+    getSkeletons('hide')
     DOM.mediasSection.appendChild(article)
+    setTimeout(() => {
+      article.classList.add('fadein')
+    }, 1200)
   })
 }
+
 /**
  * Déclaration d'un tableau des selections non choisies
  */
