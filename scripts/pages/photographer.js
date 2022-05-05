@@ -209,7 +209,7 @@ document
   .addEventListener('keydown', function (e) {
     if (e.key === 'Enter') {
       this.querySelector('.select').classList.toggle('open')
-      document.querySelector('.selected').focus()
+      document.querySelector('.select__trigger').focus()
     }
   })
 
@@ -223,7 +223,7 @@ const selectDisplay = option => {
   if (!option.classList.contains('selected')) {
     option.parentNode
       .querySelector('.custom-option.selected')
-      .classList.remove('selected')
+      ?.classList.remove('selected')
     option.classList.add('selected')
     option.classList.add('hidden')
     option
@@ -256,42 +256,38 @@ for (const selected of document.querySelectorAll('.custom-option')) {
     const sortingChoice = selected.textContent
     getDatas(sortingChoice)
   })
+  selected.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      const sortingChoice = selected.textContent
+      getDatas(sortingChoice)
+    }
+  })
 }
-
-/**
- * On récupère le selecteur
- */
-const selector = document.querySelector('.custom-options')
 
 /**
  * On récupère les éléments qui acquerront le focus dans le selecteur
  */
-const focusableElements = ['.select__trigger', '.custom-option', '.selected']
+const focusableElements = '.select__trigger, .custom-option:not(.selected)'
+let focusables = []
 
-// /**
-//  * GESTION DU FOCUS //FIXME
-//  * Changement de focus au clavier et maintien du focus dans le selecteur
-//  */
+/**
+ * GESTION DU FOCUS
+ * Changement de focus au clavier et maintien du focus dans le selecteur
+ */
 const focusInSelector = e => {
   e.preventDefault()
-  //   /**
-  //    * On crée un tableau des éléments focusables
-  //    */
-  console.log(selector)
-  let focusables = [
-    ...[...selector.querySelectorAll('.custom-option')].filter(
-      elem => !elem.classList.contains('selected')
-    ),
-    document.querySelector('.select'),
-  ]
-  // console.log(document.querySelector(':focus').innerHTML)
-  // console.log(focusables)
 
-  // let index =  document.querySelector('.selected')
-  let index = focusables.findIndex(f => f === document.querySelector(':focus'))
-  console.log(index)
-  focusables[index].classList.remove('selected', 'hidden')
+  /**
+   * On crée un tableau des éléments focusables
+   */
+  focusables = [...DOM.selector.querySelectorAll(focusableElements)]
+
+  let index = focusables.findIndex(
+    elem => elem === DOM.selector.querySelector(':focus')
+  )
+
   e.shiftKey === true ? index-- : index++
+
   if (index >= focusables.length) {
     index = 0
   }
@@ -300,21 +296,22 @@ const focusInSelector = e => {
   }
   let option = focusables[index]
   option.focus()
-  option.classList.add('selected', 'hidden')
-  console.log(option)
-  selectDisplay(option)
+
+  DOM.selector.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !!document.querySelector('.select.open')) {
+      selectDisplay(option)
+    }
+  })
 }
 
 // /**
 //  * Navigation au clavier dans le selecteur
 //  */
-
-window.addEventListener('keydown', e => {
-  // if (e.key === 'Escape' || e.key === 'Esc') {
-  //   formDisplay('hide')
-  //   lightboxDisplay('hide')
-  // }
-  if (e.key === 'Tab' && document.querySelector('.select.open')) {
+DOM.selector.addEventListener('keydown', e => {
+  if (e.key === 'Escape' || e.key === 'Esc') {
+    document.querySelector('.select.open').classList.remove('open')
+  }
+  if (e.key === 'Tab' && !!document.querySelector('.select.open')) {
     focusInSelector(e)
   }
 })

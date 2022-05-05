@@ -12,7 +12,7 @@ const getFetchedDatas = async () => {
 
 const fetchDatas = async () => {
   try {
-    const response = await fetch('../../data/photographers.json')
+    const response = await fetch('/data/photographers.json')
     if (!response.ok) {
       console.error(`Une erreur est survenue: ${response.status}`)
     }

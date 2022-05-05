@@ -26,3 +26,5 @@ export const totalLikesNbr = document.querySelector('.photographer__likes')
 export const hiddenLikeCheckbox = document.querySelector(
   '.lightbox-caption__like-btn'
 )
+
+export const selector = document.querySelector('.select')

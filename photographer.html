@@ -24,6 +24,11 @@
     </a>
   </header>
   <main class="main main_photograph">
+
+    <!------------------------------------------------------------>
+    <!---------------------------EN-TETE-------------------------->
+    <!------------------------------------------------------------>
+
     <div class="photograph-header">
       <!--FIXME centrage-->
       <div class="photograph-header__id">
@@ -36,6 +41,10 @@
       <button class="contact-button">Contactez-moi</button>
       <img class="photographer__portrait" src="" alt="Portrait du photographe" />
     </div>
+
+    <!------------------------------------------------------------>
+    <!--------------------------SELECTEUR------------------------->
+    <!------------------------------------------------------------>
 
     <label for="medias-sort">Trier par </label>
     <div class="select-wrapper">
@@ -53,12 +62,20 @@
     </div>
     <section class="medias__section">
 
+      <!------------------------------------------------------------>
+      <!--------------------------SKELETON-------------------------->
+      <!------------------------------------------------------------>
+
       <template id="media-template">
         <article class="skeleton__media photographer__card">
           <div class="skeleton skeleton__image_media" alt=""></div>
           <div class="skeleton skeleton__text_media"></div>
         </article>
       </template>
+
+      <!------------------------------------------------------------>
+      <!-------------------ENCART DONNEES PHOTOGRAPHE--------------->
+      <!------------------------------------------------------------>
 
     </section>
     <div class="photographer__data">
@@ -68,6 +85,10 @@
       <span class="photographer__rate"></span>
     </div>
   </main>
+
+  <!------------------------------------------------------------>
+  <!-----------------------MODALE FORMULAIRE-------------------->
+  <!------------------------------------------------------------>
 
   <aside class="modal" id="form" aria-hidden="true" role="form" aria-labelledby="modal-title">
     <header class="modal-header">
@@ -101,6 +122,10 @@
       <input type="submit" class="contact-button submit" value="Envoyer" />
     </form>
   </aside>
+
+  <!------------------------------------------------------------>
+  <!-----------------------MODALE LIGHTBOX---------------------->
+  <!------------------------------------------------------------>
 
   <aside class="modal" id="lightbox" aria-hidden="true" role="lightbox" aria-labelledby="modal-title">
     <div class="lightbox">

@@ -159,11 +159,11 @@ form {
 }
 
 .success {
-  border: 2px solid green;
+  border: 3px solid green;
 }
 
 .error {
-  border: 2px solid red;
+  border: 3px solid red;
 }
 
 .error-message {
@@ -319,6 +319,7 @@ form {
     cursor: pointer;
     &:focus {
       outline: 4px solid black;
+      z-index: 10;
     }
   }
 }
@@ -371,6 +372,10 @@ form {
     position: absolute;
     top: -1px;
     left: 12px;
+  }
+  &:focus {
+    outline: 4px solid black;
+    z-index: 100;
   }
 }
 

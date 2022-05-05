@@ -31,11 +31,6 @@ export const formDisplay = action => {
     DOM.firstNameInput.focus()
 
     /**
-     * On crée un tableau des éléments focusables
-     */
-    focusables = [...DOM.modalForm.querySelectorAll(focusableElements)]
-
-    /**
      * On place un écouteur d'évènement Click sur le bouton de fermeture
      */
     DOM.modalCloseBtn.addEventListener('click', closeFormModal)
@@ -53,7 +48,7 @@ export const formDisplay = action => {
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
 
     /**
-     * On vide les champs du formulaire de leur contenu et on supprimme les messages d'erreur
+     * On vide les champs du formulaire de leur contenu et on supprime les messages d'erreur
      */
     DOM.modalForm
       .querySelectorAll('input:not([type="submit"]), textArea')
@@ -61,6 +56,9 @@ export const formDisplay = action => {
         input.classList.remove('error', 'success')
         input.value = ''
       })
+    DOM.modalForm.querySelectorAll('.error-message').forEach(errorMsg => {
+      errorMsg.textContent = ''
+    })
 
     /**
      * On retire l'écouteur d'évènement du bouton de fermeture da la modale
@@ -107,13 +105,17 @@ const formSubmit = (e, previouslyFocusedElement) => {
  * On récupère les éléments qui acquerront le focus
  */
 const focusableElements = 'input, textArea, button'
-let focusables = []
+/**
+ * On crée un tableau des éléments focusables
+ */
+let focusables = [...DOM.modalForm.querySelectorAll(focusableElements)]
 
 /**
  * GESTION DU FOCUS
  * Changement de focus au clavier et maintien du focus dans la modale
  */
 export const focusInModal = e => {
+  // console.log(focusables)
   e.preventDefault()
   let index = focusables.findIndex(
     elem => elem === DOM.modalForm.querySelector(':focus')

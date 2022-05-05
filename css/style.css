@@ -330,11 +330,11 @@ form textarea:focus {
 }
 
 .success {
-  border: 2px solid green;
+  border: 3px solid green;
 }
 
 .error {
-  border: 2px solid red;
+  border: 3px solid red;
 }
 
 .error-message {
@@ -481,6 +481,7 @@ form textarea:focus {
 }
 .select__trigger:focus {
   outline: 4px solid black;
+  z-index: 10;
 }
 
 .custom-options {
@@ -530,6 +531,10 @@ form textarea:focus {
   position: absolute;
   top: -1px;
   left: 12px;
+}
+.custom-option:focus {
+  outline: 4px solid black;
+  z-index: 100;
 }
 
 .custom-option:hover {
