@@ -11,7 +11,6 @@ import {
 const imageDisplay = document.createElement('img')
 const videoDisplay = document.createElement('video')
 
-
 const activeLike = document.createElement('i')
 const inactiveLike = document.createElement('i')
 activeLike.classList.add(
@@ -63,6 +62,7 @@ export const lightboxDisplay = (
     const handlePrintLikeOnLightbox = () => printLikeOnLightbox(media)
 
     if (action === 'show') {
+      
       /**
        * attributs de lecture sur balise vidéo
        */
@@ -195,11 +195,17 @@ export const lightboxDisplay = (
     }
   })
 
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      lightboxDisplay('hide')
+    }
+  })
+
   /**
    * BOUTON NEXT
    */
   const displayNextMedia = (sortedPhotographerMedias, photographer) => {
-     if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
+    if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
       return
     }
 

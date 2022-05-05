@@ -58,11 +58,8 @@ export const validate = e => {
   )
 }
 
-document.onkeydown = e => {
-  if (e.key === 'Enter') {
-    if (DOM.formModal.classList.contains('visible')) return validate(e)
-  }
-  if (e.key === 'Escape') {
-    formDisplay('hide')
+DOM.modalForm.onkeydown = e => {
+  if (e.key === 'Enter' && DOM.modalCloseBtn !== document.activeElement) {
+    if (DOM.modalForm.classList.contains('visible')) return validate(e)
   }
 }

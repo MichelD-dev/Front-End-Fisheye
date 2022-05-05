@@ -24,6 +24,11 @@
     </a>
   </header>
   <main class="main main_photograph">
+
+    <!------------------------------------------------------------>
+    <!---------------------------EN-TETE-------------------------->
+    <!------------------------------------------------------------>
+
     <div class="photograph-header">
       <!--FIXME centrage-->
       <div class="photograph-header__id">
@@ -37,7 +42,11 @@
       <img class="photographer__portrait" src="" alt="Portrait du photographe" />
     </div>
 
-    <label for="medias-sort">Trier par </label>
+    <!------------------------------------------------------------>
+    <!--------------------------SELECTEUR------------------------->
+    <!------------------------------------------------------------>
+
+    <label class="select__label">Trier par </label>
     <div class="select-wrapper">
       <div class="select">
         <div tabindex="0" class="select__trigger">
@@ -52,13 +61,22 @@
       </div>
     </div>
     <section class="medias__section">
+      <h1 class="visually-hidden">Grille de photographies</h1>
 
-      <template id="media-template">
-        <article class="skeleton__media photographer__card">
-          <div class="skeleton skeleton__image_media" alt=""></div>
-          <div class="skeleton skeleton__text_media"></div>
-        </article>
-      </template>
+        <!------------------------------------------------------------>
+        <!--------------------------SKELETON-------------------------->
+        <!------------------------------------------------------------>
+
+        <template id="media-template">
+          <article class="skeleton__media photographer__card">
+            <div class="skeleton skeleton__image_media" alt=""></div>
+            <div class="skeleton skeleton__text_media"></div>
+          </article>
+        </template>
+
+        <!------------------------------------------------------------>
+        <!-------------------ENCART DONNEES PHOTOGRAPHE--------------->
+        <!------------------------------------------------------------>
 
     </section>
     <div class="photographer__data">
@@ -69,7 +87,11 @@
     </div>
   </main>
 
-  <aside class="modal" id="form" aria-hidden="true" role="form" aria-labelledby="modal-title">
+  <!------------------------------------------------------------>
+  <!-----------------------MODALE FORMULAIRE-------------------->
+  <!------------------------------------------------------------>
+
+  <aside class="modal" id="form-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
     <header class="modal-header">
       <div class="modal-header__text">
         <h1 id="modal-title">Contactez-moi</h1>
@@ -80,7 +102,7 @@
       </button>
     </header>
     <span class="name"></span>
-    <form id="form" name="form" action="photographer.html" method="get" novalidate>
+    <form id="form" name="form" action="photographer.html" role="form" method="get" novalidate>
       <div>
         <label><span class="visually-hidden" aria-hidden="true">Prénom</span>Votre
           prénom</label>
@@ -102,8 +124,13 @@
     </form>
   </aside>
 
-  <aside class="modal" id="lightbox" aria-hidden="true" role="lightbox" aria-labelledby="modal-title">
+  <!------------------------------------------------------------>
+  <!-----------------------MODALE LIGHTBOX---------------------->
+  <!------------------------------------------------------------>
+
+  <aside class="modal" id="lightbox" aria-hidden="true" role="dialog" aria-labelledby="lightbox-title">
     <div class="lightbox">
+      <h1 id="lightbox-title" class="visually-hidden">Lightbox</h1>
       <button class="lightbox__previous">
         <span class="visually-hidden">Image précédente</span>
         <i class="fa-solid fa-chevron-left fa-3x"></i>
@@ -112,7 +139,7 @@
         <figcaption class="lightbox-caption">
           <span class="lightbox-caption__text"></span>
           <input type="checkbox" id="like" class="lightbox-caption__like-btn" />
-          <label class="lightbox-caption__like-label" for="like">
+          <label class="lightbox-caption__like-label" for="like"></label>
         </figcaption>
       </figure>
       <div class="lightbox__right">

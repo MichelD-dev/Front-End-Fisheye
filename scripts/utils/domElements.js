@@ -9,7 +9,7 @@ export const mediasSection = document.querySelector('.medias__section')
 export const contactBtn = document.querySelector('.contact-button')
 
 export const modal = document.querySelector('.modal')
-export const modalForm = document.getElementById('form')
+export const modalForm = document.getElementById('form-modal')
 export const modalCloseBtn = document.querySelector('.modal__close')
 
 export const firstNameInput = document.getElementById('firstname')
@@ -26,3 +26,5 @@ export const totalLikesNbr = document.querySelector('.photographer__likes')
 export const hiddenLikeCheckbox = document.querySelector(
   '.lightbox-caption__like-btn'
 )
+
+export const selector = document.querySelector('.select')
