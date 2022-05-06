@@ -1,3 +1,4 @@
+import { updateMediaLikesOnLightboxClose } from '../pages/photographer.js'
 import * as DOM from '../utils/domElements.js'
 
 /**
@@ -8,7 +9,7 @@ export const storeLikes = likes => {
 }
 
 /**
- * On récupère les likes du photographe dans le local storage
+ * On récupère les likes du photographe du local storage
  */
 export const loadLikes = () => {
   return JSON.parse(localStorage.getItem("photographer's liked medias"))
@@ -23,7 +24,7 @@ export const loadLikes = () => {
 let likedImages = loadLikes()
 
 /**
- * Ajout/retrait like sur média
+ * Ajout/retrait like sur thumbnail
  */
 export const addOrRemoveLike = media => {
   /**
@@ -33,6 +34,9 @@ export const addOrRemoveLike = media => {
     elem => +elem.id === media.id
   )
 
+  /**
+   * Si la lightbox est cachée, on agit sur les thumbnails
+   */
   if (DOM.lightbox.hasAttribute('aria-hidden')) {
     /**
      * Si le like est apparent, on le fait disparaitre et on décrémente le compteur total de likes
@@ -117,6 +121,21 @@ export const addOrRemoveLike = media => {
 }
 
 /**
+ * Affichage nombre de likes par image
+ */
+export const printLikesNbr = (id, likesNbr) => {
+  loadLikes().find(likedImage => {
+    if (likedImage.id === id) {
+      likesNbr.textContent = `${likedImage.likes} `
+
+      document.querySelector(
+        '.photographer__likes'
+      ).textContent = `${getTotalOfLikes()} `
+    }
+  })
+}
+
+/**
  * Calcul du nombre total de likes du photographe
  */
 export const getTotalOfLikes = () => {
@@ -141,9 +160,11 @@ printTotalOfLikes()
  * Affichage du like dans la lightbox
  */
 export const printLikeOnLightbox = media => {
+  updateMediaLikesOnLightboxClose()
+
   if (document.getElementById('lightbox').hasAttribute('aria-modal')) {
     //FIXME nécessaire?
-    likedImages.map(likedImage => {
+    loadLikes().map(likedImage => {
       if (likedImage.id === media.id) {
         DOM.hiddenLikeCheckbox.checked = likedImage.isLikedByMe
       }
@@ -165,7 +186,7 @@ export const printLikeOnLightbox = media => {
 
       return
     }
-    
+
     if (DOM.hiddenLikeCheckbox.checked) {
       media.likes -= 1
 

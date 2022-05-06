@@ -67,7 +67,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 35px;
+  padding: 35px 10px;
   margin: auto;
   z-index: 1;
   position: fixed;
@@ -184,25 +184,59 @@ form {
   justify-content: space-between;
   &__right {
     position: relative;
+    outline: none;
   }
   &__previous {
-    padding-right: 25px;
+    border: none;
+    padding-right: 10px;
+    outline: none;
+    & .fa-chevron-left {
+      border: 2px solid transparent;
+      padding: 100px 25px;
+    }
+    &:focus {
+      .fa-chevron-left {
+        border: 2px solid black;
+        padding: 100px 25px;
+        border-radius: 5px;
+      }
+    }
   }
   &__next {
+    border: none;
+    outline: none;
     height: 100%;
-    padding: 0 15px 0 25px;
+    padding-left: 10px;
+    & .fa-chevron-right {
+      border: 2px solid transparent;
+      padding: 100px 25px;
+    }
+    &:focus {
+      .fa-chevron-right {
+        border: 2px solid black;
+        padding: 100px 25px;
+        border-radius: 5px;
+      }
+    }
   }
   &__close {
-    color: black;
+    outline: none;
     position: absolute;
+    top: -15px;
     right: 0;
     width: 100%;
+    padding: 25px 15px;
+    border: 2px solid transparent;
+    &:focus {
+      border: 2px solid black;
+      padding: 25px 15px;
+      border-radius: 5px;
+    }
   }
   &__previous,
   &__next,
   &__close {
     cursor: pointer;
-    border: none;
     color: #901c1c;
     background-color: transparent;
   }
@@ -223,7 +257,6 @@ form {
       border-radius: 5px;
     }
   }
-
   &__text {
     color: $primary-color;
     padding-top: 5px;
@@ -235,46 +268,58 @@ form {
     font-size: 1.5rem;
     display: flex;
     justify-content: space-between;
-    & > svg {
-      font-size: 2.2rem;
-      margin-right: 15px;
-      cursor: pointer;
-    }
-    &__like-btn {
-      display: none;
-      &:checked + label {
-        & > .lightbox-caption__like_inactive {
-          opacity: 0;
-        }
-        & > .lightbox-caption__like_active {
-          opacity: 1;
-        }
-      }
-    }
     &__like {
       &-label {
+        display: flex;
+        align-items: flex-start;
+      }
+      &-display {
+        width: 60px;
+        height: 60px;
         position: relative;
+        border: 2px solid transparent;
+        top: -10px;
+        padding: 30px;
       }
       &_inactive {
-        position: absolute;
         color: rgba($tertiary-color, 0.35);
         opacity: 1;
-        right: 0;
+        position: absolute;
+        top: 13px;
+        right: 10px;
         transition: opacity 150ms;
         font-size: 2.2rem;
-        margin-right: 15px;
+        margin: auto;
         cursor: pointer;
         z-index: 2;
       }
       &_active {
         position: absolute;
         color: $primary-color;
-        right: 0;
+        top: 13px;
+        right: 10px;
         opacity: 0;
         transition: opacity 150ms;
         font-size: 2.2rem;
-        margin-right: 15px;
         cursor: pointer;
+      }
+    }
+    &__like-btn {
+      opacity: 0;
+      &:focus ~ {
+        & .lightbox-caption__like-display {
+          border: 2px solid black;
+          border-radius: 5px;
+          padding: 30px;
+        }
+      }
+      &:checked ~ .lightbox-caption__like-display {
+        & > .lightbox-caption__like_inactive {
+          opacity: 0;
+        }
+        & > .lightbox-caption__like_active {
+          opacity: 1;
+        }
       }
     }
   }
@@ -457,10 +502,6 @@ label[for='medias-sort'] {
       box-shadow: 3px 6px 10px #ddd;
       opacity: 0.7;
     }
-    // &:hover ~ .media-card__like {
-    //   transform: scale(1.09);
-    // }
-
     &:focus {
       border-radius: 0; //FIXME
       transition: all 0.15s linear;
@@ -515,4 +556,8 @@ label[for='medias-sort'] {
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+.w100 {
+  width: 100%;
 }

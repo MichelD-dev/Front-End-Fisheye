@@ -4,13 +4,13 @@ import {
   printLikeOnLightbox,
   printTotalOfLikes,
 } from '../API/likesAPI.js'
+import { updateMediaLikesOnLightboxClose } from '../pages/photographer.js'
 
 /**
  * Création des balises img et video dans la balise figure
  */
 const imageDisplay = document.createElement('img')
 const videoDisplay = document.createElement('video')
-
 
 const activeLike = document.createElement('i')
 const inactiveLike = document.createElement('i')
@@ -24,11 +24,17 @@ inactiveLike.classList.add(
   'fa-solid',
   'fa-heart'
 )
-DOM.caption.appendChild(inactiveLike)
-DOM.caption.appendChild(activeLike)
+DOM.likeInCaption.appendChild(inactiveLike)
+DOM.likeInCaption.appendChild(activeLike)
 
 // const likeIcon = document.querySelector('.lightbox-caption__like')
-let imagePositionInMediasArray = -1
+
+/**
+ * Fonction de fermeture de la modale lightbox
+ */
+const closeLightboxModal = () => lightboxDisplay('hide')
+
+let previouslyFocusedElement
 
 /**
  * MODALE LIGHTBOX
@@ -38,12 +44,16 @@ export const lightboxDisplay = (
   photographer,
   sortedPhotographerMedias,
   imageId,
-  previouslyFocusedElement
+  imagePositionInMediasArray = -1
 ) => {
+  const displayNext = () =>
+    displayNextMedia(sortedPhotographerMedias, photographer)
+  const displayPrevious = () =>
+    displayPreviousMedia(sortedPhotographerMedias, photographer)
+
   /**
    * AFFICHAGE DU MEDIA
    */
-  previouslyFocusedElement = document.querySelector(':focus')
   DOM.mediasSection.classList.add('hidden')
 
   /**
@@ -54,15 +64,25 @@ export const lightboxDisplay = (
     const [media] = sortedPhotographerMedias.filter(
       media => media.id === imageId
     )
+    const handlePrintLikeOnLightbox = () => {
+      printLikeOnLightbox(media)
+      document
+        .querySelector('.lightbox-caption__like_inactive')
+        .removeEventListener('click', handlePrintLikeOnLightbox)
+
+      document
+        .querySelector('.lightbox-caption__like_active')
+        .removeEventListener('click', handlePrintLikeOnLightbox)
+    }
 
     /**
      * Récupération de l'index du média dans le tableau des médias du photographe
      */
     imagePositionInMediasArray = sortedPhotographerMedias.indexOf(media)
 
-    const handlePrintLikeOnLightbox = () => printLikeOnLightbox(media)
-
     if (action === 'show') {
+      previouslyFocusedElement = document.querySelector(':focus').parentElement
+
       /**
        * attributs de lecture sur balise vidéo
        */
@@ -93,6 +113,7 @@ export const lightboxDisplay = (
        * Si le média est une image
        */
       if (media.image) {
+        DOM.lightboxContainer.classList.remove('w100')
         /**
          * On passe la balise video en display: none
          */
@@ -111,6 +132,7 @@ export const lightboxDisplay = (
        * Si le média est une vidéo
        */
       if (media.video) {
+        DOM.lightboxContainer.classList.add('w100')
         /**
          * On passe la balise image en display: none
          */
@@ -145,6 +167,10 @@ export const lightboxDisplay = (
         } else {
           document.querySelector('.lightbox-caption__like-btn').checked = false
         }
+        document.querySelector('.lightbox-caption__like-btn').checked =
+          like.isLikedByMe ? true : false
+
+        return like
       }
     })
 
@@ -152,64 +178,47 @@ export const lightboxDisplay = (
       .querySelector('.lightbox__close')
       .addEventListener('click', closeLightboxModal)
 
-    document.querySelector('.lightbox__next').addEventListener('click', () =>
-      //FIXME quid du remove?
-      displayNextMedia(sortedPhotographerMedias, photographer)
-    )
-
-    window.addEventListener('keydown', e => {
-      if (e.key === 'ArrowRight') {
-        displayNextMedia(sortedPhotographerMedias, photographer)
-      }
-    })
+    document
+      .querySelector('.lightbox__next')
+      .addEventListener('click', displayNext)
 
     document
       .querySelector('.lightbox__previous')
-      .addEventListener('click', () =>
-        //FIXME quid du remove?
-        displayPreviousMedia(sortedPhotographerMedias, photographer)
-      )
+      .addEventListener('click', displayPrevious)
 
-    window.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft') {
-        displayPreviousMedia(sortedPhotographerMedias, photographer)
-      }
-    })
     document
       .querySelector('.lightbox-caption__like_inactive')
       .addEventListener('click', handlePrintLikeOnLightbox)
-    // document
-    //   .querySelector('.lightbox-caption__like_active')
-    //   .addEventListener('click', handlePrintLikeOnLightbox)
+
+    document
+      .querySelector('.lightbox-caption__like_active')
+      .addEventListener('click', handlePrintLikeOnLightbox)
   }
 
-  window.removeEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft') {
-      displayPreviousMedia()
-    }
-  })
-
-  window.removeEventListener('keydown', e => {
-    if (e.key === 'ArrowRight') {
-      displayPreviousMedia()
-    }
-  })
+  // --------------------------------------------------------------------------- //
+  // --------------------------------------------------------------------------- //
+  // --------------------------------------------------------------------------- //
 
   /**
    * BOUTON NEXT
    */
   const displayNextMedia = (sortedPhotographerMedias, photographer) => {
-     if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
+    if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
       return
     }
+
+    previouslyFocusedElement.nextSibling !== null
+      ? (previouslyFocusedElement = previouslyFocusedElement.nextSibling)
+      : (previouslyFocusedElement =
+          previouslyFocusedElement.parentElement.firstChild)
 
     imagePositionInMediasArray =
       (imagePositionInMediasArray + 1) % sortedPhotographerMedias.length
 
-    let i = imagePositionInMediasArray
+    const i = imagePositionInMediasArray
 
     if (sortedPhotographerMedias[i].image) {
-      //FIXME
+      DOM.lightboxContainer.classList.remove('w100')
       imageDisplay.classList.remove('hidden')
       videoDisplay.classList.add('hidden')
       imageDisplay.src = `../../assets/images/${
@@ -218,6 +227,7 @@ export const lightboxDisplay = (
     }
 
     if (sortedPhotographerMedias[i].video) {
+      DOM.lightboxContainer.classList.add('w100')
       imageDisplay.classList.add('hidden')
       videoDisplay.classList.remove('hidden')
       videoDisplay.src = `../../assets/images/${
@@ -231,16 +241,20 @@ export const lightboxDisplay = (
     /**
      * On affiche le like sur la lightbox si le média est liké
      */
-    loadLikes().find(like => {
-      if (like.id === sortedPhotographerMedias[i].id) {
-        if (like.isLikedByMe) {
-          document.querySelector('.lightbox-caption__like-btn').checked = true
-        } else {
-          document.querySelector('.lightbox-caption__like-btn').checked = false
-        }
-      }
-    })
+    const media = loadLikes().find(
+      media => media.id === sortedPhotographerMedias[i].id
+    )
+
+    if (media.isLikedByMe) {
+      document.querySelector('.lightbox-caption__like-btn').checked = true
+    } else {
+      document.querySelector('.lightbox-caption__like-btn').checked = false
+    }
   }
+
+  // --------------------------------------------------------------------------- //
+  // --------------------------------------------------------------------------- //
+  // --------------------------------------------------------------------------- //
 
   /**
    * BOUTON PREVIOUS
@@ -250,13 +264,19 @@ export const lightboxDisplay = (
       return
     }
 
+    previouslyFocusedElement.previousSibling !== null
+      ? (previouslyFocusedElement = previouslyFocusedElement.previousSibling)
+      : (previouslyFocusedElement =
+          previouslyFocusedElement.parentElement.lastChild)
+
     imagePositionInMediasArray =
       (imagePositionInMediasArray - 1 + sortedPhotographerMedias.length) %
       sortedPhotographerMedias.length
 
-    let i = imagePositionInMediasArray
+    const i = imagePositionInMediasArray
 
     if (sortedPhotographerMedias[i].image) {
+      DOM.lightboxContainer.classList.remove('w100')
       imageDisplay.classList.remove('hidden')
       videoDisplay.classList.add('hidden')
       sortedPhotographerMedias[i].image &&
@@ -266,6 +286,7 @@ export const lightboxDisplay = (
     }
 
     if (sortedPhotographerMedias[i].video) {
+      DOM.lightboxContainer.classList.add('w100')
       imageDisplay.classList.add('hidden')
       videoDisplay.classList.remove('hidden')
       sortedPhotographerMedias[i].video &&
@@ -280,16 +301,32 @@ export const lightboxDisplay = (
     /**
      * On affiche le like sur la lightbox si le média est liké
      */
-    loadLikes().find(like => {
-      if (like.id === sortedPhotographerMedias[i].id) {
-        if (like.isLikedByMe) {
-          document.querySelector('.lightbox-caption__like-btn').checked = true
-        } else {
-          document.querySelector('.lightbox-caption__like-btn').checked = false
-        }
-      }
-    })
+    const media = loadLikes().find(
+      media => media.id === sortedPhotographerMedias[i].id
+    )
+
+    if (media.isLikedByMe) {
+      document.querySelector('.lightbox-caption__like-btn').checked = true
+    } else {
+      document.querySelector('.lightbox-caption__like-btn').checked = false
+    }
   }
+
+  const changeMedia = e => {
+    if (e.key === 'ArrowRight' && DOM.lightbox.hasAttribute('aria-modal')) {
+      displayNextMedia(sortedPhotographerMedias, photographer)
+    }
+
+    if (e.key === 'ArrowLeft' && DOM.lightbox.hasAttribute('aria-modal')) {
+      displayPreviousMedia(sortedPhotographerMedias, photographer)
+    }
+  }
+
+  window.addEventListener('keydown', changeMedia)
+
+  // --------------------------------------------------------------------------- //
+  // --------------------------------------------------------------------------- //
+  // --------------------------------------------------------------------------- //
 
   /**
    * On ferme la lightbox
@@ -297,38 +334,61 @@ export const lightboxDisplay = (
   if (action === 'hide') {
     const modal = document.querySelector('#lightbox')
 
-    if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
-
     document
       .querySelector('.lightbox__close')
       .removeEventListener('click', closeLightboxModal)
 
     document
       .querySelector('.lightbox__next')
-      .removeEventListener('click', displayNextMedia)
+      .removeEventListener('click', displayNext)
 
     document
       .querySelector('.lightbox__previous')
-      .removeEventListener('click', displayPreviousMedia)
-
-    // document
-    //   .querySelector('.lightbox-caption__like_inactive')
-    //   .removeEventListener('click', handlePrintLikeOnLightbox)
-
-    // document
-    //   .querySelector('.lightbox-caption__like_active')
-    //   .removeEventListener('click', handlePrintLikeOnLightbox)
+      .removeEventListener('click', displayPrevious)
 
     modal.ariaHidden = true
     modal.removeAttribute('aria-modal')
 
     DOM.mediasSection.classList.remove('hidden')
+    previouslyFocusedElement?.firstChild.focus()
 
     printTotalOfLikes()
   }
 }
 
 /**
- * Fonction de fermeture de la modale lightbox
+ * On place le focus sur le like
  */
-const closeLightboxModal = () => lightboxDisplay('hide')
+// document.querySelector('.lightbox-caption__like_inactive').focus()
+
+// --------------------------------------------------------------------------- //
+// --------------------------------------------------------------------------- //
+// --------------------------------------------------------------------------- //
+
+/**
+ * GESTION DU FOCUS
+ * Changement de focus au clavier et maintien du focus dans la modale
+ */
+export const focusInLightbox = e => {
+  /**
+   * On récupère les éléments qui acquerront le focus
+   */
+  const focusableElements = 'button, input'
+  /**
+   * On crée un tableau des éléments focusables
+   */
+  const focusables = [...DOM.lightbox.querySelectorAll(focusableElements)]
+
+  e.preventDefault()
+  let index = focusables.findIndex(
+    elem => elem === DOM.lightbox.querySelector(':focus')
+  )
+  e.shiftKey === true ? index-- : index++
+  if (index >= focusables.length) {
+    index = 0
+  }
+  if (index < 0) {
+    index = focusables.length - 1
+  }
+  focusables[index].focus()
+}

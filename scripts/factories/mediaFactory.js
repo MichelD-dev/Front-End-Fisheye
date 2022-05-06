@@ -1,5 +1,12 @@
+import * as DOM from '../utils/domElements.js'
 import { lightboxDisplay } from '../modals/lightbox.js'
-import { addOrRemoveLike, loadLikes, getTotalOfLikes } from '../API/likesAPI.js'
+import {
+  addOrRemoveLike,
+  loadLikes,
+  getTotalOfLikes,
+  printLikesNbr,
+  storeLikes,
+} from '../API/likesAPI.js'
 
 export function mediaFactory(media, photographer, sortedPhotographerMedias) {
   function getMediaCardDOM() {
@@ -63,23 +70,23 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
      */
     likes.addEventListener('click', () => {
       addOrRemoveLike(media)
-      printLikesNbr()
+      printLikesNbr(media.id, likesNbr)
     })
 
-    /**
-     * Affichage nombre de likes
-     */
-    const printLikesNbr = () => {
-      loadLikes().find(likedImage => {
-        if (likedImage.id === media.id) {
-          likesNbr.textContent = `${likedImage.likes} `
+    // /**
+    //  * Affichage nombre de likes
+    //  */
+    // const printLikesNbr = () => {
+    //   loadLikes().find(likedImage => {
+    //     if (likedImage.id === media.id) {
+    //       likesNbr.textContent = `${likedImage.likes} `
 
-          document.querySelector(
-            '.photographer__likes'
-          ).textContent = `${getTotalOfLikes()} `
-        }
-      })
-    }
+    //       document.querySelector(
+    //         '.photographer__likes'
+    //       ).textContent = `${getTotalOfLikes()} `
+    //     }
+    //   })
+    // }
 
     /**
      * Ouverture de la modale au click sur thumbnail

@@ -54,11 +54,16 @@ export const validate = e => {
   )
 }
 
+/**
+ * Validation et fermeture au clavier
+ */
 DOM.modalForm.onkeydown = e => {
   if (e.key === 'Enter') {
-    if (DOM.formModal.classList.contains('visible')) return validate(e)
+    if (DOM.formModal.hasAttribute('aria-modal')) return validate(e)
   }
   if (e.key === 'Escape') {
     formDisplay('hide')
   }
 }
+
+export { firstName, lastName, email, message }
