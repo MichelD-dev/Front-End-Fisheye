@@ -75,11 +75,11 @@ export const lightboxDisplay = (
        */
       DOM.lightboxContainer.insertBefore(
         videoDisplay,
-        DOM.lightboxContainer.firstChild
+        DOM.lightboxContainer.querySelector('figcaption')
       )
       DOM.lightboxContainer.insertBefore(
         imageDisplay,
-        DOM.lightboxContainer.firstChild
+        DOM.lightboxContainer.querySelector('figcaption')
       )
 
       /**

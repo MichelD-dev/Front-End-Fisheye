@@ -32,19 +32,15 @@ let message = {
 
 // FIRSTNAME VALIDATION:
 DOM.firstNameInput.onchange = e => (firstName.value = e.target.value)
-// DOM.firstNameInput.onblur = () => isInputValid(firstName)
 
 // LASTNAME VALIDATION:
 DOM.lastNameInput.onchange = e => (lastName.value = e.target.value)
-// DOM.lastNameInput.onblur = () => isInputValid(lastName)
 
 // EMAIL VALIDATION:
 DOM.emailInput.onchange = e => (email.value = e.target.value)
-// DOM.emailInput.onblur = () => isInputValid(email)
 
 // MESSAGE VALIDATION:
 DOM.messageInput.onchange = e => (message.value = e.target.value)
-// DOM.messageInput.onblur = () => isInputValid(message)
 
 // FORM VALIDATION FUNCTION
 export const validate = e => {

@@ -54,7 +54,9 @@ export const formDisplay = action => {
       .querySelectorAll('input:not([type="submit"]), textArea')
       .forEach(input => {
         input.classList.remove('error', 'success')
+        console.log(input.value);
         input.value = ''
+        console.log(input.value);
       })
     DOM.modalForm.querySelectorAll('.error-message').forEach(errorMsg => {
       errorMsg.textContent = ''

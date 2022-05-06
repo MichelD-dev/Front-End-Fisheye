@@ -381,7 +381,7 @@ form textarea:focus {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
 }
 .lightbox-container img {
   object-fit: contain;
@@ -490,7 +490,6 @@ form textarea:focus {
   top: 100%;
   left: 0;
   right: 0;
-  background: #fff;
   transition: all 0.5s;
   opacity: 0;
   visibility: hidden;
@@ -531,6 +530,9 @@ form textarea:focus {
   position: absolute;
   top: -1px;
   left: 12px;
+}
+.custom-option.no-white-line::before {
+  display: none;
 }
 .custom-option:focus {
   outline: 4px solid black;

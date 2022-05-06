@@ -296,6 +296,18 @@ const focusInSelector = e => {
   }
   let option = focusables[index]
   option.focus()
+  option.classList.add('no-white-line')
+
+  const addWhiteLine = () => {
+    if (index === 0 && e.shiftKey === false) {
+      focusables[focusables.length - 1].classList.remove('no-white-line')
+    }
+    if (index === 1 && e.shiftKey === true) {
+      focusables[focusables.length - 1].classList.remove('no-white-line')
+    }
+    focusables[index - 1].classList.remove('no-white-line')
+  }
+  addWhiteLine()
 
   DOM.selector.addEventListener('keydown', e => {
     if (e.key === 'Enter' && !!document.querySelector('.select.open')) {
