@@ -32,19 +32,15 @@ let message = {
 
 // FIRSTNAME VALIDATION:
 DOM.firstNameInput.onchange = e => (firstName.value = e.target.value)
-// DOM.firstNameInput.onblur = () => isInputValid(firstName)
 
 // LASTNAME VALIDATION:
 DOM.lastNameInput.onchange = e => (lastName.value = e.target.value)
-// DOM.lastNameInput.onblur = () => isInputValid(lastName)
 
 // EMAIL VALIDATION:
 DOM.emailInput.onchange = e => (email.value = e.target.value)
-// DOM.emailInput.onblur = () => isInputValid(email)
 
 // MESSAGE VALIDATION:
 DOM.messageInput.onchange = e => (message.value = e.target.value)
-// DOM.messageInput.onblur = () => isInputValid(message)
 
 // FORM VALIDATION FUNCTION
 export const validate = e => {
@@ -58,8 +54,26 @@ export const validate = e => {
   )
 }
 
+/**
+ * Validation et fermeture au clavier
+ */
 DOM.modalForm.onkeydown = e => {
-  if (e.key === 'Enter' && DOM.modalCloseBtn !== document.activeElement) {
-    if (DOM.modalForm.classList.contains('visible')) return validate(e)
+  if (e.key === 'Enter') {
+    if (DOM.formModal.hasAttribute('aria-modal')) return validate(e)
+  }
+  if (e.key === 'Escape') {
+    formDisplay('hide')
   }
 }
+
+export { firstName, lastName, email, message }
+
+// DOM.modalForm
+// .querySelectorAll('input:not([type="submit"]), textArea')
+// .forEach(input => {
+//   input.classList.remove('error', 'success')
+//   input.value = ''
+// })
+// DOM.modalForm.querySelectorAll('.error-message').forEach(errorMsg => {
+// errorMsg.textContent = ''
+// })

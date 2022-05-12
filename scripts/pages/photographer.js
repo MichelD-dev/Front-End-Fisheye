@@ -2,8 +2,8 @@ import * as DOM from '../utils/domElements.js'
 import { photographerFactory } from '../factories/photographerFactory.js'
 import { mediaFactory } from '../factories/mediaFactory.js'
 import { formDisplay, focusInModal } from '../modals/form.js'
-import { lightboxDisplay } from '../modals/lightbox.js'
-import { storeLikes } from '../API/likesAPI.js'
+import { focusInLightbox, lightboxDisplay } from '../modals/lightbox.js'
+import { loadLikes, printLikesNbr, storeLikes } from '../API/likesAPI.js'
 import getFetchedDatas from '../API/fetchAPI.js'
 import getSkeletons from '../utils/skeletons.js'
 
@@ -61,6 +61,34 @@ export async function displayMedias(photographer, sortedPhotographerMedias) {
 }
 
 /**
+ * Actualisation éventuelle de l'affichage du nbr de likes à la fermeture de la lightbox
+ */
+const mutationObserver = new MutationObserver(() => {
+  const id = +document.activeElement.parentElement.id
+
+  const likedMedia = loadLikes().find(media => media.id === id)
+  ;[...DOM.mediasSection.querySelectorAll('.media-card')].find(media => {
+    if (media.id === id.toString()) {
+      media.querySelector(
+        '.media-card__likesNbr > span'
+      ).textContent = `${likedMedia.likes} `
+    }
+  })
+
+  likedMedia.isLikedByMe
+    ? document.activeElement.parentElement.children[2].classList.remove(
+        'hidden'
+      )
+    : document.activeElement.parentElement.children[2].classList.add('hidden')
+})
+
+export const updateMediaLikesOnLightboxClose = () => {
+  mutationObserver.observe(DOM.lightbox, {
+    attributeFilter: ['aria-hidden'],
+  })
+}
+
+/**
  * Déclaration d'un tableau des selections non choisies
  */
 let notSelectedsOptionsArray = []
@@ -94,7 +122,7 @@ const getMediasSorting = (photographers, medias, sortingChoice) => {
   }
   if (sortingChoice === 'Popularité') {
     sortedPhotographerMedias = photographerMedias.sort(
-      (a, b) => a.likes - b.likes
+      (a, b) => b.likes - a.likes
     )
   }
   if (sortingChoice === 'Date') {
@@ -177,22 +205,32 @@ getDatas()
 DOM.contactBtn.addEventListener('click', () => formDisplay('show'))
 
 /**
- * Navigation au clavier dans le formulaire de contact
+ * Navigation au clavier dans les modales
  */
- DOM.modalForm.addEventListener('keydown', e => {
+window.addEventListener('keydown', e => {
   if (
-    e.key === 'Escape' ||
-    e.key === 'Esc' ||
-    (e.key === 'Enter' && DOM.modalCloseBtn === document.activeElement)
+    (e.key === 'Escape' || e.key === 'Esc') &&
+    DOM.modal.hasAttribute('aria-modal')
   ) {
     formDisplay('hide')
-    }
+  }
+  if (
+    (e.key === 'Escape' || e.key === 'Esc') &&
+    DOM.lightbox.hasAttribute('aria-modal')
+  ) {
+    lightboxDisplay('hide')
+  }
   if (e.key === 'Tab' && DOM.modal.hasAttribute('aria-modal')) {
     focusInModal(e)
   }
+  if (e.key === 'Tab' && DOM.lightbox.hasAttribute('aria-modal')) {
+    focusInLightbox(e)
+  }
 })
 
+/*------------------------------------------------------------ */
 /*------------------------- SELECTEUR ------------------------ */
+/*------------------------------------------------------------ */
 
 /**
  * On ouvre le selecteur
@@ -211,7 +249,7 @@ document
   .querySelector('.select-wrapper')
   .addEventListener('keydown', function (e) {
     if (e.key === 'Enter') {
-      this.querySelector('.select').classList.toggle('open')
+      document.querySelector('.select').classList.toggle('open')
       document.querySelector('.select__trigger').focus()
     }
   })
@@ -220,7 +258,9 @@ document
  * Affichage de l'option selectionnée
  */
 const selectDisplay = option => {
-  for (const hidden of document.querySelectorAll('.custom-option.hidden')) {
+  for (const hidden of document.querySelectorAll(
+    '.custom-option.hidden, .select__trigger'
+  )) {
     hidden.classList.remove('hidden')
   }
   if (!option.classList.contains('selected')) {
@@ -268,12 +308,6 @@ for (const selected of document.querySelectorAll('.custom-option')) {
 }
 
 /**
- * On récupère les éléments qui acquerront le focus dans le selecteur
- */
-const focusableElements = '.select__trigger, .custom-option:not(.selected)'
-let focusables = []
-
-/**
  * GESTION DU FOCUS
  * Changement de focus au clavier et maintien du focus dans le selecteur
  */
@@ -281,9 +315,14 @@ const focusInSelector = e => {
   e.preventDefault()
 
   /**
+   * On récupère les éléments qui acquerront le focus dans le selecteur
+   */
+  const focusableElements = '.select__trigger, .custom-option:not(.selected)'
+
+  /**
    * On crée un tableau des éléments focusables
    */
-  focusables = [...DOM.selector.querySelectorAll(focusableElements)]
+  let focusables = [...DOM.selector.querySelectorAll(focusableElements)]
 
   let index = focusables.findIndex(
     elem => elem === DOM.selector.querySelector(':focus')
@@ -299,6 +338,18 @@ const focusInSelector = e => {
   }
   let option = focusables[index]
   option.focus()
+  option.classList.add('no-white-line')
+
+  const addWhiteLine = () => {
+    if (index === 0 && e.shiftKey === false) {
+      focusables[focusables.length - 1].classList.remove('no-white-line')
+    }
+    if (index === 1 && e.shiftKey === true) {
+      focusables[focusables.length - 1].classList.remove('no-white-line')
+    }
+    focusables[index - 1]?.classList.remove('no-white-line')
+  }
+  addWhiteLine()
 
   DOM.selector.addEventListener('keydown', e => {
     if (e.key === 'Enter' && !!document.querySelector('.select.open')) {

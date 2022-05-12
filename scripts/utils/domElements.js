@@ -17,10 +17,13 @@ export const lastNameInput = document.getElementById('lastname')
 export const emailInput = document.getElementById('email')
 export const messageInput = document.getElementById('message')
 
-export const lightboxContainer = document.querySelector('.lightbox-container')
-export const caption = document.querySelector('.lightbox-caption__like-label')
-
 export const lightbox = document.getElementById('lightbox')
+export const lightboxContainer = document.querySelector('.lightbox-container')
+export const likeInCaption = document.querySelector('.lightbox-caption__like-display')
+export const lightboxLeftArrow = document.querySelector('.fa-chevron-left')
+export const lightboxRightArrow = document.querySelector('.fa-chevron-right')
+export const lightboxClose = document.querySelector('.lightbox__close')
+
 
 export const totalLikesNbr = document.querySelector('.photographer__likes')
 export const hiddenLikeCheckbox = document.querySelector(

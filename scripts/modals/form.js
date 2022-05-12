@@ -1,5 +1,11 @@
 import * as DOM from '../utils/domElements.js'
-import { validate } from '../utils/formValidation.js'
+import {
+  validate,
+  firstName,
+  lastName,
+  email,
+  message,
+} from '../utils/formValidation.js'
 
 /**
  * Prédéclaration de l'élément ayant le focus à l'appel du formulaire
@@ -48,19 +54,6 @@ export const formDisplay = action => {
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
 
     /**
-     * On vide les champs du formulaire de leur contenu et on supprime les messages d'erreur
-     */
-    DOM.modalForm
-      .querySelectorAll('input:not([type="submit"]), textArea')
-      .forEach(input => {
-        input.classList.remove('error', 'success')
-        input.value = ''
-      })
-    DOM.modalForm.querySelectorAll('.error-message').forEach(errorMsg => {
-      errorMsg.textContent = ''
-    })
-
-    /**
      * On retire l'écouteur d'évènement du bouton de fermeture da la modale
      */
     DOM.modalCloseBtn.removeEventListener('click', closeFormModal)
@@ -89,6 +82,25 @@ const formSubmit = (e, previouslyFocusedElement) => {
     DOM.emailInput.value,
     DOM.messageInput.value,
   ])
+
+  /**
+   * On vide les champs du formulaire de leur contenu et on supprime les messages d'erreur
+   */
+  DOM.modalForm
+    .querySelectorAll('input:not([type="submit"]), textArea')
+    .forEach(input => {
+      input.classList.remove('error', 'success')
+      input.value = ''
+    })
+
+  firstName.value = ''
+  lastName.value = ''
+  email.value = ''
+  message.value = ''
+
+  DOM.modalForm.querySelectorAll('.error-message').forEach(errorMsg => {
+    errorMsg.textContent = ''
+  })
 
   /**
    * On retire l'écouteur d'évènement Submit sur le formulaire
