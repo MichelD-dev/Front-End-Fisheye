@@ -209,8 +209,8 @@ export const lightboxDisplay = (
       return
     }
 
-    previouslyFocusedElement.nextSibling !== null ?
-     (previouslyFocusedElement = previouslyFocusedElement.nextSibling)
+    previouslyFocusedElement.nextSibling !== null
+      ? (previouslyFocusedElement = previouslyFocusedElement.nextSibling)
       : (previouslyFocusedElement =
           previouslyFocusedElement.parentElement.firstElementChild)
 
@@ -329,7 +329,9 @@ export const lightboxDisplay = (
   }
 
   window.addEventListener('keydown', changeMedia)
-
+  // DOM.lightboxRightArrow.parentElement.addEventListener('keydown', changeMedia)
+  // console.log(DOM.lightboxRightArrow.parentElement);
+  
   // --------------------------------------------------------------------------- //
   // --------------------------------------------------------------------------- //
   // --------------------------------------------------------------------------- //
@@ -346,9 +348,9 @@ export const lightboxDisplay = (
       .querySelector('.lightbox__close')
       .removeEventListener('click', closeLightboxModal)
 
-    // document
-    //   .querySelector('.lightbox__next')
-    //   .removeEventListener('click', displayNext)
+    document
+      .querySelector('.lightbox__next')
+      .removeEventListener('click', displayNext)
 
     // document
     //   .querySelector('.lightbox__previous')

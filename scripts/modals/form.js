@@ -37,9 +37,12 @@ export const formDisplay = action => {
     DOM.firstNameInput.focus()
 
     /**
-     * On place un écouteur d'évènement Click sur le bouton de fermeture
+     * Bouton de fermeture du formulaire
      */
-    DOM.modalCloseBtn.addEventListener('click', closeFormModal)
+    DOM.modalCloseBtn.addEventListener('click', function closeFormModal() {
+      DOM.modalCloseBtn.removeEventListener('click', closeFormModal)
+      formDisplay('hide')
+    })
 
     /**
      * On place un écouteur d'évènement Submit sur le formulaire
@@ -52,11 +55,6 @@ export const formDisplay = action => {
      * A la fermeture, retour du focus sur le bouton de contact
      */
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
-
-    /**
-     * On retire l'écouteur d'évènement du bouton de fermeture da la modale
-     */
-    DOM.modalCloseBtn.removeEventListener('click', closeFormModal)
 
     /**
      * On passe la modale en hidden
@@ -127,7 +125,7 @@ let focusables = [...DOM.modalForm.querySelectorAll(focusableElements)]
  * Changement de focus au clavier et maintien du focus dans la modale
  */
 export const focusInModal = e => {
-      e.preventDefault()
+  e.preventDefault()
   let index = focusables.findIndex(
     elem => elem === DOM.modalForm.querySelector(':focus')
   )
@@ -140,8 +138,3 @@ export const focusInModal = e => {
   }
   focusables[index].focus()
 }
-
-/**
- * Fonction de fermeture de la modale
- */
-const closeFormModal = () => formDisplay('hide')

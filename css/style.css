@@ -642,7 +642,7 @@ label[for=medias-sort] {
   padding: 4px;
   overflow: hidden;
   position: relative;
-  transition: opacity 500ms ease-in-out;
+  transition: opacity 300ms ease-in-out;
   opacity: 0;
 }
 .media-card__image {

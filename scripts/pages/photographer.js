@@ -89,11 +89,6 @@ export const updateMediaLikesOnLightboxClose = () => {
 }
 
 /**
- * Déclaration d'un tableau des selections non choisies
- */
-let notSelectedsOptionsArray = []
-
-/**
  * Récupération d'un photographe et des médias associés par critère de tri
  */
 const getMediasSorting = (photographers, medias, sortingChoice) => {
@@ -130,29 +125,6 @@ const getMediasSorting = (photographers, medias, sortingChoice) => {
       (a, b) => a.date - b.date
     )
   }
-
-  /**
-   * On retire le border-radius de la dernière selection avant de positionner une nouvelle selection en dernière position
-   */
-  if (notSelectedsOptionsArray.length !== 0) {
-    notSelectedsOptionsArray[
-      notSelectedsOptionsArray.length - 1
-    ].classList.remove('custom-option_last')
-  }
-
-  /**
-   * Mise en tableau des selections non choisies
-   */
-  notSelectedsOptionsArray = [
-    ...document.querySelectorAll('.custom-option '),
-  ].filter(el => !el.classList.contains('selected'))
-
-  /**
-   * Border-radius placé dynamiquement en bas de la dernière selection non choisie
-   */
-  notSelectedsOptionsArray[notSelectedsOptionsArray.length - 1].classList.add(
-    'custom-option_last'
-  )
 
   return { photographer, sortedPhotographerMedias }
 }
@@ -233,14 +205,47 @@ window.addEventListener('keydown', e => {
 /*------------------------------------------------------------ */
 
 /**
+ * Déclaration d'un tableau des selections non choisies
+ */
+let notSelectedsOptionsArray = []
+
+const select = () => {
+  if (!document.querySelector('.select').classList.contains('open')) {
+    document.querySelector('.select').classList.add('open')
+
+    /**
+     * Mise en tableau des selections non choisies
+     */
+    notSelectedsOptionsArray = [
+      ...document.querySelectorAll('.custom-option '),
+    ].filter(el => !el.classList.contains('selected'))
+
+    /**
+     * Border-radius placé dynamiquement en bas de la dernière selection non choisie
+     */
+    notSelectedsOptionsArray[notSelectedsOptionsArray.length - 1].classList.add(
+      'custom-option_last'
+    )
+
+    document.querySelector('.selected').focus()
+  } else {
+    document.querySelector('.select').classList.remove('open')
+
+    /**
+     * On retire le border-radius de la dernière selection avant de positionner une nouvelle selection en dernière position
+     */
+    if (notSelectedsOptionsArray.length !== 0) {
+      notSelectedsOptionsArray[
+        notSelectedsOptionsArray.length - 1
+      ].classList.remove('custom-option_last')
+    }
+  }
+}
+
+/**
  * On ouvre le selecteur
  */
-document
-  .querySelector('.select-wrapper')
-  .addEventListener('click', function () {
-    this.querySelector('.select').classList.toggle('open')
-    document.querySelector('.selected').focus()
-  })
+document.querySelector('.select-wrapper').addEventListener('click', select)
 
 /**
  * On ouvre le selecteur avec le clavier
@@ -249,7 +254,7 @@ document
   .querySelector('.select-wrapper')
   .addEventListener('keydown', function (e) {
     if (e.key === 'Enter') {
-      document.querySelector('.select').classList.toggle('open')
+      select()
       document.querySelector('.select__trigger').focus()
     }
   })
@@ -274,6 +279,8 @@ const selectDisplay = option => {
       .querySelector('.select__trigger span').textContent = option.textContent
   }
 }
+
+document.querySelector('.select__trigger').addEventListener('click', () => {})
 
 for (const option of document.querySelectorAll('.custom-option')) {
   option.addEventListener('click', () => {
@@ -331,28 +338,25 @@ const focusInSelector = e => {
   e.shiftKey === true ? index-- : index++
 
   if (index >= focusables.length) {
-    index = 0
-  }
-  if (index < 0) {
     index = focusables.length - 1
   }
+  if (index < 0) {
+    index = 0
+  }
+
   let option = focusables[index]
   option.focus()
-  option.classList.add('no-white-line')
 
-  const addWhiteLine = () => {
-    if (index === 0 && e.shiftKey === false) {
-      focusables[focusables.length - 1].classList.remove('no-white-line')
-    }
-    if (index === 1 && e.shiftKey === true) {
-      focusables[focusables.length - 1].classList.remove('no-white-line')
-    }
-    focusables[index - 1]?.classList.remove('no-white-line')
-  }
-  addWhiteLine()
+  focusables.forEach(elem => elem.classList.remove('no-white-line'))
+  document.activeElement.classList.add('no-white-line')
 
-  DOM.selector.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !!document.querySelector('.select.open')) {
+  DOM.selector.addEventListener('keydown', function selectorKeydown(e) {
+    DOM.selector.removeEventListener('keydown', selectorKeydown)
+    if (
+      e.key === 'Enter' &&
+      document.querySelector('.select.open') &&
+      !document.activeElement.classList.contains('select__trigger')
+    ) {
       selectDisplay(option)
     }
   })
