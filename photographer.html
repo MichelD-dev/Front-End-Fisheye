@@ -64,16 +64,16 @@
       <!--------------------------SKELETON-------------------------->
       <!------------------------------------------------------------>
 
-        <template id="media-template">
-          <article class="skeleton__media photographer__card">
-            <div class="skeleton skeleton__image_media" alt=""></div>
-            <div class="skeleton skeleton__text_media"></div>
-          </article>
-        </template>
+      <template id="media-template">
+        <article class="skeleton__media photographer__card">
+          <div class="skeleton skeleton__image_media" alt=""></div>
+          <div class="skeleton skeleton__text_media"></div>
+        </article>
+      </template>
 
-        <!------------------------------------------------------------>
-        <!-------------------ENCART DONNEES PHOTOGRAPHE--------------->
-        <!------------------------------------------------------------>
+      <!------------------------------------------------------------>
+      <!-------------------ENCART DONNEES PHOTOGRAPHE--------------->
+      <!------------------------------------------------------------>
 
       <!------------------------------------------------------------>
       <!-------------------ENCART DONNEES PHOTOGRAPHE--------------->
@@ -129,7 +129,7 @@
   <!------------------------------------------------------------>
 
   <aside class="modal" id="lightbox" aria-hidden="true" aria-labelledby="modal-title">
-    <div class="lightbox">
+    <div class="lightbox" contenteditable="true">
       <h1 id="lightbox-title" class="visually-hidden">Lightbox</h1>
       <button class="lightbox__previous">
         <span class="visually-hidden">Image précédente</span>
@@ -137,11 +137,16 @@
       </button>
       <figure class="lightbox-container">
         <div></div>
+        <img src="" alt="" class="hidden lightbox__image ">
+        <video src="" class="hidden lightbox__video"></video>
         <figcaption class="lightbox-caption">
           <span class="lightbox-caption__text"></span>
           <label class="lightbox-caption__like-label" for="like">
             <input type="checkbox" id="like" class="lightbox-caption__like-btn" />
-          <div class="lightbox-caption__like-display"></div>
+            <div class="lightbox-caption__like-display">
+              <i class="lightbox-caption__like_active fa-solid fa-heart"></i>
+              <i class="lightbox-caption__like_inactive fa-solid fa-heart"></i>
+            </div>
           </label>
         </figcaption>
       </figure>

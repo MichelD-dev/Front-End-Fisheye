@@ -9,30 +9,22 @@ import { updateMediaLikesOnLightboxClose } from '../pages/photographer.js'
 /**
  * Création des balises img et video dans la balise figure
  */
-const imageDisplay = document.createElement('img')
-const videoDisplay = document.createElement('video')
-
-const activeLike = document.createElement('i')
-const inactiveLike = document.createElement('i')
-activeLike.classList.add(
-  'lightbox-caption__like_active',
-  'fa-solid',
-  'fa-heart'
-)
-inactiveLike.classList.add(
-  'lightbox-caption__like_inactive',
-  'fa-solid',
-  'fa-heart'
-)
-DOM.likeInCaption.appendChild(inactiveLike)
-DOM.likeInCaption.appendChild(activeLike)
+// const activeLike = document.createElement('i')
+// const inactiveLike = document.createElement('i')
+// activeLike.classList.add(
+//   'lightbox-caption__like_active',
+//   'fa-solid',
+//   'fa-heart'
+// )
+// inactiveLike.classList.add(
+//   'lightbox-caption__like_inactive',
+//   'fa-solid',
+//   'fa-heart'
+// )
+// DOM.lightboxLikeInCaption.appendChild(inactiveLike)
+// DOM.lightboxLikeInCaption.appendChild(activeLike)
 
 // const likeIcon = document.querySelector('.lightbox-caption__like')
-
-/**
- * Fonction de fermeture de la modale lightbox
- */
-const closeLightboxModal = () => lightboxDisplay('hide')
 
 let previouslyFocusedElement
 
@@ -46,10 +38,8 @@ export const lightboxDisplay = (
   imageId,
   imagePositionInMediasArray = -1
 ) => {
-  const displayNext = () =>
-    displayNextMedia(sortedPhotographerMedias, photographer)
-  const displayPrevious = () =>
-    displayPreviousMedia(sortedPhotographerMedias, photographer)
+  const imageDisplay = document.querySelector('.lightbox__image')
+  const videoDisplay = document.querySelector('.lightbox__video')
 
   /**
    * AFFICHAGE DU MEDIA
@@ -81,6 +71,7 @@ export const lightboxDisplay = (
     imagePositionInMediasArray = sortedPhotographerMedias.indexOf(media)
 
     if (action === 'show') {
+      //TODO
       previouslyFocusedElement = document.querySelector(':focus').parentElement
 
       /**
@@ -93,14 +84,14 @@ export const lightboxDisplay = (
       /**
        * Insertion du média dans le container lightbox avant son titre, en fonction de son type
        */
-      DOM.lightboxContainer.insertBefore(
-        videoDisplay,
-        DOM.lightboxContainer.querySelector('figcaption')
-      )
-      DOM.lightboxContainer.insertBefore(
-        imageDisplay,
-        DOM.lightboxContainer.querySelector('figcaption')
-      )
+      // DOM.lightboxContainer.insertBefore(
+      //   videoDisplay,
+      //   DOM.lightboxContainer.querySelector('figcaption')
+      // )
+      // DOM.lightboxContainer.insertBefore(
+      //   imageDisplay,
+      //   DOM.lightboxContainer.querySelector('figcaption')
+      // )
 
       /**
        * Affichage du titre du média dans la balise figcaption
@@ -146,191 +137,195 @@ export const lightboxDisplay = (
           photographer.name.split(' ')[0]
         }/${sortedPhotographerMedias[imagePositionInMediasArray].video}`
       }
-    }
 
-    /**
-     * On affiche la lightbox
-     */
-    const lightbox = document.getElementById('lightbox')
+      /**
+       * On affiche la lightbox
+       */
+      const lightbox = document.getElementById('lightbox')
 
-    lightbox.removeAttribute('aria-hidden')
+      lightbox.removeAttribute('aria-hidden')
 
-    lightbox.ariaModal = true
+      lightbox.ariaModal = true
 
-    /**
-     * On affiche le like sur la lightbox si le média est liké
-     */
-    loadLikes().find(like => {
-      if (like.id === media.id) {
-        if (like.isLikedByMe) {
+      /**
+       * On affiche le like sur la lightbox si le média est liké
+       */
+      loadLikes().find(like => {
+        if (like.id === media.id) {
+          if (like.isLikedByMe) {
+            document.querySelector('.lightbox-caption__like-btn').checked = true
+          } else {
+            document.querySelector(
+              '.lightbox-caption__like-btn'
+            ).checked = false
+          }
+          document.querySelector('.lightbox-caption__like-btn').checked =
+            like.isLikedByMe ? true : false
+
+          return like
+        }
+      })
+
+      // --------------------------------------------------------------------------- //
+      // --------------------------------------------------------------------------- //
+      // --------------------------------------------------------------------------- //
+
+      /**
+       * BOUTON NEXT
+       */
+      const displayNextMedia = (sortedPhotographerMedias, photographer) => {
+        // console.log(sortedPhotographerMedias)
+
+        if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
+          return
+        }
+
+        previouslyFocusedElement.nextSibling !== null
+          ? (previouslyFocusedElement = previouslyFocusedElement.nextSibling)
+          : (previouslyFocusedElement =
+              previouslyFocusedElement.parentElement.firstElementChild)
+
+        imagePositionInMediasArray =
+          (imagePositionInMediasArray + 1) % sortedPhotographerMedias.length
+
+        const i = imagePositionInMediasArray
+
+        if (sortedPhotographerMedias[i].image) {
+          DOM.lightboxContainer.classList.remove('w100')
+          imageDisplay.classList.remove('hidden')
+          videoDisplay.classList.add('hidden')
+          imageDisplay.src = `../../assets/images/${
+            photographer.name.split(' ')[0]
+          }/${sortedPhotographerMedias[i].image}`
+        }
+
+        if (sortedPhotographerMedias[i].video) {
+          DOM.lightboxContainer.classList.add('w100')
+          imageDisplay.classList.add('hidden')
+          videoDisplay.classList.remove('hidden')
+          videoDisplay.src = `../../assets/images/${
+            photographer.name.split(' ')[0]
+          }/${sortedPhotographerMedias[i].video}`
+        }
+
+        document.querySelector('.lightbox-caption__text').textContent =
+          sortedPhotographerMedias[i].title
+
+        /**
+         * On affiche le like sur la lightbox si le média est liké
+         */
+        const media = loadLikes().find(
+          media => media.id === sortedPhotographerMedias[i].id
+        )
+
+        if (media.isLikedByMe) {
           document.querySelector('.lightbox-caption__like-btn').checked = true
         } else {
           document.querySelector('.lightbox-caption__like-btn').checked = false
         }
-        document.querySelector('.lightbox-caption__like-btn').checked =
-          like.isLikedByMe ? true : false
-
-        return like
       }
-    })
 
-    document
-      .querySelector('.lightbox__close')
-      .addEventListener('click', closeLightboxModal)
+      // --------------------------------------------------------------------------- //
+      // --------------------------------------------------------------------------- //
+      // --------------------------------------------------------------------------- //
 
-    document
-      .querySelector('.lightbox__next')
-      .addEventListener('click', displayNext)
+      /**
+       * BOUTON PREVIOUS
+       */
+      const displayPreviousMedia = (sortedPhotographerMedias, photographer) => {
+        if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
+          return
+        }
 
-    document
-      .querySelector('.lightbox__previous')
-      .addEventListener('click', displayPrevious)
+        previouslyFocusedElement.previousSibling !== null
+          ? (previouslyFocusedElement =
+              previouslyFocusedElement.previousSibling)
+          : (previouslyFocusedElement =
+              previouslyFocusedElement.parentElement.lastElementChild)
 
-    document
-      .querySelector('.lightbox-caption__like_inactive')
-      .addEventListener('click', handlePrintLikeOnLightbox)
+        imagePositionInMediasArray =
+          (imagePositionInMediasArray - 1 + sortedPhotographerMedias.length) %
+          sortedPhotographerMedias.length
 
-    document
-      .querySelector('.lightbox-caption__like_active')
-      .addEventListener('click', handlePrintLikeOnLightbox)
-  }
+        const i = imagePositionInMediasArray
 
-  // --------------------------------------------------------------------------- //
-  // --------------------------------------------------------------------------- //
-  // --------------------------------------------------------------------------- //
+        if (sortedPhotographerMedias[i].image) {
+          DOM.lightboxContainer.classList.remove('w100')
+          imageDisplay.classList.remove('hidden')
+          videoDisplay.classList.add('hidden')
+          sortedPhotographerMedias[i].image &&
+            (imageDisplay.src = `../../assets/images/${
+              photographer.name.split(' ')[0]
+            }/${sortedPhotographerMedias[i].image}`)
+        }
 
-  /**
-   * BOUTON NEXT
-   */
-  const displayNextMedia = (sortedPhotographerMedias, photographer) => {
-    // console.log(sortedPhotographerMedias)
+        if (sortedPhotographerMedias[i].video) {
+          DOM.lightboxContainer.classList.add('w100')
+          imageDisplay.classList.add('hidden')
+          videoDisplay.classList.remove('hidden')
+          sortedPhotographerMedias[i].video &&
+            (videoDisplay.src = `../../assets/images/${
+              photographer.name.split(' ')[0]
+            }/${sortedPhotographerMedias[i].video}`)
+        }
 
-    if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
-      return
+        document.querySelector('.lightbox-caption__text').textContent =
+          sortedPhotographerMedias[i].title
+
+        /**
+         * On affiche le like sur la lightbox si le média est liké
+         */
+        const media = loadLikes().find(
+          media => media.id === sortedPhotographerMedias[i].id
+        )
+
+        if (media.isLikedByMe) {
+          document.querySelector('.lightbox-caption__like-btn').checked = true
+        } else {
+          document.querySelector('.lightbox-caption__like-btn').checked = false
+        }
+      }
+
+      document
+        .querySelector('.lightbox__close')
+        .addEventListener('click', function closeLightboxModal() {
+          lightboxDisplay('hide')
+        })
+
+      document
+        .querySelector('.lightbox__next')
+        .addEventListener('click', function displayNext() {
+          displayNextMedia(sortedPhotographerMedias, photographer)
+        })
+
+      document
+        .querySelector('.lightbox__previous')
+        .addEventListener('click', function displayPrevious() {
+          displayPreviousMedia(sortedPhotographerMedias, photographer)
+        })
+
+      document
+        .querySelector('.lightbox-caption__like_inactive')
+        .addEventListener('click', handlePrintLikeOnLightbox)
+
+      document
+        .querySelector('.lightbox-caption__like_active')
+        .addEventListener('click', handlePrintLikeOnLightbox)
+
+      window.addEventListener('keydown', function changeMedia(e) {
+        if (e.key === 'ArrowRight' && DOM.lightbox.hasAttribute('aria-modal')) {
+          displayNextMedia(sortedPhotographerMedias, photographer)
+        }
+
+        if (e.key === 'ArrowLeft' && DOM.lightbox.hasAttribute('aria-modal')) {
+          displayPreviousMedia(sortedPhotographerMedias, photographer)
+        }
+        if (e.key === 'Escape') {
+          lightboxDisplay('hide')
+        }
+      })
     }
-
-    previouslyFocusedElement.nextSibling !== null
-      ? (previouslyFocusedElement = previouslyFocusedElement.nextSibling)
-      : (previouslyFocusedElement =
-          previouslyFocusedElement.parentElement.firstElementChild)
-
-    imagePositionInMediasArray =
-      (imagePositionInMediasArray + 1) % sortedPhotographerMedias.length
-
-    const i = imagePositionInMediasArray
-
-    if (sortedPhotographerMedias[i].image) {
-      DOM.lightboxContainer.classList.remove('w100')
-      imageDisplay.classList.remove('hidden')
-      videoDisplay.classList.add('hidden')
-      imageDisplay.src = `../../assets/images/${
-        photographer.name.split(' ')[0]
-      }/${sortedPhotographerMedias[i].image}`
-    }
-
-    if (sortedPhotographerMedias[i].video) {
-      DOM.lightboxContainer.classList.add('w100')
-      imageDisplay.classList.add('hidden')
-      videoDisplay.classList.remove('hidden')
-      videoDisplay.src = `../../assets/images/${
-        photographer.name.split(' ')[0]
-      }/${sortedPhotographerMedias[i].video}`
-    }
-
-    document.querySelector('.lightbox-caption__text').textContent =
-      sortedPhotographerMedias[i].title
-
-    /**
-     * On affiche le like sur la lightbox si le média est liké
-     */
-    const media = loadLikes().find(
-      media => media.id === sortedPhotographerMedias[i].id
-    )
-
-    if (media.isLikedByMe) {
-      document.querySelector('.lightbox-caption__like-btn').checked = true
-    } else {
-      document.querySelector('.lightbox-caption__like-btn').checked = false
-    }
-  }
-
-  // --------------------------------------------------------------------------- //
-  // --------------------------------------------------------------------------- //
-  // --------------------------------------------------------------------------- //
-
-  /**
-   * BOUTON PREVIOUS
-   */
-  const displayPreviousMedia = (sortedPhotographerMedias, photographer) => {
-    if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
-      return
-    }
-
-    previouslyFocusedElement.previousSibling !== null
-      ? (previouslyFocusedElement = previouslyFocusedElement.previousSibling)
-      : (previouslyFocusedElement =
-          previouslyFocusedElement.parentElement.lastElementChild)
-
-    imagePositionInMediasArray =
-      (imagePositionInMediasArray - 1 + sortedPhotographerMedias.length) %
-      sortedPhotographerMedias.length
-
-    const i = imagePositionInMediasArray
-
-    if (sortedPhotographerMedias[i].image) {
-      DOM.lightboxContainer.classList.remove('w100')
-      imageDisplay.classList.remove('hidden')
-      videoDisplay.classList.add('hidden')
-      sortedPhotographerMedias[i].image &&
-        (imageDisplay.src = `../../assets/images/${
-          photographer.name.split(' ')[0]
-        }/${sortedPhotographerMedias[i].image}`)
-    }
-
-    if (sortedPhotographerMedias[i].video) {
-      DOM.lightboxContainer.classList.add('w100')
-      imageDisplay.classList.add('hidden')
-      videoDisplay.classList.remove('hidden')
-      sortedPhotographerMedias[i].video &&
-        (videoDisplay.src = `../../assets/images/${
-          photographer.name.split(' ')[0]
-        }/${sortedPhotographerMedias[i].video}`)
-    }
-
-    document.querySelector('.lightbox-caption__text').textContent =
-      sortedPhotographerMedias[i].title
-
-    /**
-     * On affiche le like sur la lightbox si le média est liké
-     */
-    const media = loadLikes().find(
-      media => media.id === sortedPhotographerMedias[i].id
-    )
-
-    if (media.isLikedByMe) {
-      document.querySelector('.lightbox-caption__like-btn').checked = true
-    } else {
-      document.querySelector('.lightbox-caption__like-btn').checked = false
-    }
-  }
-
-  const changeMedia = e => {
-    // console.log(sortedPhotographerMedias, photographer)
-    if (e.key === 'ArrowRight' && DOM.lightbox.hasAttribute('aria-modal')) {
-      displayNextMedia(sortedPhotographerMedias, photographer)
-    }
-
-    if (e.key === 'ArrowLeft' && DOM.lightbox.hasAttribute('aria-modal')) {
-      displayPreviousMedia(sortedPhotographerMedias, photographer)
-    }
-    if (e.key === 'Escape') {
-      lightboxDisplay('hide')
-    }
-  }
-
-  window.addEventListener('keydown', changeMedia)
-  // DOM.lightboxRightArrow.parentElement.addEventListener('keydown', changeMedia)
-  // console.log(DOM.lightboxRightArrow.parentElement);
+  } //TODO fin de "show"
 
   // --------------------------------------------------------------------------- //
   // --------------------------------------------------------------------------- //
@@ -340,17 +335,17 @@ export const lightboxDisplay = (
    * On ferme la lightbox
    */
   if (action === 'hide') {
-    console.log(document.querySelector('.lightbox__next'))
+    //TODO
+    // console.log(document.querySelector('.lightbox__next'))
     const modal = document.querySelector('#lightbox')
 
-    window.removeEventListener('keydown', changeMedia)
-
-    document
-      .querySelector('.lightbox__close')
-      .removeEventListener('click', closeLightboxModal)
-
     document.querySelector('.lightbox__next').onclick = () => {}
+    document.querySelector('.lightbox__previous').onclick = () => {}
+    window.onkeydown = null
+
     // .removeEventListener('click', displayNext)
+
+    // window.removeEventListener('keydown', changeMedia)
 
     // document
     //   .querySelector('.lightbox__previous')
