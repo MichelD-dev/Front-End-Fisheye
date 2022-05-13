@@ -91,7 +91,7 @@ export const lightboxDisplay = (
       videoDisplay.setAttribute('tabIndex', '0')
 
       /**
-       * Insertion du média dans le container lightbox avant son titre, en fonction de * * son type
+       * Insertion du média dans le container lightbox avant son titre, en fonction de son type
        */
       DOM.lightboxContainer.insertBefore(
         videoDisplay,
@@ -331,7 +331,7 @@ export const lightboxDisplay = (
   window.addEventListener('keydown', changeMedia)
   // DOM.lightboxRightArrow.parentElement.addEventListener('keydown', changeMedia)
   // console.log(DOM.lightboxRightArrow.parentElement);
-  
+
   // --------------------------------------------------------------------------- //
   // --------------------------------------------------------------------------- //
   // --------------------------------------------------------------------------- //
@@ -340,6 +340,7 @@ export const lightboxDisplay = (
    * On ferme la lightbox
    */
   if (action === 'hide') {
+    console.log(document.querySelector('.lightbox__next'))
     const modal = document.querySelector('#lightbox')
 
     window.removeEventListener('keydown', changeMedia)
@@ -348,9 +349,8 @@ export const lightboxDisplay = (
       .querySelector('.lightbox__close')
       .removeEventListener('click', closeLightboxModal)
 
-    document
-      .querySelector('.lightbox__next')
-      .removeEventListener('click', displayNext)
+    document.querySelector('.lightbox__next').onclick = () => {}
+    // .removeEventListener('click', displayNext)
 
     // document
     //   .querySelector('.lightbox__previous')

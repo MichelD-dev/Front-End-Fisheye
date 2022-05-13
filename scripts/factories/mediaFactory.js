@@ -24,7 +24,16 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     }/${media.image || media.video}`
     media.image && (mediaCard.alt = media.title)
     mediaCard.classList.add('media-card__image')
+    media.video && mediaCard.classList.add('media-card__image_video')
     mediaCard.tabIndex = '0'
+
+    const playIcon = document.createElement('i')
+    playIcon.classList.add(
+      'media-card__video-icon',
+      'fa-solid',
+      'fa-play',
+      'fa-4x'
+    )
 
     const imgDatas = document.createElement('div')
     imgDatas.classList.add('image__datas')
@@ -46,12 +55,12 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     const likeIcon = document.createElement('i')
     likeIcon.classList.add('fa-solid', 'fa-heart')
 
-    const borderedLikeOnMedia = document.createElement('div')
-    borderedLikeOnMedia.classList.add('media-card__like', 'hidden')
+    const likeDisplayedOnMedia = document.createElement('div')
+    likeDisplayedOnMedia.classList.add('media-card__like', 'hidden')
 
     const likeOnMedia = document.createElement('i')
     likeOnMedia.classList.add('fa-solid', 'fa-heart', 'fa-2x')
-    borderedLikeOnMedia.appendChild(likeOnMedia)
+    likeDisplayedOnMedia.appendChild(likeOnMedia)
 
     document.querySelector(
       '.photographer__rate'
@@ -59,7 +68,9 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
 
     article.appendChild(mediaCard)
     article.appendChild(imgDatas)
-    article.appendChild(borderedLikeOnMedia)
+    article.appendChild(likeDisplayedOnMedia)
+    article.children[0].classList.contains('media-card__image_video') &&
+      article.appendChild(playIcon)
     imgDatas.appendChild(imgTitle)
     imgDatas.appendChild(likes)
     likes.appendChild(likesNbr)
