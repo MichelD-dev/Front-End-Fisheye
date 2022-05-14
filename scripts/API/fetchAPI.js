@@ -1,24 +1,25 @@
 import getSkeletons from '../utils/skeletons.js'
 
-const getFetchedDatas = async () => {
+const getFetchedDatas = async (url, storageName) => {
   getSkeletons('print')
-  const { photographers, medias } =
-  JSON.parse(localStorage.getItem('original datas')) ?? (await fetchDatas())
-  
+  const data =
+    JSON.parse(localStorage.getItem(storageName)) ??
+    (await fetchDatas(url, storageName))
+
   getSkeletons('hide')
 
-  return { photographers, medias }
+  return data
 }
 
-const fetchDatas = async () => {
+const fetchDatas = async (url, storageName) => {
   try {
-    const response = await fetch('/data/photographers.json')
+    const response = await fetch(url)
     if (!response.ok) {
       console.error(`Une erreur est survenue: ${response.status}`)
     }
     const data = await response.json()
 
-    localStorage.setItem('original datas', JSON.stringify(data))
+    localStorage.setItem(storageName, JSON.stringify(data))
 
     return data
   } catch (err) {

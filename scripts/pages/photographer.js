@@ -136,7 +136,7 @@ const getDatas = async (sortingChoice = 'Popularité') => {
   /**
    * Récupération de l'ensemble des data
    */
-  const { photographers, medias } = await getFetchedDatas()
+  const { photographers, medias } = await getFetchedDatas('/data/photographers.json', 'original datas')
 
   /**
    * Récupération d'un photographe spécifique et des médias associés par critère de tri

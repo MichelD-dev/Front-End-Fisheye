@@ -1,6 +1,6 @@
 import * as DOM from '../utils/domElements.js'
 import { photographerFactory } from '../factories/photographerFactory.js'
-import getFetchedDatas from '../API/fetchAPI.js'
+import init from '../utils/init.js'
 
 /**
  * Affichage de la page d'accueil
@@ -17,14 +17,11 @@ async function displayPhotographers(photographers) {
 }
 
 /**
- * Initialisation
+ * Demande de fetch et affichage des photographes
  */
-async function init() {
-  /* Récupération des données */
-  await getFetchedDatas().then(({ photographers }) => {
-    /* Affichage des photographes */
-    displayPhotographers(photographers)
-  })
-}
-
-init()
+init(
+  '/data/photographers.json',
+  'original datas',
+  displayPhotographers,
+  'photographers'
+)

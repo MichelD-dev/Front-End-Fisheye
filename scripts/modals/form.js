@@ -69,7 +69,7 @@ export const formDisplay = action => {
 /**
  * Fonction de soumission du formulaire
  */
-const formSubmit = (e, previouslyFocusedElement) => {
+const formSubmit = e => {
   e.preventDefault()
 
   if (!validate(e)) return
