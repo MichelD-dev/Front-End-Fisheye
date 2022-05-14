@@ -1,5 +1,5 @@
 import { updateMediaLikesOnLightboxClose } from '../pages/photographer.js'
-import * as DOM from '../utils/domElements.js'
+import DOM from '../utils/domElements.js'
 
 /**
  * On stocke les likes du photographe dans le local storage

@@ -1,4 +1,4 @@
-import * as DOM from './domElements.js'
+import DOM from './domElements.js'
 import { formDisplay } from '../modals/form.js'
 import { isInputValid } from './utils.js'
 

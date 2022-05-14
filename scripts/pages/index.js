@@ -1,4 +1,4 @@
-import * as DOM from '../utils/domElements.js'
+import DOM from '../utils/domElements.js'
 import { photographerFactory } from '../factories/photographerFactory.js'
 import init from '../utils/init.js'
 
@@ -19,9 +19,9 @@ async function displayPhotographers(photographers) {
 /**
  * Demande de fetch et affichage des photographes
  */
-init(
-  '/data/photographers.json',
-  'original datas',
-  displayPhotographers,
-  'photographers'
-)
+init({
+  fetchUrl: '/data/photographers.json',
+  storageName: 'original datas',
+  doSomethingWithData: displayPhotographers,
+  thisParticularData: 'photographers',
+})

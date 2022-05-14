@@ -3,9 +3,14 @@ import getFetchedDatas from '../API/fetchAPI.js'
 /**
  * Initialisation
  */
-async function init(url, storageName, doSomethingWithData, thisParticularData) {
+async function init({
+  fetchUrl,
+  storageName,
+  doSomethingWithData,
+  thisParticularData,
+}) {
   /* Récupération des données */
-  let whenDataIsLoaded = getFetchedDatas(url, storageName)
+  let whenDataIsLoaded = getFetchedDatas(fetchUrl, storageName)
 
   /* Utilisation des données */
   const useData = fn => data => fn(data)

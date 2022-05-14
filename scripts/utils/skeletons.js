@@ -1,4 +1,4 @@
-import * as DOM from './domElements.js'
+import DOM from './domElements.js'
 
 let cardTemplate = document.getElementById('card-template')
 let mediaTemplate = document.getElementById('media-template')
@@ -14,7 +14,7 @@ const getSkeletons = pValue => {
     }
     if (pValue === 'hide') {
       ;[...document.querySelectorAll('.photographer__card')].map(card => {
-            card.classList.add('fadeout')
+        card.classList.add('fadeout')
         setTimeout(() => {
           card.remove()
         }, 1000)

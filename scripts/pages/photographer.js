@@ -1,4 +1,4 @@
-import * as DOM from '../utils/domElements.js'
+import DOM from '../utils/domElements.js'
 import { photographerFactory } from '../factories/photographerFactory.js'
 import { mediaFactory } from '../factories/mediaFactory.js'
 import { formDisplay, focusInModal } from '../modals/form.js'
@@ -136,7 +136,10 @@ const getDatas = async (sortingChoice = 'Popularité') => {
   /**
    * Récupération de l'ensemble des data
    */
-  const { photographers, medias } = await getFetchedDatas('/data/photographers.json', 'original datas')
+  const { photographers, medias } = await getFetchedDatas(
+    '/data/photographers.json',
+    'original datas'
+  )
 
   /**
    * Récupération d'un photographe spécifique et des médias associés par critère de tri

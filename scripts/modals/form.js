@@ -1,4 +1,4 @@
-import * as DOM from '../utils/domElements.js'
+import DOM from '../utils/domElements.js'
 import {
   validate,
   firstName,

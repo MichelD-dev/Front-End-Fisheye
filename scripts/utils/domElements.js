@@ -1,34 +1,34 @@
 // DOM Elements
+const DOM = {
+  photographersSection: document.querySelector('.photographers-section'),
 
-export const photographersSection = document.querySelector(
-  '.photographers-section'
-)
+  mediasSection: document.querySelector('.medias__section'),
 
-export const mediasSection = document.querySelector('.medias__section')
+  contactBtn: document.querySelector('.contact-button'),
 
-export const contactBtn = document.querySelector('.contact-button')
+  modal: document.querySelector('.modal'),
+  modalForm: document.getElementById('form-modal'),
+  modalCloseBtn: document.querySelector('.modal__close'),
 
-export const modal = document.querySelector('.modal')
-export const modalForm = document.getElementById('form-modal')
-export const modalCloseBtn = document.querySelector('.modal__close')
+  firstNameInput: document.getElementById('firstname'),
+  lastNameInput: document.getElementById('lastname'),
+  emailInput: document.getElementById('email'),
+  messageInput: document.getElementById('message'),
 
-export const firstNameInput = document.getElementById('firstname')
-export const lastNameInput = document.getElementById('lastname')
-export const emailInput = document.getElementById('email')
-export const messageInput = document.getElementById('message')
+  lightbox: document.getElementById('lightbox'),
+  lightboxContainer: document.querySelector('.lightbox-container'),
+  lightboxLikeInCaption: document.querySelector(
+    '.lightbox-caption__like-display'
+  ),
+  lightboxLeftArrow: document.querySelector('.fa-chevron-left'),
+  lightboxRightArrow: document.querySelector('.fa-chevron-right'),
+  lightboxClose: document.querySelector('.lightbox__close'),
 
-export const lightbox = document.getElementById('lightbox')
-export const lightboxContainer = document.querySelector('.lightbox-container')
-export const lightboxLikeInCaption = document.querySelector(
-  '.lightbox-caption__like-display'
-)
-export const lightboxLeftArrow = document.querySelector('.fa-chevron-left')
-export const lightboxRightArrow = document.querySelector('.fa-chevron-right')
-export const lightboxClose = document.querySelector('.lightbox__close')
+  totalLikesNbr: document.querySelector('.photographer__likes'),
 
-export const totalLikesNbr = document.querySelector('.photographer__likes')
-export const hiddenLikeCheckbox = document.querySelector(
-  '.lightbox-caption__like-btn'
-)
+  hiddenLikeCheckbox: document.querySelector('.lightbox-caption__like-btn'),
 
-export const selector = document.querySelector('.select')
+  selector: document.querySelector('.select'),
+}
+
+export default DOM
