@@ -15,11 +15,11 @@ let previouslyFocusedElement = null
 /**
  * MODALE FORMULAIRE
  */
-export const formDisplay = action => {
+export const form = () => {
   /**
    * Ouverture de la modale formulaire
    */
-  if (action === 'show') {
+  const show = () => {
     /**
      * Mémorisation présence du focus sur bouton de contact
      */
@@ -39,10 +39,7 @@ export const formDisplay = action => {
     /**
      * Bouton de fermeture du formulaire
      */
-    DOM.modalCloseBtn.addEventListener('click', function closeFormModal() {
-      DOM.modalCloseBtn.removeEventListener('click', closeFormModal)
-      formDisplay('hide')
-    })
+    DOM.modalCloseBtn.onclick = () =>form().hide()
 
     /**
      * On place un écouteur d'évènement Submit sur le formulaire
@@ -50,11 +47,16 @@ export const formDisplay = action => {
     DOM.modalForm.onsubmit = formSubmit
   }
 
-  if (action === 'hide') {
+  const hide = () => {
     /**
      * A la fermeture, retour du focus sur le bouton de contact
      */
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
+
+    /**
+     * On vide les champs du formulaire
+     */
+    document.getElementById('form').reset()
 
     /**
      * On passe la modale en hidden
@@ -62,6 +64,8 @@ export const formDisplay = action => {
     DOM.modalForm.ariaHidden = true
     DOM.modalForm.removeAttribute('aria-modal')
   }
+
+  return { show, hide }
 }
 
 // -------------------------------------------------------------------- //
@@ -85,10 +89,10 @@ const formSubmit = e => {
    * On vide les champs du formulaire de leur contenu et on supprime les messages d'erreur
    */
   DOM.modalForm
-    .querySelectorAll('input:not([type="submit"]), textArea')
+    .getElementsByTagName('input:not([type="submit"]), textArea')
     .forEach(input => {
       input.classList.remove('error', 'success')
-      input.value = ''
+      document.getElementById('form').reset()
     })
 
   firstName.value = ''
@@ -96,19 +100,14 @@ const formSubmit = e => {
   email.value = ''
   message.value = ''
 
-  DOM.modalForm.querySelectorAll('.error-message').forEach(errorMsg => {
+  DOM.modalForm.getElementsByClassName('error-message').forEach(errorMsg => {
     errorMsg.textContent = ''
   })
 
   /**
-   * On retire l'écouteur d'évènement Submit sur le formulaire
-   */
-  DOM.modalForm.removeEventListener('submit', formSubmit)
-
-  /**
    * On ferme la modale et on remet le focus sur le bouton de contact
    */
-  closeFormModal()
+  form().hide()
 }
 
 /**
@@ -118,7 +117,7 @@ const focusableElements = 'input, textArea, button'
 /**
  * On crée un tableau des éléments focusables
  */
-let focusables = [...DOM.modalForm.querySelectorAll(focusableElements)]
+let focusables = [...DOM.modalForm.getElementsByTagName(focusableElements)]
 
 /**
  * GESTION DU FOCUS

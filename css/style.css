@@ -55,9 +55,18 @@ body {
   margin-right: 100px;
 }
 
+a[aria-label="Page d'accueil"] {
+  margin-left: 90px;
+  border: none;
+  padding: 5px 10px;
+}
+a[aria-label="Page d'accueil"]:focus {
+  outline: 4px solid black;
+  border-radius: 5px;
+}
+
 .logo {
   height: 50px;
-  margin-left: 100px;
 }
 
 .photographers-section {
@@ -85,12 +94,15 @@ body {
   width: 350px;
   padding: 35px 0;
   transition: all 0.15s linear;
+  transform: scale(1);
   pointer-events: none;
+  border: 3px solid transparent;
 }
 .photographer__card .photographer__portrait {
   transition: opacity 0.25s linear;
 }
 .photographer__card:hover, .photographer__card:focus {
+  border: 3px solid black;
   transition: all 0.15s linear;
   transform: scale(1.05);
   box-shadow: 3px 9px 10px #ddd;
@@ -581,11 +593,9 @@ form textarea:focus {
   outline: 4px solid black;
   z-index: 100;
 }
-
 .custom-option:hover {
   cursor: pointer;
 }
-
 .custom-option_last {
   border-radius: 0 0 7px 7px;
   box-shadow: 0 3px 10px -5px black;
@@ -601,9 +611,7 @@ label[for=medias-sort] {
   height: 15px;
   width: 15px;
 }
-
-.arrow::before,
-.arrow::after {
+.arrow::before, .arrow::after {
   content: "";
   position: absolute;
   bottom: 0px;
@@ -611,13 +619,11 @@ label[for=medias-sort] {
   height: 100%;
   transition: all 0.5s;
 }
-
 .arrow::before {
   left: -3px;
   transform: rotate(-45deg);
   background-color: white;
 }
-
 .arrow::after {
   left: 6px;
   transform: rotate(45deg);
@@ -628,7 +634,6 @@ label[for=medias-sort] {
   left: -3px;
   transform: rotate(45deg);
 }
-
 .open .arrow::after {
   left: 6px;
   transform: rotate(-45deg);
@@ -651,8 +656,8 @@ label[for=medias-sort] {
   aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 7px;
-  transform: scale(1);
   transition: all 0.15s linear;
+  border: transparent;
 }
 .media-card__image:hover {
   transition: all 0.15s linear;
@@ -663,9 +668,11 @@ label[for=medias-sort] {
 .media-card__image:focus {
   border-radius: 0;
   transition: all 0.15s linear;
-  transform: scale(1.02);
+  transform: scale(1.03);
   box-shadow: 3px 6px 10px #ddd;
   opacity: 0.7;
+  border: 5px solid black;
+  border-radius: 5px;
 }
 .media-card__video-icon {
   color: white;

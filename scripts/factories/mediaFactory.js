@@ -1,12 +1,11 @@
-import DOM from '../utils/domElements.js'
-import { lightboxDisplay } from '../modals/lightbox.js'
+import { lightbox } from '../modals/lightbox.js'
 import {
   addOrRemoveLike,
-  loadLikes,
   getTotalOfLikes,
   printLikesNbr,
-  storeLikes,
+  store,
 } from '../API/likesAPI.js'
+import { addReactionTo } from '../utils/eventListener.js'
 
 export function mediaFactory(media, photographer, sortedPhotographerMedias) {
   function getMediaCardDOM() {
@@ -27,6 +26,8 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     media.video && mediaCard.classList.add('media-card__image_video')
     mediaCard.tabIndex = '0'
 
+    const playIconContainer = document.createElement('div')
+
     const playIcon = document.createElement('i')
     playIcon.classList.add(
       'media-card__video-icon',
@@ -46,11 +47,14 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     likes.classList.add('media-card__likesNbr')
 
     const likesNbr = document.createElement('span')
-    loadLikes().find(likedImage => {
-      if (likedImage.id === media.id) {
-        likesNbr.textContent = `${media.likes} `
-      }
-    })
+
+    store()
+      .getLikedImages()
+      .find(likedImage => {
+        if (likedImage.id === media.id) {
+          likesNbr.textContent = `${media.likes} `
+        }
+      })
 
     const likeIcon = document.createElement('i')
     likeIcon.classList.add('fa-solid', 'fa-heart')
@@ -70,25 +74,56 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     article.appendChild(imgDatas)
     article.appendChild(likeDisplayedOnMedia)
     article.children[0].classList.contains('media-card__image_video') &&
-      article.appendChild(playIcon)
+      article.appendChild(playIconContainer)
+    playIconContainer.appendChild(playIcon)
     imgDatas.appendChild(imgTitle)
     imgDatas.appendChild(likes)
     likes.appendChild(likesNbr)
     likesNbr.insertAdjacentHTML('afterend', `<i class="fa-solid fa-heart"><i>`)
 
     /**
+     * Ouverture de la modale au click sur thumbnail
+     */
+    addReactionTo('click')
+      .on(mediaCard)
+      .withFunction(() =>
+        lightbox(photographer, sortedPhotographerMedias, media.id).show()
+      )
+    addReactionTo('click')
+      .on(playIconContainer)
+      .withFunction(() =>
+        lightbox(photographer, sortedPhotographerMedias, media.id).show()
+      )
+
+    /**
+     * Ouverture de la modale au clavier
+     */
+    addReactionTo('keydown')
+      .on(article)
+      .withFunction(e => {
+        if (
+          e.key === 'Enter' &&
+          document.getElementById('lightbox').hasAttribute('aria-hidden')
+        ) {
+          mediaCard.click()
+        }
+      })
+
+    /**
      * Ajout/retrait d'un like
      */
-    likes.addEventListener('click', () => {
-      addOrRemoveLike(media)
-      printLikesNbr(media.id, likesNbr)
-    })
+    addReactionTo('click')
+      .on(likes)
+      .withFunction(() => {
+        addOrRemoveLike(media)
+        printLikesNbr(media.id)(likesNbr)
+      })
 
     // /**
     //  * Affichage nombre de likes
     //  */
     // const printLikesNbr = () => {
-    //   loadLikes().find(likedImage => {
+    //  store().getLikedImages().find(likedImage => {
     //     if (likedImage.id === media.id) {
     //       likesNbr.textContent = `${likedImage.likes} `
 
@@ -98,25 +133,6 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     //     }
     //   })
     // }
-
-    /**
-     * Ouverture de la modale au click sur thumbnail
-     */
-    mediaCard.addEventListener('click', () =>
-      lightboxDisplay('show', photographer, sortedPhotographerMedias, media.id)
-    )
-
-    /**
-     * Ouverture de la modale au clavier
-     */
-    article.addEventListener('keydown', e => {
-      if (
-        e.key === 'Enter' &&
-        document.getElementById('lightbox').hasAttribute('aria-hidden')
-      ) {
-        mediaCard.click()
-      }
-    })
 
     return article
   }

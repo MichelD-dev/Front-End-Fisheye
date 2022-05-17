@@ -1,16 +1,18 @@
 import DOM from '../utils/domElements.js'
 import { photographerFactory } from '../factories/photographerFactory.js'
 import { mediaFactory } from '../factories/mediaFactory.js'
-import { formDisplay, focusInModal } from '../modals/form.js'
-import { focusInLightbox, lightboxDisplay } from '../modals/lightbox.js'
-import { loadLikes, printLikesNbr, storeLikes } from '../API/likesAPI.js'
+import { form, focusInModal } from '../modals/form.js'
+import { focusInLightbox, lightbox } from '../modals/lightbox.js'
+import { store } from '../API/likesAPI.js'
 import getFetchedDatas from '../API/fetchAPI.js'
 import getSkeletons from '../utils/skeletons.js'
+import { addReactionTo } from '../utils/eventListener.js'
 
 /**
  * Récupération de l'id du photographe
  */
 let id = +new URLSearchParams(document.location.search).get('id')
+
 /**
  * Initialisation de la variable objet possédant le focus
  */
@@ -19,7 +21,36 @@ let id = +new URLSearchParams(document.location.search).get('id')
 /**
  * AFFICHAGE DE LA PAGE PHOTOGRAPHE
  */
-export async function displayMedias(photographer, sortedPhotographerMedias) {
+export function displayMedias(photographer, sortedPhotographerMedias) {
+  /**
+   * Navigation au clavier dans les modales
+   */
+  addReactionTo('keydown')
+    .on(window)
+    .withFunction(
+      e => {
+        if (
+          (e.key === 'Escape' || e.key === 'Esc') &&
+          DOM.modal.hasAttribute('aria-modal')
+        ) {
+          form().hide()
+        }
+        if (
+          (e.key === 'Escape' || e.key === 'Esc') &&
+          DOM.lightbox.hasAttribute('aria-modal')
+        ) {
+          lightbox().hide()
+        }
+        if (e.key === 'Tab' && DOM.modal.hasAttribute('aria-modal')) {
+          focusInModal(e)
+        }
+        if (e.key === 'Tab' && DOM.lightbox.hasAttribute('aria-modal')) {
+          focusInLightbox(e)
+        }
+      },
+      { once: true }
+    )
+
   /**
    * On réinitialise la grille d'images
    */
@@ -32,12 +63,15 @@ export async function displayMedias(photographer, sortedPhotographerMedias) {
    */
   const photographerModel = photographerFactory(photographer)
   photographerModel.getUserPageDOM()
+
+  /**
+   * Affichage des skeletons
+   */
   getSkeletons('print')
 
   /**
    * Récupération des cartes images du photographe
    */
-
   sortedPhotographerMedias.forEach(media => {
     if (media.photographerId !== id) return
 
@@ -50,9 +84,13 @@ export async function displayMedias(photographer, sortedPhotographerMedias) {
     const article = mediaModel.getMediaCardDOM()
 
     /**
-     * Affichage des cartes images du photographe
+     * Masquage des skeletons
      */
     getSkeletons('hide')
+
+    /**
+     * Affichage des cartes images du photographe
+     */
     DOM.mediasSection.appendChild(article)
     setTimeout(() => {
       article.classList.add('fadein')
@@ -63,35 +101,34 @@ export async function displayMedias(photographer, sortedPhotographerMedias) {
 /**
  * Actualisation éventuelle de l'affichage du nbr de likes à la fermeture de la lightbox
  */
+
 const mutationObserver = new MutationObserver(() => {
-  const id = +document.activeElement.parentElement.id
+  const mediaCards = [...DOM.mediasSection.getElementsByClassName('media-card')]
 
-  const likedMedia = loadLikes().find(media => media.id === id)
-  ;[...DOM.mediasSection.querySelectorAll('.media-card')].find(media => {
-    if (media.id === id.toString()) {
-      media.querySelector(
-        '.media-card__likesNbr > span'
-      ).textContent = `${likedMedia.likes} `
-    }
-  })
-
-  likedMedia.isLikedByMe
-    ? document.activeElement.parentElement.children[2].classList.remove(
-        'hidden'
-      )
-    : document.activeElement.parentElement.children[2].classList.add('hidden')
+  store()
+    .getLikedImages()
+    .map(media => {
+      mediaCards.find(likedMedia => {
+        if (+likedMedia.id === media.id) {
+          likedMedia.querySelector(
+            '.media-card__likesNbr > span'
+          ).textContent = `${media.likes} `
+          media.isLikedByMe
+            ? likedMedia.children[2].classList.remove('hidden')
+            : likedMedia.children[2].classList.add('hidden')
+        }
+      })
+    })
 })
 
-export const updateMediaLikesOnLightboxClose = () => {
-  mutationObserver.observe(DOM.lightbox, {
-    attributeFilter: ['aria-hidden'],
-  })
-}
+mutationObserver.observe(DOM.mediasSection, {
+  attributeFilter: ['hidden'],
+})
 
 /**
  * Récupération d'un photographe et des médias associés par critère de tri
  */
-const getMediasSorting = (photographers, medias, sortingChoice) => {
+export const getMediasSorting = (photographers, medias, sortingChoice) => {
   /**
    * Définition du photographe d'après son id
    */
@@ -110,6 +147,7 @@ const getMediasSorting = (photographers, medias, sortingChoice) => {
    * Tri de l'ordre d'affichage des images selon choix utilisateur
    */
   let sortedPhotographerMedias
+
   if (sortingChoice === 'Titre') {
     sortedPhotographerMedias = photographerMedias.sort((a, b) =>
       a.title.localeCompare(b.title)
@@ -136,10 +174,10 @@ const getDatas = async (sortingChoice = 'Popularité') => {
   /**
    * Récupération de l'ensemble des data
    */
-  const { photographers, medias } = await getFetchedDatas(
-    '/data/photographers.json',
-    'original datas'
-  )
+  const { photographers, medias } = await getFetchedDatas({
+    url: '/data/photographers.json',
+    storageName: 'original datas',
+  })
 
   /**
    * Récupération d'un photographe spécifique et des médias associés par critère de tri
@@ -162,7 +200,7 @@ const getDatas = async (sortingChoice = 'Popularité') => {
         ...likedMedias,
         { id: media.id, likes: media.likes, isLikedByMe: false },
       ]
-      storeLikes(likedMedias)
+      store().setLikedImages(likedMedias)
     })
   }
 
@@ -174,34 +212,14 @@ const getDatas = async (sortingChoice = 'Popularité') => {
 
 getDatas()
 
+// --------------------------------------------------------------------------- //
+// ---------------------------FORMULAIRE DE CONTACT--------------------------- //
+// --------------------------------------------------------------------------- //
+
 /**
  * Bouton d'affichage du formulaire de contact
  */
-DOM.contactBtn.addEventListener('click', () => formDisplay('show'))
-
-/**
- * Navigation au clavier dans les modales
- */
-window.addEventListener('keydown', e => {
-  if (
-    (e.key === 'Escape' || e.key === 'Esc') &&
-    DOM.modal.hasAttribute('aria-modal')
-  ) {
-    formDisplay('hide')
-  }
-  if (
-    (e.key === 'Escape' || e.key === 'Esc') &&
-    DOM.lightbox.hasAttribute('aria-modal')
-  ) {
-    lightboxDisplay('hide')
-  }
-  if (e.key === 'Tab' && DOM.modal.hasAttribute('aria-modal')) {
-    focusInModal(e)
-  }
-  if (e.key === 'Tab' && DOM.lightbox.hasAttribute('aria-modal')) {
-    focusInLightbox(e)
-  }
-})
+DOM.contactBtn.onclick = () => form().show()
 
 /*------------------------------------------------------------ */
 /*------------------------- SELECTEUR ------------------------ */
@@ -220,7 +238,7 @@ const select = () => {
      * Mise en tableau des selections non choisies
      */
     notSelectedsOptionsArray = [
-      ...document.querySelectorAll('.custom-option '),
+      ...document.getElementsByClassName('custom-option '),
     ].filter(el => !el.classList.contains('selected'))
 
     /**
@@ -248,14 +266,14 @@ const select = () => {
 /**
  * On ouvre le selecteur
  */
-document.querySelector('.select-wrapper').addEventListener('click', select)
+addReactionTo('click').on('.select-wrapper').withFunction(select)
 
 /**
  * On ouvre le selecteur avec le clavier
  */
-document
-  .querySelector('.select-wrapper')
-  .addEventListener('keydown', function (e) {
+addReactionTo('keydown')
+  .on('.select-wrapper')
+  .withFunction(e => {
     if (e.key === 'Enter') {
       select()
       document.querySelector('.select__trigger').focus()
@@ -283,38 +301,52 @@ const selectDisplay = option => {
   }
 }
 
-document.querySelector('.select__trigger').addEventListener('click', () => {})
+addReactionTo('click')
+  .on('.select__trigger')
+  .withFunction(() => {}) //FIXME remove?
 
-for (const option of document.querySelectorAll('.custom-option')) {
-  option.addEventListener('click', () => {
-    selectDisplay(option)
-  })
+for (const option of document.getElementsByClassName('custom-option')) {
+  addReactionTo('click')
+    .on(option)
+    .withFunction(
+      () => {
+        selectDisplay(option)
+      },
+      { once: true }
+    )
 }
 
 /**
  * On ferme le selecteur lorsque l'utilisateur clique quelque part dans la fenêtre
  */
-window.addEventListener('click', e => {
-  const select = document.querySelector('.select')
-  if (!select.contains(e.target)) {
-    select.classList.remove('open')
-  }
-})
+addReactionTo('click')
+  .on(window)
+  .withFunction(e => {
+    const select = document.querySelector('.select')
+    if (!select.contains(e.target)) {
+      select.classList.remove('open')
+    }
+  })
 
 /**
  * Récupération des données selon la catégorie sélectionnée
  */
 for (const selected of document.querySelectorAll('.custom-option')) {
-  selected.addEventListener('click', () => {
-    const sortingChoice = selected.textContent
-    getDatas(sortingChoice)
-  })
-  selected.addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
+  addReactionTo('click')
+    .on(selected)
+    .withFunction(() => {
       const sortingChoice = selected.textContent
       getDatas(sortingChoice)
-    }
-  })
+    })
+
+  addReactionTo('keydown')
+    .on(selected)
+    .withFunction(e => {
+      if (e.key === 'Enter') {
+        const sortingChoice = selected.textContent
+        getDatas(sortingChoice)
+      }
+    })
 }
 
 /**
@@ -341,10 +373,10 @@ const focusInSelector = e => {
   e.shiftKey === true ? index-- : index++
 
   if (index >= focusables.length) {
-    index = focusables.length - 1
+    index = 0
   }
   if (index < 0) {
-    index = 0
+    index = focusables.length - 1
   }
 
   let option = focusables[index]
@@ -353,26 +385,30 @@ const focusInSelector = e => {
   focusables.forEach(elem => elem.classList.remove('no-white-line'))
   document.activeElement.classList.add('no-white-line')
 
-  DOM.selector.addEventListener('keydown', function selectorKeydown(e) {
-    DOM.selector.removeEventListener('keydown', selectorKeydown)
-    if (
-      e.key === 'Enter' &&
-      document.querySelector('.select.open') &&
-      !document.activeElement.classList.contains('select__trigger')
-    ) {
-      selectDisplay(option)
-    }
-  })
+  // /**
+  //  * Navigation au clavier dans le selecteur
+  //  */
+  addReactionTo('keydown')
+    .on(DOM.selector)
+    .withFunction(e => {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        document.querySelector('.select.open').classList.remove('open')
+      }
+
+      if (
+        e.key === 'Enter' &&
+        document.querySelector('.select.open') &&
+        !document.activeElement.classList.contains('select__trigger')
+      ) {
+        selectDisplay(option)
+      }
+    })
 }
 
-// /**
-//  * Navigation au clavier dans le selecteur
-//  */
-DOM.selector.addEventListener('keydown', e => {
-  if (e.key === 'Escape' || e.key === 'Esc') {
-    document.querySelector('.select.open').classList.remove('open')
-  }
-  if (e.key === 'Tab' && !!document.querySelector('.select.open')) {
-    focusInSelector(e)
-  }
-})
+addReactionTo('keydown')
+  .on(DOM.selector)
+  .withFunction(e => {
+    if (e.key === 'Tab' && !!document.querySelector('.select.open')) {
+      focusInSelector(e)
+    }
+  })

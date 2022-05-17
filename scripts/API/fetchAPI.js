@@ -1,6 +1,6 @@
 import getSkeletons from '../utils/skeletons.js'
 
-const getFetchedDatas = async (url, storageName) => {
+const getFetchedDatas = async ({ url, storageName }) => {
   getSkeletons('print')
   const data =
     JSON.parse(localStorage.getItem(storageName)) ??

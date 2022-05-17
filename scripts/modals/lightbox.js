@@ -1,40 +1,20 @@
 import DOM from '../utils/domElements.js'
 import {
-  loadLikes,
+  isThisMediaLiked,
   printLikeOnLightbox,
   printTotalOfLikes,
 } from '../API/likesAPI.js'
-import { updateMediaLikesOnLightboxClose } from '../pages/photographer.js'
-
-/**
- * Création des balises img et video dans la balise figure
- */
-// const activeLike = document.createElement('i')
-// const inactiveLike = document.createElement('i')
-// activeLike.classList.add(
-//   'lightbox-caption__like_active',
-//   'fa-solid',
-//   'fa-heart'
-// )
-// inactiveLike.classList.add(
-//   'lightbox-caption__like_inactive',
-//   'fa-solid',
-//   'fa-heart'
-// )
-// DOM.lightboxLikeInCaption.appendChild(inactiveLike)
-// DOM.lightboxLikeInCaption.appendChild(activeLike)
-
-// const likeIcon = document.querySelector('.lightbox-caption__like')
+import { addReactionTo, removeReactionTo } from '../utils/eventListener.js'
 
 let previouslyFocusedElement
+// console.log(previouslyFocusedElement)
 
 /**
  * MODALE LIGHTBOX
  */
-export const lightboxDisplay = (
-  action,
+export const lightbox = (
   photographer,
-  sortedPhotographerMedias,
+  sortedPhotographerMedias = [],
   imageId,
   imagePositionInMediasArray = -1
 ) => {
@@ -42,324 +22,293 @@ export const lightboxDisplay = (
   const videoDisplay = document.querySelector('.lightbox__video')
 
   /**
-   * AFFICHAGE DU MEDIA
-   */
-  DOM.mediasSection.classList.add('hidden')
-
-  /**
    *  Récupération du média à afficher dans la lightbox
    */
 
-  if (sortedPhotographerMedias) {
-    const [media] = sortedPhotographerMedias.filter(
-      media => media.id === imageId
-    )
-    const handlePrintLikeOnLightbox = () => {
-      printLikeOnLightbox(media)
-      document
-        .querySelector('.lightbox-caption__like_inactive')
-        .removeEventListener('click', handlePrintLikeOnLightbox)
+  // if (!sortedPhotographerMedias) return
 
-      document
-        .querySelector('.lightbox-caption__like_active')
-        .removeEventListener('click', handlePrintLikeOnLightbox)
+  let [media] = sortedPhotographerMedias.filter(media => media.id === imageId)
+
+  /**
+   * Récupération de l'index du média dans le tableau des médias du photographe
+   */
+  imagePositionInMediasArray = sortedPhotographerMedias.indexOf(media)
+
+  const show = () => {
+    /**
+     * AFFICHAGE DU MEDIA
+     */
+    DOM.mediasSection.classList.add('hidden')
+    DOM.mediasSection.setAttribute('hidden', true)
+
+    previouslyFocusedElement = document.querySelector(':focus').parentElement
+
+    /**
+     * attributs de lecture sur balise vidéo
+     */
+    videoDisplay.controls = true //TODO Gestion des controls au clavier?
+    videoDisplay.setAttribute('type', 'video/mp4')
+    videoDisplay.setAttribute('tabIndex', '0')
+
+    /**
+     * Affichage du titre du média dans la balise figcaption
+     */
+    document.querySelector(
+      '.lightbox-caption__text'
+    ).textContent = `${sortedPhotographerMedias[imagePositionInMediasArray].title}`
+
+    /**
+     * Si le média est une image
+     */
+    if (media.image) {
+      DOM.lightboxContainer.classList.remove('w100')
+      /**
+       * On passe la balise video en display: none
+       */
+      videoDisplay.classList.add('hidden')
+      imageDisplay.classList.remove('hidden')
+
+      /**
+       * On définit la source de l'image
+       */
+      imageDisplay.src = `../../assets/images/${
+        photographer.name.split(' ')[0]
+      }/${sortedPhotographerMedias[imagePositionInMediasArray].image}`
     }
 
     /**
-     * Récupération de l'index du média dans le tableau des médias du photographe
+     * Si le média est une vidéo
      */
-    imagePositionInMediasArray = sortedPhotographerMedias.indexOf(media)
-
-    if (action === 'show') {
-      //TODO
-      previouslyFocusedElement = document.querySelector(':focus').parentElement
+    if (media.video) {
+      DOM.lightboxContainer.classList.add('w100')
+      /**
+       * On passe la balise image en display: none
+       */
+      imageDisplay.classList.add('hidden')
+      videoDisplay.classList.remove('hidden')
 
       /**
-       * attributs de lecture sur balise vidéo
+       * On définit la source de la vidéo
        */
-      videoDisplay.controls = true //TODO Gestion des controls au clavier?
-      videoDisplay.setAttribute('type', 'video/mp4')
-      videoDisplay.setAttribute('tabIndex', '0')
-
-      /**
-       * Insertion du média dans le container lightbox avant son titre, en fonction de son type
-       */
-      // DOM.lightboxContainer.insertBefore(
-      //   videoDisplay,
-      //   DOM.lightboxContainer.querySelector('figcaption')
-      // )
-      // DOM.lightboxContainer.insertBefore(
-      //   imageDisplay,
-      //   DOM.lightboxContainer.querySelector('figcaption')
-      // )
-
-      /**
-       * Affichage du titre du média dans la balise figcaption
-       */
-      document.querySelector(
-        '.lightbox-caption__text'
-      ).textContent = `${sortedPhotographerMedias[imagePositionInMediasArray].title}`
-
-      /**
-       * Si le média est une image
-       */
-      if (media.image) {
-        DOM.lightboxContainer.classList.remove('w100')
-        /**
-         * On passe la balise video en display: none
-         */
-        videoDisplay.classList.add('hidden')
-        imageDisplay.classList.remove('hidden')
-
-        /**
-         * On définit la source de l'image
-         */
-        imageDisplay.src = `../../assets/images/${
-          photographer.name.split(' ')[0]
-        }/${sortedPhotographerMedias[imagePositionInMediasArray].image}`
-      }
-
-      /**
-       * Si le média est une vidéo
-       */
-      if (media.video) {
-        DOM.lightboxContainer.classList.add('w100')
-        /**
-         * On passe la balise image en display: none
-         */
-        imageDisplay.classList.add('hidden')
-        videoDisplay.classList.remove('hidden')
-
-        /**
-         * On définit la source de la vidéo
-         */
-        videoDisplay.src = `../../assets/images/${
-          photographer.name.split(' ')[0]
-        }/${sortedPhotographerMedias[imagePositionInMediasArray].video}`
-      }
-
-      /**
-       * On affiche la lightbox
-       */
-      const lightbox = document.getElementById('lightbox')
-
-      lightbox.removeAttribute('aria-hidden')
-
-      lightbox.ariaModal = true
-
-      /**
-       * On affiche le like sur la lightbox si le média est liké
-       */
-      loadLikes().find(like => {
-        if (like.id === media.id) {
-          if (like.isLikedByMe) {
-            document.querySelector('.lightbox-caption__like-btn').checked = true
-          } else {
-            document.querySelector(
-              '.lightbox-caption__like-btn'
-            ).checked = false
-          }
-          document.querySelector('.lightbox-caption__like-btn').checked =
-            like.isLikedByMe ? true : false
-
-          return like
-        }
-      })
-
-      // --------------------------------------------------------------------------- //
-      // --------------------------------------------------------------------------- //
-      // --------------------------------------------------------------------------- //
-
-      /**
-       * BOUTON NEXT
-       */
-      const displayNextMedia = (sortedPhotographerMedias, photographer) => {
-        // console.log(sortedPhotographerMedias)
-
-        if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
-          return
-        }
-
-        previouslyFocusedElement.nextSibling !== null
-          ? (previouslyFocusedElement = previouslyFocusedElement.nextSibling)
-          : (previouslyFocusedElement =
-              previouslyFocusedElement.parentElement.firstElementChild)
-
-        imagePositionInMediasArray =
-          (imagePositionInMediasArray + 1) % sortedPhotographerMedias.length
-
-        const i = imagePositionInMediasArray
-
-        if (sortedPhotographerMedias[i].image) {
-          DOM.lightboxContainer.classList.remove('w100')
-          imageDisplay.classList.remove('hidden')
-          videoDisplay.classList.add('hidden')
-          imageDisplay.src = `../../assets/images/${
-            photographer.name.split(' ')[0]
-          }/${sortedPhotographerMedias[i].image}`
-        }
-
-        if (sortedPhotographerMedias[i].video) {
-          DOM.lightboxContainer.classList.add('w100')
-          imageDisplay.classList.add('hidden')
-          videoDisplay.classList.remove('hidden')
-          videoDisplay.src = `../../assets/images/${
-            photographer.name.split(' ')[0]
-          }/${sortedPhotographerMedias[i].video}`
-        }
-
-        document.querySelector('.lightbox-caption__text').textContent =
-          sortedPhotographerMedias[i].title
-
-        /**
-         * On affiche le like sur la lightbox si le média est liké
-         */
-        const media = loadLikes().find(
-          media => media.id === sortedPhotographerMedias[i].id
-        )
-
-        if (media.isLikedByMe) {
-          document.querySelector('.lightbox-caption__like-btn').checked = true
-        } else {
-          document.querySelector('.lightbox-caption__like-btn').checked = false
-        }
-      }
-
-      // --------------------------------------------------------------------------- //
-      // --------------------------------------------------------------------------- //
-      // --------------------------------------------------------------------------- //
-
-      /**
-       * BOUTON PREVIOUS
-       */
-      const displayPreviousMedia = (sortedPhotographerMedias, photographer) => {
-        if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
-          return
-        }
-
-        previouslyFocusedElement.previousSibling !== null
-          ? (previouslyFocusedElement =
-              previouslyFocusedElement.previousSibling)
-          : (previouslyFocusedElement =
-              previouslyFocusedElement.parentElement.lastElementChild)
-
-        imagePositionInMediasArray =
-          (imagePositionInMediasArray - 1 + sortedPhotographerMedias.length) %
-          sortedPhotographerMedias.length
-
-        const i = imagePositionInMediasArray
-
-        if (sortedPhotographerMedias[i].image) {
-          DOM.lightboxContainer.classList.remove('w100')
-          imageDisplay.classList.remove('hidden')
-          videoDisplay.classList.add('hidden')
-          sortedPhotographerMedias[i].image &&
-            (imageDisplay.src = `../../assets/images/${
-              photographer.name.split(' ')[0]
-            }/${sortedPhotographerMedias[i].image}`)
-        }
-
-        if (sortedPhotographerMedias[i].video) {
-          DOM.lightboxContainer.classList.add('w100')
-          imageDisplay.classList.add('hidden')
-          videoDisplay.classList.remove('hidden')
-          sortedPhotographerMedias[i].video &&
-            (videoDisplay.src = `../../assets/images/${
-              photographer.name.split(' ')[0]
-            }/${sortedPhotographerMedias[i].video}`)
-        }
-
-        document.querySelector('.lightbox-caption__text').textContent =
-          sortedPhotographerMedias[i].title
-
-        /**
-         * On affiche le like sur la lightbox si le média est liké
-         */
-        const media = loadLikes().find(
-          media => media.id === sortedPhotographerMedias[i].id
-        )
-
-        if (media.isLikedByMe) {
-          document.querySelector('.lightbox-caption__like-btn').checked = true
-        } else {
-          document.querySelector('.lightbox-caption__like-btn').checked = false
-        }
-      }
-
-      document
-        .querySelector('.lightbox__close')
-        .addEventListener('click', function closeLightboxModal() {
-          lightboxDisplay('hide')
-        })
-
-      document
-        .querySelector('.lightbox__next')
-        .addEventListener('click', function displayNext() {
-          displayNextMedia(sortedPhotographerMedias, photographer)
-        })
-
-      document
-        .querySelector('.lightbox__previous')
-        .addEventListener('click', function displayPrevious() {
-          displayPreviousMedia(sortedPhotographerMedias, photographer)
-        })
-
-      document
-        .querySelector('.lightbox-caption__like_inactive')
-        .addEventListener('click', handlePrintLikeOnLightbox)
-
-      document
-        .querySelector('.lightbox-caption__like_active')
-        .addEventListener('click', handlePrintLikeOnLightbox)
-
-      window.addEventListener('keydown', function changeMedia(e) {
-        if (e.key === 'ArrowRight' && DOM.lightbox.hasAttribute('aria-modal')) {
-          displayNextMedia(sortedPhotographerMedias, photographer)
-        }
-
-        if (e.key === 'ArrowLeft' && DOM.lightbox.hasAttribute('aria-modal')) {
-          displayPreviousMedia(sortedPhotographerMedias, photographer)
-        }
-        if (e.key === 'Escape') {
-          lightboxDisplay('hide')
-        }
-      })
+      videoDisplay.src = `../../assets/images/${
+        photographer.name.split(' ')[0]
+      }/${sortedPhotographerMedias[imagePositionInMediasArray].video}`
     }
-  } //TODO fin de "show"
+
+    /**
+     * On affiche la lightbox
+     */
+    const lightbox = document.getElementById('lightbox')
+
+    lightbox.removeAttribute('aria-hidden')
+
+    lightbox.ariaModal = true
+
+    /**
+     * On affiche le like sur la lightbox si le média est liké
+     */
+    isThisMediaLiked(media)
+
+    clickOnLightboxLike(media)
+  }
+
+  /**
+   * Click sur like
+   */
+  const clickOnLightboxLike = media => {
+    DOM.hiddenLikeCheckbox.onchange = () => {
+      printLikeOnLightbox(media)
+    }
+  }
 
   // --------------------------------------------------------------------------- //
+  // -----------------------------NEXT LIGHTBOX MEDIA--------------------------- //
   // --------------------------------------------------------------------------- //
+
+  /**
+   * BOUTON NEXT
+   */
+  const displayNextMedia = () => {
+    // imagePositionInMediasArray => {
+    //   if (executed) return
+    //   executed = false
+    //   ;() => {
+    //     imagePositionInMediasArray
+    //     executed = true
+    //   }
+    // }
+
+    if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
+      return
+    }
+
+    const PFE = previouslyFocusedElement
+
+    previouslyFocusedElement =
+      PFE.nextSibling !== null
+        ? PFE.nextSibling
+        : PFE.parentElement.firstElementChild
+
+    imagePositionInMediasArray =
+      (imagePositionInMediasArray + 1) % sortedPhotographerMedias.length
+
+    let i = imagePositionInMediasArray
+
+    if (sortedPhotographerMedias[i].image) {
+      DOM.lightboxContainer.classList.remove('w100')
+      imageDisplay.classList.remove('hidden')
+      videoDisplay.classList.add('hidden')
+
+      imageDisplay.src = `../../assets/images/${
+        photographer.name.split(' ')[0]
+      }/${sortedPhotographerMedias[i].image}`
+    }
+
+    if (sortedPhotographerMedias[i].video) {
+      DOM.lightboxContainer.classList.add('w100')
+      imageDisplay.classList.add('hidden')
+      videoDisplay.classList.remove('hidden')
+
+      videoDisplay.src = `../../assets/images/${
+        photographer.name.split(' ')[0]
+      }/${sortedPhotographerMedias[i].video}`
+    }
+
+    document.querySelector('.lightbox-caption__text').textContent =
+      sortedPhotographerMedias[i].title
+
+    /**
+     * On affiche le like sur la lightbox si le média est liké
+     */
+    isThisMediaLiked(sortedPhotographerMedias[i])
+
+    /**
+     * On actualise l'affichage du like sur le thumbnail
+     */
+    clickOnLightboxLike(sortedPhotographerMedias[i])
+  }
+
   // --------------------------------------------------------------------------- //
+  // ---------------------------PREVIOUS LIGHTBOX MEDIA------------------------- //
+  // --------------------------------------------------------------------------- //
+
+  /**
+   * BOUTON PREVIOUS
+   */
+  const displayPreviousMedia = () => {
+    if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
+      return
+    }
+
+    const PFE = previouslyFocusedElement
+
+    previouslyFocusedElement =
+      PFE.previousSibling !== null
+        ? PFE.previousSibling
+        : PFE.parentElement.lastElementChild
+
+    imagePositionInMediasArray =
+      (imagePositionInMediasArray - 1 + sortedPhotographerMedias.length) %
+      sortedPhotographerMedias.length
+
+    let i = imagePositionInMediasArray
+
+    if (sortedPhotographerMedias[i].image) {
+      DOM.lightboxContainer.classList.remove('w100')
+      imageDisplay.classList.remove('hidden')
+      videoDisplay.classList.add('hidden')
+
+      sortedPhotographerMedias[i].image &&
+        (imageDisplay.src = `../../assets/images/${
+          photographer.name.split(' ')[0]
+        }/${sortedPhotographerMedias[i].image}`)
+    }
+
+    if (sortedPhotographerMedias[i].video) {
+      DOM.lightboxContainer.classList.add('w100')
+      imageDisplay.classList.add('hidden')
+      videoDisplay.classList.remove('hidden')
+
+      sortedPhotographerMedias[i].video &&
+        (videoDisplay.src = `../../assets/images/${
+          photographer.name.split(' ')[0]
+        }/${sortedPhotographerMedias[i].video}`)
+    }
+
+    document.querySelector('.lightbox-caption__text').textContent =
+      sortedPhotographerMedias[i].title
+
+    /**
+     * On affiche le like sur la lightbox si le média est liké
+     */
+    isThisMediaLiked(sortedPhotographerMedias[i])
+
+    /**
+     * On actualise l'affichage du like sur le thumbnail
+     */
+    clickOnLightboxLike(sortedPhotographerMedias[i])
+  }
+
+  const keyboardNavigation = e => {
+    if (DOM.lightbox.hasAttribute('aria-modal')) {
+      e.key === 'ArrowRight' && displayNextMedia()
+      e.key === 'ArrowLeft' && displayPreviousMedia()
+      e.key === 'Escape' && /*lightbox*/ hide()
+    }
+  }
 
   /**
    * On ferme la lightbox
    */
-  if (action === 'hide') {
-    //TODO
-    // console.log(document.querySelector('.lightbox__next'))
+  const hide = () => {
     const modal = document.querySelector('#lightbox')
-
-    document.querySelector('.lightbox__next').onclick = () => {}
-    document.querySelector('.lightbox__previous').onclick = () => {}
-    window.onkeydown = null
-
-    // .removeEventListener('click', displayNext)
-
-    // window.removeEventListener('keydown', changeMedia)
-
-    // document
-    //   .querySelector('.lightbox__previous')
-    //   .removeEventListener('click', displayPrevious)
 
     modal.ariaHidden = true
     modal.removeAttribute('aria-modal')
 
     DOM.mediasSection.classList.remove('hidden')
+    DOM.mediasSection.setAttribute('hidden', false)
     previouslyFocusedElement?.firstChild?.focus()
+
+    removeEventListeners()
 
     printTotalOfLikes()
   }
+
+  // --------------------------------------------------------------------------- //
+  // -------------------------------EVENT LISTENERS----------------------------- //
+  // --------------------------------------------------------------------------- //
+
+  addReactionTo('click')
+    .on('.lightbox__previous')
+    .withFunction(displayPreviousMedia)
+
+  addReactionTo('click').on('.lightbox__next').withFunction(displayNextMedia)
+
+  addReactionTo('click').on('.lightbox__close').withFunction(hide)
+
+  addReactionTo('keydown').on(window).withFunction(keyboardNavigation)
+
+  const removeEventListeners = () => {
+    removeReactionTo('click')
+      .on('.lightbox__previous')
+      .withFunction(displayPreviousMedia)
+
+    removeReactionTo('click')
+      .on('.lightbox__next')
+      .withFunction(displayNextMedia)
+
+    removeReactionTo('click').on('.lightbox__close').withFunction(hide)
+
+    removeReactionTo('keydown').on(window).withFunction(keyboardNavigation)
+  }
+
+  return { show, hide }
 }
+
+// --------------------------------------------------------------------------- //
+// ------------------------FERMETURE DE LA LIGHTBOX--------------------------- //
+// --------------------------------------------------------------------------- //
 
 /**
  * On place le focus sur le like

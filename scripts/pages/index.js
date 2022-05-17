@@ -5,7 +5,7 @@ import init from '../utils/init.js'
 /**
  * Affichage de la page d'accueil
  */
-async function displayPhotographers(photographers) {
+ async function displayPhotographers(photographers) {
   photographers.forEach(photographer => {
     const photographerModel = photographerFactory(photographer)
     const userCardDOM = photographerModel.getUserCardDOM()
@@ -20,8 +20,8 @@ async function displayPhotographers(photographers) {
  * Demande de fetch et affichage des photographes
  */
 init({
-  fetchUrl: '/data/photographers.json',
+  url: '/data/photographers.json',
   storageName: 'original datas',
-  doSomethingWithData: displayPhotographers,
+  doSomethingWith: displayPhotographers,
   thisParticularData: 'photographers',
 })

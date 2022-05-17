@@ -1,3 +1,5 @@
+import { addReactionTo } from '../utils/eventListener.js'
+
 export function photographerFactory(data) {
   const {
     id,
@@ -11,9 +13,9 @@ export function photographerFactory(data) {
 
   const picture = `assets/photographers/${portrait}`
 
-/**
-  * Création des éléments DOM du photographe - page photographe
- */
+  /**
+   * Création des éléments DOM du photographe - page photographe
+   */
   function getUserPageDOM() {
     document.title = `Fisheye | ${phoName}`
 
@@ -34,8 +36,8 @@ export function photographerFactory(data) {
   }
 
   /**
-  * Création des éléments DOM des photographes - page d'accueil
- */
+   * Création des éléments DOM des photographes - page d'accueil
+   */
   function getUserCardDOM() {
     const article = document.createElement('article')
     article.classList.add('photographer__card', 'card')
@@ -78,11 +80,13 @@ export function photographerFactory(data) {
     article.appendChild(tagline)
     article.appendChild(price)
 
-    article.addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        articleHeader.click()
-      }
-    })
+    addReactionTo('keydown')
+      .on(article)
+      .withFunction(e => {
+        if (e.key === 'Enter') {
+          articleHeader.click()
+        }
+      })
 
     return article
   }

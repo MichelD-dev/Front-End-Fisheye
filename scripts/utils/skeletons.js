@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-semi */
 import DOM from './domElements.js'
 
 let cardTemplate = document.getElementById('card-template')
@@ -8,12 +9,12 @@ const getSkeletons = pValue => {
     if (pValue === 'print') {
       DOM.photographersSection?.append(cardTemplate.content.cloneNode(true))
       DOM.mediasSection?.append(mediaTemplate.content.cloneNode(true))
-      ;[...document.querySelectorAll('.photographer__card')].map(card => {
+      ;[...document.getElementsByClassName('photographer__card')].map(card => {
         card.classList.add('fadein')
       })
     }
     if (pValue === 'hide') {
-      ;[...document.querySelectorAll('.photographer__card')].map(card => {
+      ;[...document.getElementsByClassName('photographer__card')].map(card => {
         card.classList.add('fadeout')
         setTimeout(() => {
           card.remove()

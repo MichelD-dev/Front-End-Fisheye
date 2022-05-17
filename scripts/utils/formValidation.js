@@ -1,5 +1,5 @@
 import DOM from './domElements.js'
-import { formDisplay } from '../modals/form.js'
+import { form } from '../modals/form.js'
 import { isInputValid } from './utils.js'
 
 let firstName = {
@@ -62,18 +62,8 @@ DOM.modalForm.onkeydown = e => {
     if (DOM.formModal.hasAttribute('aria-modal')) return validate(e)
   }
   if (e.key === 'Escape') {
-    formDisplay('hide')
+    form().hide()
   }
 }
 
 export { firstName, lastName, email, message }
-
-// DOM.modalForm
-// .querySelectorAll('input:not([type="submit"]), textArea')
-// .forEach(input => {
-//   input.classList.remove('error', 'success')
-//   input.value = ''
-// })
-// DOM.modalForm.querySelectorAll('.error-message').forEach(errorMsg => {
-// errorMsg.textContent = ''
-// })

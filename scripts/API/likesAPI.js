@@ -1,27 +1,26 @@
-import { updateMediaLikesOnLightboxClose } from '../pages/photographer.js'
+// import { updateMediasLikesOnLightboxClose } from '../pages/photographer.js'
 import DOM from '../utils/domElements.js'
 
 /**
  * On stocke les likes du photographe dans le local storage
  */
-export const storeLikes = likes => {
-  localStorage.setItem("photographer's liked medias", JSON.stringify(likes))
-}
+export const store = () => {
+  const setLikedImages = likes => {
+    localStorage.setItem("photographer's liked medias", JSON.stringify(likes))
+  }
 
-/**
- * On récupère les likes du photographe du local storage
- */
-export const loadLikes = () => {
-  return JSON.parse(localStorage.getItem("photographer's liked medias"))
+  /**
+   * On récupère les likes du photographe du local storage
+   */
+  const getLikedImages = () => {
+    return JSON.parse(localStorage.getItem("photographer's liked medias"))
+  }
+
+  return { setLikedImages, getLikedImages }
 }
 
 // ------------------------------------------------------------ //
 // ------------------------------------------------------------ //
-
-/**
- * On initialise un tableau des ids des médias likés
- */
-let likedImages = loadLikes()
 
 /**
  * Ajout/retrait like sur thumbnail
@@ -30,9 +29,24 @@ export const addOrRemoveLike = media => {
   /**
    * On récupère le média sur lequel on ajoute/enlève un like
    */
-  const [mediaCard] = [...document.querySelectorAll('.media-card')].filter(
+  const [mediaCard] = [...document.getElementsByClassName('media-card')].filter(
     elem => +elem.id === media.id
   )
+
+  /* On actualise le tableau des ids des medias likés */
+  const updatedLikedImages = addLike => {
+    /* On le mémorise  dans le local storage */
+    store().setLikedImages(
+      store()
+        .getLikedImages()
+        .map(likedImage => {
+          if (likedImage.id === media.id) {
+            return { ...likedImage, likes: media.likes, isLikedByMe: !!addLike }
+          }
+          return likedImage
+        })
+    )
+  }
 
   /**
    * Si la lightbox est cachée, on agit sur les thumbnails
@@ -45,25 +59,17 @@ export const addOrRemoveLike = media => {
       mediaCard.children[2].classList.add('hidden')
       media.likes -= 1
 
-      /* On actualise le tableau des ids des medias likés sans le like retiré */
-      likedImages = likedImages.map(likedImage => {
-        if (likedImage.id === media.id) {
-          return { ...likedImage, likes: media.likes, isLikedByMe: false }
-        }
-        return likedImage
-      })
+      /* On modifie le nombre de likes sur les images existantes dans le tableau */
+      updatedLikedImages(0)
 
-      /* On le mémorise  dans le local storage */
-      storeLikes(likedImages)
-
-      const likes = loadLikes()
       if (!mediaCard.children[2].classList.contains('hidden')) {
-        likes.map(obj => {
+        updatedLikedImages().map(obj => {
           if (obj.like === media.like) {
             mediaCard.children[2].classList.add('hidden')
           }
         })
       }
+
       return
 
       /**
@@ -74,19 +80,10 @@ export const addOrRemoveLike = media => {
       media.likes += 1
 
       /* On modifie le nombre de likes sur les images existantes dans le tableau */
-      likedImages = likedImages.map(likedImage => {
-        if (likedImage.id === media.id) {
-          return { ...likedImage, likes: media.likes, isLikedByMe: true }
-        }
-        return likedImage
-      })
+      updatedLikedImages(+1)
 
-      /* On mémorise le tableau des likes dans le local storage */
-      storeLikes(likedImages)
-
-      const likes = loadLikes()
       if (mediaCard.children[2].classList.contains('hidden')) {
-        likes.map(obj => {
+        updatedLikedImages.map(obj => {
           if (obj.like === media.like) {
             mediaCard.children[2].classList.remove('hidden')
           }
@@ -123,16 +120,18 @@ export const addOrRemoveLike = media => {
 /**
  * Affichage nombre de likes par image
  */
-export const printLikesNbr = (id, likesNbr) => {
-  loadLikes().find(likedImage => {
-    if (likedImage.id === id) {
-      likesNbr.textContent = `${likedImage.likes} `
+export const printLikesNbr = id => likesNbr => {
+  store()
+    .getLikedImages()
+    .find(likedImage => {
+      if (likedImage.id === id) {
+        likesNbr.textContent = `${likedImage.likes} `
 
-      document.querySelector(
-        '.photographer__likes'
-      ).textContent = `${getTotalOfLikes()} `
-    }
-  })
+        document.querySelector(
+          '.photographer__likes'
+        ).textContent = `${getTotalOfLikes()} `
+      }
+    })
 }
 
 /**
@@ -140,7 +139,8 @@ export const printLikesNbr = (id, likesNbr) => {
  */
 export const getTotalOfLikes = () => {
   let likesTotal =
-    loadLikes()
+    store()
+      .getLikedImages()
       ?.map(media => media.likes)
       .reduce((total, current) => total + current, 0) ?? []
 
@@ -160,47 +160,62 @@ printTotalOfLikes()
  * Affichage du like dans la lightbox
  */
 export const printLikeOnLightbox = media => {
-  updateMediaLikesOnLightboxClose()
+  const updatedLikedImages = addLike => {
+    /* On le mémorise  dans le local storage */
+    store().setLikedImages(
+      store()
+        .getLikedImages()
+        .map(likedImage => {
+          if (likedImage.id === media.id) {
+            return { ...likedImage, likes: media.likes, isLikedByMe: !!addLike }
+          }
+          return likedImage
+        })
+    )
+  }
 
-  if (document.getElementById('lightbox').hasAttribute('aria-modal')) {
-    //FIXME nécessaire?
-    loadLikes().map(likedImage => {
+  // updateMediasLikesOnLightboxClose()
+
+  if (!document.getElementById('lightbox').hasAttribute('aria-modal')) return
+
+  //FIXME nécessaire?
+  store()
+    .getLikedImages()
+    .map(likedImage => {
       if (likedImage.id === media.id) {
         DOM.hiddenLikeCheckbox.checked = likedImage.isLikedByMe
       }
     })
 
-    if (!DOM.hiddenLikeCheckbox.checked) {
-      media.likes += 1
+  if (!DOM.hiddenLikeCheckbox.checked) {
+    media.likes += 1
+    DOM.hiddenLikeCheckbox.checked = true
 
-      /* On modifie le nombre de likes sur les images existantes dans le tableau */
-      likedImages = likedImages.map(likedImage => {
-        if (likedImage.id === media.id) {
-          return { ...likedImage, likes: media.likes, isLikedByMe: true }
-        }
-        return likedImage
-      })
+    /* On modifie le nombre de likes sur les images existantes dans le tableau */
+    updatedLikedImages(+1)
 
-      /* On mémorise le tableau des likes dans le local storage */
-      storeLikes(likedImages)
+    return
+  }
 
-      return
-    }
+  if (DOM.hiddenLikeCheckbox.checked) {
+    media.likes -= 1
+    DOM.hiddenLikeCheckbox.checked = false
 
-    if (DOM.hiddenLikeCheckbox.checked) {
-      media.likes -= 1
-
-      /* On actualise le tableau des ids des medias likés sans le like retiré */
-      likedImages = likedImages.map(likedImage => {
-        if (likedImage.id === media.id) {
-          return { ...likedImage, likes: media.likes, isLikedByMe: false }
-        }
-        return likedImage
-      })
-
-      /* On le mémorise  dans le local storage */
-      storeLikes(likedImages)
-    }
+    /* On modifie le nombre de likes sur les images existantes dans le tableau */
+    updatedLikedImages(0)
   }
 }
 // printLikeOnLightbox()
+
+/**
+ * Affichage like sur lightbox si thumbnail liké
+ */
+export const isThisMediaLiked = media => {
+  store()
+    .getLikedImages()
+    .find(thisMedia => {
+      if (thisMedia.id === media.id) {
+        DOM.hiddenLikeCheckbox.checked = thisMedia.isLikedByMe
+      }
+    })
+}

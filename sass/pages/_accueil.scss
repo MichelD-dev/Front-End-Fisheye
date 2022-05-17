@@ -22,9 +22,18 @@ body {
   }
 }
 
+a[aria-label="Page d'accueil"] {
+  margin-left: 90px;
+  border: none;
+  padding: 5px 10px;
+  &:focus {
+    outline: 4px solid black;
+    border-radius: 5px;
+  }
+}
+
 .logo {
   height: 50px;
-  margin-left: 100px;
 }
 
 .photographers-section {
@@ -53,12 +62,15 @@ body {
     width: 350px;
     padding: 35px 0;
     transition: all 0.15s linear;
+    transform: scale(1);
     pointer-events: none;
+    border: 3px solid transparent;
     & .photographer__portrait {
       transition: opacity 0.25s linear;
     }
     &:hover,
     &:focus {
+      border: 3px solid black;
       transition: all 0.15s linear;
       transform: scale(1.05);
       box-shadow: 3px 9px 10px #ddd;
