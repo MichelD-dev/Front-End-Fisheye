@@ -1,4 +1,4 @@
-import { focusInModal, form } from '../modals/form.js'
+import { form } from '../modals/form.js'
 import { focusInLightbox, lightbox } from '../modals/lightbox.js'
 import DOM from './domElements.js'
 import { addReactionTo } from './eventListener.js'
@@ -68,9 +68,9 @@ const keyboardNavigation = () => {
         ) {
           lightbox().hide()
         }
-        if (e.key === 'Tab' && DOM.modal.hasAttribute('aria-modal')) {
-          focusInModal(e)
-        }
+        // if (e.key === 'Tab' && DOM.modal.hasAttribute('aria-modal')) {
+        //   focusInModal(e)
+        // }
         if (e.key === 'Tab' && DOM.lightbox.hasAttribute('aria-modal')) {
           focusInLightbox(e)
         }

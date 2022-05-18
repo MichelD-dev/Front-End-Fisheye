@@ -32,12 +32,6 @@ export function displayMedias(photographer, sortedPhotographerMedias) {
   }
 
   /**
-   * Affichage des données du photographe
-   */
-  const photographerModel = photographerFactory(photographer)
-  photographerModel.getUserPageDOM()
-
-  /**
    * Affichage des skeletons
    */
   getSkeletons('print')
@@ -45,6 +39,9 @@ export function displayMedias(photographer, sortedPhotographerMedias) {
   /**
    * Récupération des cartes images du photographe
    */
+  const photographerModel = photographerFactory(photographer)
+  photographerModel.getUserPageDOM()
+
   sortedPhotographerMedias.forEach(media => {
     if (media.photographerId !== id) return
 
@@ -56,9 +53,9 @@ export function displayMedias(photographer, sortedPhotographerMedias) {
 
     const article = mediaModel.getMediaCardDOM()
 
-    /**
-     * Masquage des skeletons
-     */
+    // /**
+    //  * Masquage des skeletons
+    //  */
     getSkeletons('hide')
 
     /**
@@ -119,23 +116,18 @@ export const getMediasSorting = (photographers, medias, sortingChoice) => {
   /**
    * Tri de l'ordre d'affichage des images selon choix utilisateur
    */
-  let sortedPhotographerMedias
+  const sortBy = sortingChoice => {
+    const choices = {
+      Titre: () =>
+        photographerMedias.sort((a, b) => a.title.localeCompare(b.title)),
+      Popularité: () => photographerMedias.sort((a, b) => b.likes - a.likes),
+      Date: () => photographerMedias.sort((a, b) => a.date - b.date),
+    }
 
-  if (sortingChoice === 'Titre') {
-    sortedPhotographerMedias = photographerMedias.sort((a, b) =>
-      a.title.localeCompare(b.title)
-    )
+    return choices[sortingChoice]()
   }
-  if (sortingChoice === 'Popularité') {
-    sortedPhotographerMedias = photographerMedias.sort(
-      (a, b) => b.likes - a.likes
-    )
-  }
-  if (sortingChoice === 'Date') {
-    sortedPhotographerMedias = photographerMedias.sort(
-      (a, b) => a.date - b.date
-    )
-  }
+
+  const sortedPhotographerMedias = sortBy(sortingChoice)
 
   return { photographer, sortedPhotographerMedias }
 }
@@ -148,7 +140,7 @@ const getDatas = async (sortingChoice = 'Popularité') => {
    * Récupération de l'ensemble des data
    */
   const { photographers, medias } = await getFetchedDatas({
-    url: '/data/photographers.json',
+    url: 'https://micheld-dev.github.io/json-files/photographers.json',
     storageName: 'original datas',
   })
 
@@ -256,7 +248,7 @@ addReactionTo('keydown')
 /**
  * Affichage de l'option selectionnée
  */
-const selectDisplay = option => {
+const selectDisplaySorting = option => {
   for (const hidden of document.querySelectorAll(
     '.custom-option.hidden, .select__trigger'
   )) {
@@ -274,16 +266,12 @@ const selectDisplay = option => {
   }
 }
 
-addReactionTo('click')
-  .on('.select__trigger')
-  .withFunction(() => {}) //FIXME remove?
-
 for (const option of document.getElementsByClassName('custom-option')) {
   addReactionTo('click')
     .on(option)
     .withFunction(
       () => {
-        selectDisplay(option)
+        selectDisplaySorting(option)
       },
       { once: true }
     )
@@ -365,7 +353,9 @@ const focusInSelector = e => {
     .on(DOM.selector)
     .withFunction(e => {
       if (e.key === 'Escape' || e.key === 'Esc') {
-        document.querySelector('.select.open').classList.remove('open')
+        document.querySelector('.select.open')?.classList.remove('open')
+        focusables.forEach(elem => elem.classList.remove('no-white-line'))
+        document.querySelector('.select__trigger').focus()
       }
 
       if (
@@ -373,7 +363,7 @@ const focusInSelector = e => {
         document.querySelector('.select.open') &&
         !document.activeElement.classList.contains('select__trigger')
       ) {
-        selectDisplay(option)
+        selectDisplaySorting(option)
       }
     })
 }

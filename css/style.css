@@ -91,7 +91,7 @@ a[aria-label="Page d'accueil"]:focus {
   flex-direction: column;
   gap: 8px;
   border-radius: 15px;
-  width: 350px;
+  width: 100%;
   padding: 35px 0;
   transition: all 0.15s linear;
   transform: scale(1);
@@ -120,6 +120,7 @@ a[aria-label="Page d'accueil"]:focus {
   color: #d3573c;
   font-size: 2.4rem;
   margin: 25px 0 15px;
+  text-align: center;
 }
 .photographer__portrait {
   border-radius: 50%;
@@ -145,7 +146,7 @@ a[aria-label="Page d'accueil"]:focus {
   }
 }
 .skeleton {
-  animation: skeleton-loading 1s linear infinite alternate;
+  animation: skeleton-loading 0.8s linear infinite alternate;
 }
 .skeleton__card {
   transition: opacity 500ms ease-in-out;
@@ -157,9 +158,10 @@ a[aria-label="Page d'accueil"]:focus {
   border-radius: 0.25rem;
 }
 .skeleton__text_media {
-  width: 95%;
+  width: 100%;
   height: 2rem;
-  margin-top: 1.5rem;
+  margin-top: 0.8rem;
+  border-radius: 0.25rem;
 }
 .skeleton__title {
   width: 90%;
@@ -175,8 +177,11 @@ a[aria-label="Page d'accueil"]:focus {
 }
 .skeleton__image_media {
   border-radius: 7px;
-  width: 95%;
-  aspect-ratio: 1/1;
+  width: 100%;
+  aspect-ratio: 100/98;
+}
+.skeleton__media {
+  padding: 0;
 }
 
 .fadeout {

@@ -1,6 +1,6 @@
 import DOM from '../utils/domElements.js'
 import {
-  isThisMediaLiked,
+  printIfThisMediaIsLiked,
   printLikeOnLightbox,
   printTotalOfLikes,
 } from '../API/likesAPI.js'
@@ -98,26 +98,56 @@ export const lightbox = (
      * On affiche la lightbox
      */
     const lightbox = document.getElementById('lightbox')
-
     lightbox.removeAttribute('aria-hidden')
-
     lightbox.ariaModal = true
 
     /**
-     * On affiche le like sur la lightbox si le média est liké
+     * On affiche le like sur la lightbox si le thumbnail est liké
      */
-    isThisMediaLiked(media)
+    printIfThisMediaIsLiked(media)
 
     /**
-     * On like le média dans la lightbox
+     * Lorsqu'on like le média dans la lightbox
      */
-    clickOnLightboxLike(media)
+    DOM.hiddenLikeCheckbox.onchange = () => {
+      printLikeOnLightbox(media)
+    }
   }
 
   /**
-   * Click sur like
+   * Fonction de changement d'image dans la lightbox
    */
-  const clickOnLightboxLike = media => {
+  const moveToMedia = media => {
+    if (media.image) {
+      DOM.lightboxContainer.classList.remove('w100')
+      imageDisplay.classList.remove('hidden')
+      videoDisplay.classList.add('hidden')
+
+      imageDisplay.src = `../../assets/images/${
+        photographer.name.split(' ')[0]
+      }/${media.image}`
+    }
+
+    if (media.video) {
+      DOM.lightboxContainer.classList.add('w100')
+      imageDisplay.classList.add('hidden')
+      videoDisplay.classList.remove('hidden')
+
+      videoDisplay.src = `../../assets/images/${
+        photographer.name.split(' ')[0]
+      }/${media.video}`
+    }
+
+    document.querySelector('.lightbox-caption__text').textContent = media.title
+
+    /**
+     * On affiche le like sur la lightbox si le thumbnail est liké
+     */
+    printIfThisMediaIsLiked(media)
+
+    /**
+     * Affichage du like au click
+     */
     DOM.hiddenLikeCheckbox.onchange = () => {
       printLikeOnLightbox(media)
     }
@@ -131,15 +161,14 @@ export const lightbox = (
    * BOUTON NEXT
    */
   const displayNextMedia = () => {
-    if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
-      return
-    }
-
     /**
      * On récupère le thumbnail possédant le focus pour pouvoir l'avancer en même temps que la lightbox
      */
     const PFE = previouslyFocusedElement
 
+    /**
+     * Mise en boucle avant du focus sur les thumbnails
+     */
     previouslyFocusedElement =
       PFE.nextSibling !== null
         ? PFE.nextSibling
@@ -148,40 +177,7 @@ export const lightbox = (
     imagePositionInMediasArray =
       (imagePositionInMediasArray + 1) % sortedPhotographerMedias.length
 
-    let i = imagePositionInMediasArray
-
-    if (sortedPhotographerMedias[i].image) {
-      DOM.lightboxContainer.classList.remove('w100')
-      imageDisplay.classList.remove('hidden')
-      videoDisplay.classList.add('hidden')
-
-      imageDisplay.src = `../../assets/images/${
-        photographer.name.split(' ')[0]
-      }/${sortedPhotographerMedias[i].image}`
-    }
-
-    if (sortedPhotographerMedias[i].video) {
-      DOM.lightboxContainer.classList.add('w100')
-      imageDisplay.classList.add('hidden')
-      videoDisplay.classList.remove('hidden')
-
-      videoDisplay.src = `../../assets/images/${
-        photographer.name.split(' ')[0]
-      }/${sortedPhotographerMedias[i].video}`
-    }
-
-    document.querySelector('.lightbox-caption__text').textContent =
-      sortedPhotographerMedias[i].title
-
-    /**
-     * On affiche le like sur la lightbox si le média est liké
-     */
-    isThisMediaLiked(sortedPhotographerMedias[i])
-
-    /**
-     * On actualise l'affichage du like sur le thumbnail
-     */
-    clickOnLightboxLike(sortedPhotographerMedias[i])
+    moveToMedia(sortedPhotographerMedias[imagePositionInMediasArray])
   }
 
   // --------------------------------------------------------------------------- //
@@ -192,15 +188,14 @@ export const lightbox = (
    * BOUTON PREVIOUS
    */
   const displayPreviousMedia = () => {
-    if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
-      return
-    }
-
     /**
      * On récupère le thumbnail possédant le focus pour pouvoir l'avancer en même temps que la lightbox
      */
     const PFE = previouslyFocusedElement
 
+    /**
+     * Mise en boucle arrière du focus sur les thumbnails
+     */
     previouslyFocusedElement =
       PFE.previousSibling !== null
         ? PFE.previousSibling
@@ -210,42 +205,7 @@ export const lightbox = (
       (imagePositionInMediasArray - 1 + sortedPhotographerMedias.length) %
       sortedPhotographerMedias.length
 
-    let i = imagePositionInMediasArray
-
-    if (sortedPhotographerMedias[i].image) {
-      DOM.lightboxContainer.classList.remove('w100')
-      imageDisplay.classList.remove('hidden')
-      videoDisplay.classList.add('hidden')
-
-      sortedPhotographerMedias[i].image &&
-        (imageDisplay.src = `../../assets/images/${
-          photographer.name.split(' ')[0]
-        }/${sortedPhotographerMedias[i].image}`)
-    }
-
-    if (sortedPhotographerMedias[i].video) {
-      DOM.lightboxContainer.classList.add('w100')
-      imageDisplay.classList.add('hidden')
-      videoDisplay.classList.remove('hidden')
-
-      sortedPhotographerMedias[i].video &&
-        (videoDisplay.src = `../../assets/images/${
-          photographer.name.split(' ')[0]
-        }/${sortedPhotographerMedias[i].video}`)
-    }
-
-    document.querySelector('.lightbox-caption__text').textContent =
-      sortedPhotographerMedias[i].title
-
-    /**
-     * On affiche le like sur la lightbox si le média est liké
-     */
-    isThisMediaLiked(sortedPhotographerMedias[i])
-
-    /**
-     * On actualise l'affichage du like sur le thumbnail
-     */
-    clickOnLightboxLike(sortedPhotographerMedias[i])
+    moveToMedia(sortedPhotographerMedias[imagePositionInMediasArray])
   }
 
   /**
@@ -259,9 +219,10 @@ export const lightbox = (
     }
   }
 
-  /**
-   * On ferme la lightbox
-   */
+  // --------------------------------------------------------------------------- //
+  // ------------------------FERMETURE DE LA LIGHTBOX--------------------------- //
+  // --------------------------------------------------------------------------- //
+
   const hide = () => {
     DOM.lightbox.ariaHidden = true
     DOM.lightbox.removeAttribute('aria-modal')
@@ -291,7 +252,6 @@ export const lightbox = (
   addReactionTo('keydown').on(window).withFunction(keyboardNavigation)
 
   const removeEventListeners = () => {
-    console.log('remove')
     removeReactionTo('click')
       .on('.lightbox__previous')
       .withFunction(displayPreviousMedia)
@@ -309,23 +269,29 @@ export const lightbox = (
 }
 
 // --------------------------------------------------------------------------- //
-// ------------------------FERMETURE DE LA LIGHTBOX--------------------------- //
+// -----------------------------GESTION DU FOCUS------------------------------ //
 // --------------------------------------------------------------------------- //
 
 /**
- * On place le focus sur le like
+ * Navigation au clavier
  */
-// document.querySelector('.lightbox-caption__like_inactive').focus()
+addReactionTo('keydown')
+  .on(window)
+  .withFunction(e => {
+    if (e.key === 'Tab' && DOM.lightbox.hasAttribute('aria-modal')) {
+      focusInLightbox(e)
+    }
+  })
 
 /**
- * GESTION DU FOCUS
  * Changement de focus au clavier et maintien du focus dans la modale
  */
 export const focusInLightbox = e => {
   /**
    * On récupère les éléments qui acquerront le focus
    */
-  const focusableElements = 'button, input'
+  const focusableElements = 'button, input, video'
+
   /**
    * On crée un tableau des éléments focusables
    */
@@ -335,6 +301,7 @@ export const focusInLightbox = e => {
   let index = focusables.findIndex(
     elem => elem === DOM.lightbox.querySelector(':focus')
   )
+
   e.shiftKey === true ? index-- : index++
   if (index >= focusables.length) {
     index = 0

@@ -1,4 +1,5 @@
 import DOM from '../utils/domElements.js'
+import { addReactionTo } from '../utils/eventListener.js'
 import {
   validate,
   firstName,
@@ -39,7 +40,7 @@ export const form = () => {
     /**
      * Bouton de fermeture du formulaire
      */
-    DOM.modalCloseBtn.onclick = () =>form().hide()
+    DOM.modalCloseBtn.onclick = () => form().hide()
 
     /**
      * On place un écouteur d'évènement Submit sur le formulaire
@@ -110,6 +111,21 @@ const formSubmit = e => {
   form().hide()
 }
 
+// --------------------------------------------------------------------------- //
+// -----------------------------GESTION DU FOCUS------------------------------ //
+// --------------------------------------------------------------------------- //
+
+/**
+ * Navigation au clavier
+ */
+addReactionTo('keydown')
+  .on(window)
+  .withFunction(e => {
+    if (e.key === 'Tab' && DOM.modal.hasAttribute('aria-modal')) {
+      focusInModal(e)
+    }
+  })
+
 /**
  * On récupère les éléments qui acquerront le focus
  */
@@ -118,14 +134,13 @@ const focusableElements = 'input, textArea, button'
 /**
  * On crée un tableau des éléments focusables
  */
-let focusables = [...DOM.modalForm.getElementsByTagName(focusableElements)]
+let focusables = [...DOM.modalForm.querySelectorAll(focusableElements)]
 
 /**
- * GESTION DU FOCUS
  * Changement de focus au clavier et maintien du focus dans la modale
  */
 export const focusInModal = e => {
-  e.preventDefault()
+   e.preventDefault()
   let index = focusables.findIndex(
     elem => elem === DOM.modalForm.querySelector(':focus')
   )

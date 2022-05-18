@@ -185,7 +185,7 @@ export const printLikeOnLightbox = media => {
 /**
  * Affichage like sur lightbox si thumbnail liké
  */
-export const isThisMediaLiked = media => {
+export const printIfThisMediaIsLiked = media => {
   store()
     .getLikedImages()
     .find(thisMedia => {
