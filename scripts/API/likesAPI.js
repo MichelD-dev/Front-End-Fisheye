@@ -150,11 +150,9 @@ export const printLikeOnLightbox = media => {
     )
   }
 
-  // updateMediasLikesOnLightboxClose()
-
-  if (!document.getElementById('lightbox').hasAttribute('aria-modal')) return
-
-  //FIXME nécessaire?
+  /**
+   * On vérifie dans le storage quels sont les médias likés
+   */
   store()
     .getLikedImages()
     .map(likedImage => {

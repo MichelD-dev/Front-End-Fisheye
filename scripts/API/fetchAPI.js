@@ -1,12 +1,12 @@
-import getSkeletons from '../utils/skeletons.js'
+import setSkeletons from '../utils/skeletons.js'
 
 const getFetchedDatas = async ({ url, storageName }) => {
-  getSkeletons('print')
+  setSkeletons(6)('to print')
   const data =
     JSON.parse(localStorage.getItem(storageName)) ??
     (await fetchDatas(url, storageName))
 
-  getSkeletons('hide')
+  setSkeletons(6)('to hide')
 
   return data
 }

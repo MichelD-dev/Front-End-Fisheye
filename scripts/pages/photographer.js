@@ -4,7 +4,7 @@ import { mediaFactory } from '../factories/mediaFactory.js'
 import { form } from '../modals/form.js'
 import { store } from '../API/likesAPI.js'
 import getFetchedDatas from '../API/fetchAPI.js'
-import getSkeletons from '../utils/skeletons.js'
+import setSkeletons from '../utils/skeletons.js'
 import { addReactionTo } from '../utils/eventListener.js'
 import { keyboardNavigation } from '../utils/utils.js'
 
@@ -34,7 +34,7 @@ export function displayMedias(photographer, sortedPhotographerMedias) {
   /**
    * Affichage des skeletons
    */
-  getSkeletons('print')
+  setSkeletons(6)('to print')
 
   /**
    * Récupération des cartes images du photographe
@@ -56,7 +56,7 @@ export function displayMedias(photographer, sortedPhotographerMedias) {
     // /**
     //  * Masquage des skeletons
     //  */
-    getSkeletons('hide')
+    setSkeletons(6)('to hide')
 
     /**
      * Affichage des cartes images du photographe
