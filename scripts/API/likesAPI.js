@@ -91,30 +91,6 @@ export const addOrRemoveLike = media => {
       }
     }
   }
-  //   /**
-  //    * Affichage nombre total de likes
-  //    */
-  // likesNbr.textContent = `${media.likes} `
-
-  //   sortedPhotographerMedias = sortedPhotographerMedias.map(obj => {
-  //     if (obj.id === media.id) {
-  //       /**
-  //        * On retourne un tableau des médias avec nombre de likes individuel actualisé
-  //        */
-  //       return { ...obj, likes: media.likes }
-  //     }
-  //     /* Sinon, on retourne un tbleau non modifié */
-  //     return obj
-  //   })
-
-  //   /**
-  //    * Incrémentation du nombre total de likes du photographe
-  //    */
-  //   likesTotal = sortedPhotographerMedias
-  //     .map(media => media.likes)
-  //     .reduce((total, current) => total + current, 0)
-
-  //   document.querySelector('.photographer__likes').textContent = `${likesTotal} `
 }
 
 /**
@@ -205,7 +181,6 @@ export const printLikeOnLightbox = media => {
     updatedLikedImages(0)
   }
 }
-// printLikeOnLightbox()
 
 /**
  * Affichage like sur lightbox si thumbnail liké

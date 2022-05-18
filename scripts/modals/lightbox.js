@@ -7,7 +7,6 @@ import {
 import { addReactionTo, removeReactionTo } from '../utils/eventListener.js'
 
 let previouslyFocusedElement
-// console.log(previouslyFocusedElement)
 
 /**
  * MODALE LIGHTBOX
@@ -24,8 +23,6 @@ export const lightbox = (
   /**
    *  Récupération du média à afficher dans la lightbox
    */
-
-  // if (!sortedPhotographerMedias) return
 
   let [media] = sortedPhotographerMedias.filter(media => media.id === imageId)
 
@@ -46,7 +43,7 @@ export const lightbox = (
     /**
      * attributs de lecture sur balise vidéo
      */
-    videoDisplay.controls = true //TODO Gestion des controls au clavier?
+    videoDisplay.controls = true //TODO Gestion des controls au clavier
     videoDisplay.setAttribute('type', 'video/mp4')
     videoDisplay.setAttribute('tabIndex', '0')
 
@@ -62,6 +59,7 @@ export const lightbox = (
      */
     if (media.image) {
       DOM.lightboxContainer.classList.remove('w100')
+
       /**
        * On passe la balise video en display: none
        */
@@ -81,6 +79,7 @@ export const lightbox = (
      */
     if (media.video) {
       DOM.lightboxContainer.classList.add('w100')
+
       /**
        * On passe la balise image en display: none
        */
@@ -109,6 +108,9 @@ export const lightbox = (
      */
     isThisMediaLiked(media)
 
+    /**
+     * On like le média dans la lightbox
+     */
     clickOnLightboxLike(media)
   }
 
@@ -129,19 +131,13 @@ export const lightbox = (
    * BOUTON NEXT
    */
   const displayNextMedia = () => {
-    // imagePositionInMediasArray => {
-    //   if (executed) return
-    //   executed = false
-    //   ;() => {
-    //     imagePositionInMediasArray
-    //     executed = true
-    //   }
-    // }
-
     if (document.getElementById('lightbox').hasAttribute('aria-hidden')) {
       return
     }
 
+    /**
+     * On récupère le thumbnail possédant le focus pour pouvoir l'avancer en même temps que la lightbox
+     */
     const PFE = previouslyFocusedElement
 
     previouslyFocusedElement =
@@ -200,6 +196,9 @@ export const lightbox = (
       return
     }
 
+    /**
+     * On récupère le thumbnail possédant le focus pour pouvoir l'avancer en même temps que la lightbox
+     */
     const PFE = previouslyFocusedElement
 
     previouslyFocusedElement =
@@ -249,6 +248,9 @@ export const lightbox = (
     clickOnLightboxLike(sortedPhotographerMedias[i])
   }
 
+  /**
+   * Navigation au clavier
+   */
   const keyboardNavigation = e => {
     if (DOM.lightbox.hasAttribute('aria-modal')) {
       e.key === 'ArrowRight' && displayNextMedia()
@@ -261,13 +263,12 @@ export const lightbox = (
    * On ferme la lightbox
    */
   const hide = () => {
-    const modal = document.querySelector('#lightbox')
-
-    modal.ariaHidden = true
-    modal.removeAttribute('aria-modal')
+    DOM.lightbox.ariaHidden = true
+    DOM.lightbox.removeAttribute('aria-modal')
 
     DOM.mediasSection.classList.remove('hidden')
     DOM.mediasSection.setAttribute('hidden', false)
+
     previouslyFocusedElement?.firstChild?.focus()
 
     removeEventListeners()
@@ -290,6 +291,7 @@ export const lightbox = (
   addReactionTo('keydown').on(window).withFunction(keyboardNavigation)
 
   const removeEventListeners = () => {
+    console.log('remove')
     removeReactionTo('click')
       .on('.lightbox__previous')
       .withFunction(displayPreviousMedia)
@@ -303,7 +305,7 @@ export const lightbox = (
     removeReactionTo('keydown').on(window).withFunction(keyboardNavigation)
   }
 
-  return { show, hide }
+  return { show, hide, displayPreviousMedia, displayNextMedia }
 }
 
 // --------------------------------------------------------------------------- //
@@ -314,10 +316,6 @@ export const lightbox = (
  * On place le focus sur le like
  */
 // document.querySelector('.lightbox-caption__like_inactive').focus()
-
-// --------------------------------------------------------------------------- //
-// --------------------------------------------------------------------------- //
-// --------------------------------------------------------------------------- //
 
 /**
  * GESTION DU FOCUS

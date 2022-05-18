@@ -1,3 +1,8 @@
+import { focusInModal, form } from '../modals/form.js'
+import { focusInLightbox, lightbox } from '../modals/lightbox.js'
+import DOM from './domElements.js'
+import { addReactionTo } from './eventListener.js'
+
 /**
  * Fonction de validation des inputs du formulaire
  */
@@ -46,4 +51,32 @@ const setErrorMessage = (id, message) => {
   }
 }
 
-export { isInputValid, setErrorMessage }
+const keyboardNavigation = () => {
+  addReactionTo('keydown')
+    .on(window)
+    .withFunction(
+      e => {
+        if (
+          (e.key === 'Escape' || e.key === 'Esc') &&
+          DOM.modal.hasAttribute('aria-modal')
+        ) {
+          form().hide()
+        }
+        if (
+          (e.key === 'Escape' || e.key === 'Esc') &&
+          DOM.lightbox.hasAttribute('aria-modal')
+        ) {
+          lightbox().hide()
+        }
+        if (e.key === 'Tab' && DOM.modal.hasAttribute('aria-modal')) {
+          focusInModal(e)
+        }
+        if (e.key === 'Tab' && DOM.lightbox.hasAttribute('aria-modal')) {
+          focusInLightbox(e)
+        }
+      },
+      { once: true }
+    )
+}
+
+export { isInputValid, setErrorMessage, keyboardNavigation }

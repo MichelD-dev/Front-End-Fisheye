@@ -119,21 +119,6 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
         printLikesNbr(media.id)(likesNbr)
       })
 
-    // /**
-    //  * Affichage nombre de likes
-    //  */
-    // const printLikesNbr = () => {
-    //  store().getLikedImages().find(likedImage => {
-    //     if (likedImage.id === media.id) {
-    //       likesNbr.textContent = `${likedImage.likes} `
-
-    //       document.querySelector(
-    //         '.photographer__likes'
-    //       ).textContent = `${getTotalOfLikes()} `
-    //     }
-    //   })
-    // }
-
     return article
   }
 

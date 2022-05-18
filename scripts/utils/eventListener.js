@@ -7,20 +7,30 @@ const event = actionChoice => evt => {
     on: function (elem) {
       return {
         withFunction: function (action, ...params) {
-          if (typeof elem === 'string')
-            return actionChoice === 'add'
-              ? document
-                  .querySelector(elem)
-                  .addEventListener(evt, action, params)
-              : document.querySelector(elem).removeEventListener(evt, action)
-          return actionChoice === 'add'
-            ? elem.addEventListener(evt, action, params)
-            : elem.removeEventListener(evt, action)
+          if (typeof elem === 'string') {
+            if (actionChoice === 'add') {
+              return document
+                .querySelector(elem)
+                .addEventListener(evt, action, ...params)
+            }
+            if (actionChoice === 'remove') {
+              return document
+                .querySelector(elem)
+                .removeEventListener(evt, action)
+            }
+          }
+          {
+            if (actionChoice === 'add') {
+              return elem.addEventListener(evt, action, ...params)
+            }
+            if (actionChoice === 'remove') {
+              return elem.removeEventListener(evt, action)
+            }
+          }
         },
       }
     },
   }
 }
-
 export const addReactionTo = event('add')
 export const removeReactionTo = event('remove')

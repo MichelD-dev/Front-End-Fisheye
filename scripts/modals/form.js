@@ -114,6 +114,7 @@ const formSubmit = e => {
  * On récupère les éléments qui acquerront le focus
  */
 const focusableElements = 'input, textArea, button'
+
 /**
  * On crée un tableau des éléments focusables
  */

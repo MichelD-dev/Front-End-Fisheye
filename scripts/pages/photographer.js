@@ -1,12 +1,12 @@
 import DOM from '../utils/domElements.js'
 import { photographerFactory } from '../factories/photographerFactory.js'
 import { mediaFactory } from '../factories/mediaFactory.js'
-import { form, focusInModal } from '../modals/form.js'
-import { focusInLightbox, lightbox } from '../modals/lightbox.js'
+import { form } from '../modals/form.js'
 import { store } from '../API/likesAPI.js'
 import getFetchedDatas from '../API/fetchAPI.js'
 import getSkeletons from '../utils/skeletons.js'
 import { addReactionTo } from '../utils/eventListener.js'
+import { keyboardNavigation } from '../utils/utils.js'
 
 /**
  * Récupération de l'id du photographe
@@ -22,34 +22,7 @@ let id = +new URLSearchParams(document.location.search).get('id')
  * AFFICHAGE DE LA PAGE PHOTOGRAPHE
  */
 export function displayMedias(photographer, sortedPhotographerMedias) {
-  /**
-   * Navigation au clavier dans les modales
-   */
-  addReactionTo('keydown')
-    .on(window)
-    .withFunction(
-      e => {
-        if (
-          (e.key === 'Escape' || e.key === 'Esc') &&
-          DOM.modal.hasAttribute('aria-modal')
-        ) {
-          form().hide()
-        }
-        if (
-          (e.key === 'Escape' || e.key === 'Esc') &&
-          DOM.lightbox.hasAttribute('aria-modal')
-        ) {
-          lightbox().hide()
-        }
-        if (e.key === 'Tab' && DOM.modal.hasAttribute('aria-modal')) {
-          focusInModal(e)
-        }
-        if (e.key === 'Tab' && DOM.lightbox.hasAttribute('aria-modal')) {
-          focusInLightbox(e)
-        }
-      },
-      { once: true }
-    )
+  keyboardNavigation()
 
   /**
    * On réinitialise la grille d'images
