@@ -20,7 +20,7 @@ import init from '../utils/init.js'
  * Demande de fetch et affichage des photographes
  */
 init({
-  url: '/data/photographers.json',
+  url: 'https://micheld-dev.github.io/json-files/photographers.json',
   storageName: 'original datas',
   doSomethingWith: displayPhotographers,
   thisParticularData: 'photographers',
