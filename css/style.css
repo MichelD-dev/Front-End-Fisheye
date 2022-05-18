@@ -92,6 +92,7 @@ a[aria-label="Page d'accueil"]:focus {
   gap: 8px;
   border-radius: 15px;
   width: 100%;
+  max-width: 400px;
   padding: 35px 0;
   transition: all 0.15s linear;
   transform: scale(1);
