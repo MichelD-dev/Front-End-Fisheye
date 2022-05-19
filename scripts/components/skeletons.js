@@ -1,5 +1,5 @@
 /* eslint-disable no-extra-semi */
-import DOM from './domElements.js'
+import DOM from '../utils/domElements.js'
 
 const cardTemplate = document.getElementById('card-template')
 const mediaTemplate = document.getElementById('media-template')

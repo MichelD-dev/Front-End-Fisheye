@@ -1,4 +1,4 @@
-import setSkeletons from '../utils/skeletons.js'
+import setSkeletons from '../components/skeletons.js'
 
 const getFetchedDatas = async ({ url, storageName }) => {
   setSkeletons(6)('to print')
