@@ -11,14 +11,14 @@ export const select = () => {
   if (!document.querySelector('.select').classList.contains('open')) {
     document.querySelector('.select').classList.add('open')
     document
-      .querySelector('.select__trigger')
+      .getElementsByClassName('custom-options')
       .setAttribute('aria-expanded', true)
 
     /**
      * Mise en tableau des selections non choisies
      */
     notSelectedsOptionsArray = [
-      ...document.getElementsByClassName('custom-option '),
+      ...document.getElementsByClassName('custom-option'),
     ].filter(el => !el.classList.contains('selected'))
 
     /**
@@ -32,7 +32,7 @@ export const select = () => {
   } else {
     document.querySelector('.select').classList.remove('open')
     document
-      .querySelector('.select__trigger')
+      .getElementsByClassName('custom-options')
       .setAttribute('aria-expanded', false)
     /**
      * On retire le border-radius de la dernière selection avant de positionner une nouvelle selection en dernière position
@@ -57,24 +57,21 @@ const selectDisplaySorting = option => {
   if (!option.classList.contains('selected')) {
     option.parentNode
       .querySelector('.custom-option.selected')
-      ?.classList.remove('selected')
+      .setAttribute('aria-selected', false)
+    option.parentNode
+      .querySelector('.custom-option.selected')
+      .classList.remove('selected')
+
     option.classList.add('selected')
+    option.setAttribute('aria-selected', true)
     option.classList.add('hidden')
     option
       .closest('.select')
       .querySelector('.select__trigger span').textContent = option.textContent
+    document
+      .querySelector('.select__trigger')
+      .setAttribute('aria-activedescendant', `${option.textContent}`)
   }
-}
-
-for (const option of document.getElementsByClassName('custom-option')) {
-  addReactionTo('click')
-    .on(option)
-    .withFunction(
-      () => {
-        selectDisplaySorting(option)
-      },
-      { once: true }
-    )
 }
 
 /**
@@ -88,6 +85,20 @@ addReactionTo('click')
       select.classList.remove('open')
     }
   })
+
+/**
+ * Selection par click
+ */
+for (const option of document.getElementsByClassName('custom-option')) {
+  addReactionTo('click')
+    .on(option)
+    .withFunction(
+      () => {
+        selectDisplaySorting(option)
+      },
+      { once: true }
+    )
+}
 
 /**
  * Récupération des données selon la catégorie sélectionnée

@@ -48,6 +48,7 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     likes.classList.add('media-card__likesNbr')
 
     const likesNbr = document.createElement('span')
+    likesNbr.setAttribute('aria-live', 'polite')
 
     store()
       .getLikedImages()

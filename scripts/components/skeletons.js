@@ -16,6 +16,7 @@ const setSkeletons = nbr => action => {
           card.setAttribute('aria-hidden', true)
           card.remove()
         }, 1000)
+      card.setAttribute('aria-hidden', false)
     })
 
   /**
@@ -27,8 +28,6 @@ const setSkeletons = nbr => action => {
     DOM.photographersSection?.append(cardTemplate.content.cloneNode(true))
     DOM.mediasSection?.append(mediaTemplate.content.cloneNode(true))
 
-    mediaTemplate?.setAttribute('aria-hidden', false)
-    cardTemplate?.setAttribute('aria-hidden', false)
     printSkeletons('fadein')
     setSkeletons(nbr - 1)(action)
   }

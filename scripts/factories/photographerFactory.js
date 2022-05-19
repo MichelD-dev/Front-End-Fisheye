@@ -55,7 +55,7 @@ export function photographerFactory(data) {
     name.classList.add('photographer__name')
     name.ariaLabel = 'Nom du photographe'
 
-    const articleHeader = document.createElement('a') //TODO aria-label pour link?
+    const articleHeader = document.createElement('a')
     articleHeader.href = `/photographer.html?id=${id}`
     articleHeader.classList.add('photographer-card__header')
     articleHeader.appendChild(img)
@@ -65,15 +65,18 @@ export function photographerFactory(data) {
     const location = document.createElement('span')
     location.textContent = `${city}, ${country}`
     location.classList.add('photographer__location')
+    location.setAttribute('role', 'text')
     location.ariaLabel = 'Localisation du photographe'
 
     const tagline = document.createElement('span')
     tagline.textContent = tag
+    tagline.setAttribute('role', 'text')
     tagline.ariaLabel = 'Slogan du photographe'
 
     const price = document.createElement('span')
     price.textContent = `${rate}€/jour`
     price.classList.add('photographer__price')
+    price.setAttribute('role', 'text')
     price.ariaLabel = 'Tarif journalier'
 
     article.appendChild(articleHeader)

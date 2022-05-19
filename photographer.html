@@ -30,7 +30,9 @@
 
     <div class="photograph-header">
       <div class="photograph-header__id">
-        <h1 class="photographer__name"></h1>
+        <h1 class="photographer__name">
+          <span class="visually-hidden">Nom du photographe</span>
+        </h1>
         <div class="photographer__info">
           <span class="photographer__location"></span>
           <span class="photographer__tagline"></span>
@@ -45,29 +47,30 @@
     <!------------------------------------------------------------>
 
     <label for="medias-sort">Trier par </label>
-    <input id="medias-sort" class="visually-hidden">
+    <input id="medias-sort" class="visually-hidden" />
     <div class="select-wrapper">
       <div class="select">
-        <div tabindex="0" class="select__trigger" role="checkbox" aria-checked="true" aria-expanded="false">
+        <div tabindex="0" class="select__trigger">
           <span>Popularité</span>
           <div class="arrow"></div>
         </div>
-        <div class="custom-options">
-          <span tabindex="0" class="custom-option selected hidden" data-value="popularity">Popularité</span>
-          <span tabindex="0" class="custom-option" data-value="date">Date</span>
-          <span tabindex="0" class="custom-option" data-value="title">Titre</span>
+        <div class="custom-options" role="listbox" aria-haspopup="listbox" aria-expanded="false">
+          <span tabindex="0" role="option" aria-selected="true" class="custom-option selected hidden"
+            data-value="popularity">Popularité</span>
+          <span tabindex="0" role="option" aria-selected="false" class="custom-option" data-value="date">Date</span>
+          <span tabindex="0" role="option" aria-selected="false" class="custom-option" data-value="title">Titre</span>
         </div>
       </div>
     </div>
-    <section class="medias__section" aria-labelledby="section-medias">
+    <section class="medias__section" role="application" aria-labelledby="section-medias">
       <h2 class="visually-hidden" id="section-medias">Section médias</h2>
 
       <!------------------------------------------------------------>
       <!--------------------------SKELETON-------------------------->
       <!------------------------------------------------------------>
 
-      <template id="media-template" aria-hidden="true">
-        <article class="skeleton__media photographer__card">
+      <template id="media-template">
+        <article class="skeleton__media photographer__card" aria-hidden="true">
           <div class="skeleton skeleton__image_media" alt=""></div>
           <div class="skeleton skeleton__text_media"></div>
         </article>
@@ -79,7 +82,7 @@
     </section>
     <div class="photographer__data">
       <p>
-        <span class="photographer__likes"></span><i class="fa-solid fa-heart"></i>
+        <span class="photographer__likes" aria-live="polite"></span><i class="fa-solid fa-heart"></i>
       </p>
       <span class="photographer__rate"></span>
     </div>
@@ -96,7 +99,7 @@
         <span class="modal-header__name">Mimi Keel</span>
       </div>
       <button class="modal__close">
-        <img src="assets/icons/close.svg" alt="bouton de fermeture" />
+        <img src="assets/icons/close.svg" alt="" />
       </button>
     </header>
     <span class="name"></span>
@@ -104,8 +107,7 @@
       <fieldset>
         <legend class="visually-hidden">Contactez-moi</legend>
         <div>
-          <label for="firstname"><span class="visually-hidden" aria-hidden="true">Prénom</span>Votre
-            prénom</label>
+          <label for="firstname"><span class="visually-hidden" aria-hidden="true">Prénom</span>Votre prénom</label>
           <input id="firstname" name="firstname" aria-required="true" autocomplete="given-name"
             aria-autocomplete="list" />
           <span id="firstname-error" class="error-message"></span><br />
@@ -114,14 +116,13 @@
           <input id="lastname" name="lastname" aria-required="true" autocomplete="family-name"
             aria-autocomplete="list" />
           <span id="lastname-error" class="error-message"></span><br />
-          <label for="email"><span class="visually-hidden" aria-hidden="true">Email</span>Votre
-            email</label>
+          <label for="email"><span class="visually-hidden" aria-hidden="true">Email</span>Votre email</label>
           <input id="email" type="email" name="email" aria-required="true" autocomplete="email"
             aria-autocomplete="list" />
           <span id="email-error" class="error-message"></span>
           <label for="message"><span class="visually-hidden" aria-hidden="true">Votre message</span>Votre
             message</label>
-          <textarea id="message" name="message"></textarea>
+          <textarea id="message" name="message" aria-multiline="true"></textarea>
           <span id="message-error" class="error-message"></span>
         </div>
         <input type="submit" class="contact-button submit" value="Envoyer" />
@@ -142,22 +143,22 @@
       </button>
       <figure class="lightbox-container">
         <div></div>
-        <img src="data:," alt="" class="hidden lightbox__image" />
-        <video src="data:," class="hidden lightbox__video"></video>
-        <figcaption class="lightbox-caption">
+        <img src="data:," alt="" class="hidden lightbox__image" aria-describedby="media-title" />
+        <video src="data:," class="hidden lightbox__video" aria-describedby="media-title"></video>
+        <figcaption class="lightbox-caption" id="media-title">
           <span class="lightbox-caption__text"></span>
-          <label class="lightbox-caption__like-label" for="like"></label>
+          <label class="lightbox-caption__like-label" for="like"><span class="visually-hidden">Titre du
+              média</span></label>
           <input type="checkbox" id="like" class="lightbox-caption__like-btn" />
           <div class="lightbox-caption__like-display">
             <i class="lightbox-caption__like_active fa-solid fa-heart"></i>
             <i class="lightbox-caption__like_inactive fa-solid fa-heart"></i>
           </div>
-
         </figcaption>
       </figure>
       <div class="lightbox__right">
         <button class="lightbox__close">
-          <img src="assets/icons/lightboxClose.svg" alt="bouton de fermeture" />
+          <img src="assets/icons/lightboxClose.svg" alt="" />
         </button>
         <button class="lightbox__next">
           <span class="visually-hidden">Image suivante</span>

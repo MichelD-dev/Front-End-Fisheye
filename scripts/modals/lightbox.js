@@ -36,7 +36,7 @@ export const lightbox = (
      * AFFICHAGE DU MEDIA
      */
     DOM.mediasSection.classList.add('hidden')
-  
+
     previouslyFocusedElement = document.querySelector(':focus').parentElement
 
     /**
@@ -71,6 +71,8 @@ export const lightbox = (
       imageDisplay.src = `../../assets/images/${
         photographer.name.split(' ')[0]
       }/${sortedPhotographerMedias[imagePositionInMediasArray].image}`
+      imageDisplay.alt =
+        sortedPhotographerMedias[imagePositionInMediasArray].title
     }
 
     /**
@@ -91,6 +93,8 @@ export const lightbox = (
       videoDisplay.src = `../../assets/images/${
         photographer.name.split(' ')[0]
       }/${sortedPhotographerMedias[imagePositionInMediasArray].video}`
+      videoDisplay.alt =
+        sortedPhotographerMedias[imagePositionInMediasArray].title
     }
 
     /**
