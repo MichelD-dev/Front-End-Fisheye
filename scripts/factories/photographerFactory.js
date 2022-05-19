@@ -42,6 +42,7 @@ export function photographerFactory(data) {
     const article = document.createElement('article')
     article.classList.add('photographer__card', 'card')
     article.ariaLabel = 'Fiche photographe'
+    article.ariaBusy = true
     article.tabIndex = '0'
 
     const img = document.createElement('img')

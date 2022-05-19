@@ -5,13 +5,14 @@ import init from '../utils/init.js'
 /**
  * Affichage de la page d'accueil
  */
- async function displayPhotographers(photographers) {
+async function displayPhotographers(photographers) {
   photographers.forEach(photographer => {
     const photographerModel = photographerFactory(photographer)
     const userCardDOM = photographerModel.getUserCardDOM()
     DOM.photographersSection.appendChild(userCardDOM)
     setTimeout(() => {
       userCardDOM.classList.add('fadein')
+      userCardDOM.setAttribute('aria-busy', false)
     }, 1000)
   })
 }

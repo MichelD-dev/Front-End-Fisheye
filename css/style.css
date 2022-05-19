@@ -313,6 +313,10 @@ a[aria-label="Page d'accueil"]:focus {
   cursor: pointer;
 }
 
+fieldset {
+  border: none;
+}
+
 form {
   width: 100%;
 }

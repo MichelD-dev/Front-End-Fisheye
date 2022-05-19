@@ -25,13 +25,9 @@
     <h1 class="header__title">Nos photographes</h1>
   </header>
   <main id="main">
-    <div title="spinner" hidden id="spinner" role="progressbar" aria-valuetext="Chargement des photos" aria-busy="true"
-      aria-live="assertive" aria-valuemin="0" aria-valuemax="100">
-      <!-- FIXME -->
-    </div>
     <div class="photographers-section" role="grid" aria-label="Les photographes">
 
-      <template id="card-template">
+      <template id="card-template" aria-hidden="true">
         <article class="skeleton__card photographer__card">
           <div class="photographer-card__header">
             <div class="skeleton skeleton__image" alt=""></div>

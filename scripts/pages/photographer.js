@@ -64,6 +64,7 @@ export function displayMedias(photographer, sortedPhotographerMedias) {
     DOM.mediasSection.appendChild(article)
     setTimeout(() => {
       article.classList.add('fadein')
+      article.setAttribute('aria-busy', false)
     }, 1200)
   })
 }
@@ -199,6 +200,7 @@ let notSelectedsOptionsArray = []
 const select = () => {
   if (!document.querySelector('.select').classList.contains('open')) {
     document.querySelector('.select').classList.add('open')
+    document.querySelector('.select__trigger').setAttribute('aria-expanded', true)
 
     /**
      * Mise en tableau des selections non choisies
@@ -217,7 +219,7 @@ const select = () => {
     document.querySelector('.selected').focus()
   } else {
     document.querySelector('.select').classList.remove('open')
-
+    document.querySelector('.select__trigger').setAttribute('aria-expanded', false)
     /**
      * On retire le border-radius de la dernière selection avant de positionner une nouvelle selection en dernière position
      */

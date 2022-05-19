@@ -14,7 +14,8 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
      */
     const article = document.createElement('article')
     article.classList.add('media-card')
-    // article.ariaLabel = title) //FIXME title
+    article.ariaLabel = 'photo'
+    article.ariaBusy = true
     article.id = media.id
 
     const mediaCard = document.createElement(media.image ? 'img' : 'video')

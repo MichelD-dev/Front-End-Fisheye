@@ -1,225 +1,171 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Portfolios de photographes indépendants"
-    />
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="image/png" href="assets/favicon.png" />
-    <link
-      href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
-      rel="stylesheet"
-    />
-    <script>
-      FontAwesomeConfig = { keepOriginalSource: false }
-    </script>
-    <script
-      src="https://kit.fontawesome.com/9adb84594d.js"
-      data-auto-a11y
-      crossorigin="anonymous"
-    ></script>
-    <script type="module" src="scripts/pages/photographer.js"></script>
-    <title>Fisheye - photographe</title>
-  </head>
 
-  <body>
-    <header class="header">
-      <a href="./index.html" aria-label="Page d'accueil">
-        <span class="visually-hidden">Logo de FishEye</span>
-        <img
-          src="assets/logo/logo.png"
-          class="logo"
-          alt="Logo de FishEye - Page d'accueil"
-        />
-      </a>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolios de photographes indépendants" />
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet" />
+  <script>
+    FontAwesomeConfig = { keepOriginalSource: false }
+  </script>
+  <script src="https://kit.fontawesome.com/9adb84594d.js" data-auto-a11y crossorigin="anonymous"></script>
+  <script type="module" src="scripts/pages/photographer.js"></script>
+  <title>Fisheye - photographe</title>
+</head>
+
+<body>
+  <header class="header">
+    <a href="./index.html" aria-label="Page d'accueil">
+      <span class="visually-hidden">Logo de FishEye</span>
+      <img src="assets/logo/logo.png" class="logo" alt="Logo de FishEye - Page d'accueil" />
+    </a>
+  </header>
+  <main class="main main_photograph">
+    <!------------------------------------------------------------>
+    <!---------------------------EN-TETE-------------------------->
+    <!------------------------------------------------------------>
+
+    <div class="photograph-header">
+      <div class="photograph-header__id">
+        <h1 class="photographer__name"></h1>
+        <div class="photographer__info">
+          <span class="photographer__location"></span>
+          <span class="photographer__tagline"></span>
+        </div>
+      </div>
+      <button class="contact-button">Contactez-moi</button>
+      <img class="photographer__portrait" src="data:," alt="Portrait du photographe" />
+    </div>
+
+    <!------------------------------------------------------------>
+    <!--------------------------SELECTEUR------------------------->
+    <!------------------------------------------------------------>
+
+    <label for="medias-sort">Trier par </label>
+    <input id="medias-sort" class="visually-hidden">
+    <div class="select-wrapper">
+      <div class="select">
+        <div tabindex="0" class="select__trigger" role="checkbox" aria-checked="true" aria-expanded="false">
+          <span>Popularité</span>
+          <div class="arrow"></div>
+        </div>
+        <div class="custom-options">
+          <span tabindex="0" class="custom-option selected hidden" data-value="popularity">Popularité</span>
+          <span tabindex="0" class="custom-option" data-value="date">Date</span>
+          <span tabindex="0" class="custom-option" data-value="title">Titre</span>
+        </div>
+      </div>
+    </div>
+    <section class="medias__section" aria-labelledby="section-medias">
+      <h2 class="visually-hidden" id="section-medias">Section médias</h2>
+
+      <!------------------------------------------------------------>
+      <!--------------------------SKELETON-------------------------->
+      <!------------------------------------------------------------>
+
+      <template id="media-template" aria-hidden="true">
+        <article class="skeleton__media photographer__card">
+          <div class="skeleton skeleton__image_media" alt=""></div>
+          <div class="skeleton skeleton__text_media"></div>
+        </article>
+      </template>
+
+      <!------------------------------------------------------------>
+      <!-------------------ENCART DONNEES PHOTOGRAPHE--------------->
+      <!------------------------------------------------------------>
+    </section>
+    <div class="photographer__data">
+      <p>
+        <span class="photographer__likes"></span><i class="fa-solid fa-heart"></i>
+      </p>
+      <span class="photographer__rate"></span>
+    </div>
+  </main>
+
+  <!------------------------------------------------------------>
+  <!-----------------------MODALE FORMULAIRE-------------------->
+  <!------------------------------------------------------------>
+
+  <aside class="modal" id="form-modal" aria-hidden="true" aria-labelledby="modal-title">
+    <header class="modal-header">
+      <div class="modal-header__text">
+        <h2 id="modal-title">Contactez-moi</h2>
+        <span class="modal-header__name">Mimi Keel</span>
+      </div>
+      <button class="modal__close">
+        <img src="assets/icons/close.svg" alt="bouton de fermeture" />
+      </button>
     </header>
-    <main class="main main_photograph">
-      <!------------------------------------------------------------>
-      <!---------------------------EN-TETE-------------------------->
-      <!------------------------------------------------------------>
-
-      <div class="photograph-header">
-        <div class="photograph-header__id">
-          <h1 class="photographer__name"></h1>
-          <div class="photographer__info">
-            <span class="photographer__location"></span>
-            <span class="photographer__tagline"></span>
-          </div>
-        </div>
-        <button class="contact-button">Contactez-moi</button>
-        <img
-          class="photographer__portrait"
-          src="data:,"
-          alt="Portrait du photographe"
-        />
-      </div>
-
-      <!------------------------------------------------------------>
-      <!--------------------------SELECTEUR------------------------->
-      <!------------------------------------------------------------>
-
-      <label for="medias-sort">Trier par </label>
-      <input id="medias-sort" class="visually-hidden">
-      <div class="select-wrapper">
-        <div class="select">
-          <div tabindex="0" class="select__trigger">
-            <span>Popularité</span>
-            <div class="arrow"></div>
-          </div>
-          <div class="custom-options">
-            <span
-              tabindex="0"
-              class="custom-option selected hidden"
-              data-value="popularity"
-              >Popularité</span
-            >
-            <span tabindex="0" class="custom-option" data-value="date"
-              >Date</span
-            >
-            <span tabindex="0" class="custom-option" data-value="title"
-              >Titre</span
-            >
-          </div>
-        </div>
-      </div>
-      <section class="medias__section">
-        <h2 class="visually-hidden">Section médias</h2>
-
-        <!------------------------------------------------------------>
-        <!--------------------------SKELETON-------------------------->
-        <!------------------------------------------------------------>
-
-        <template id="media-template">
-          <article class="skeleton__media photographer__card">
-            <div class="skeleton skeleton__image_media" alt=""></div>
-            <div class="skeleton skeleton__text_media"></div>
-          </article>
-        </template>
-
-        <!------------------------------------------------------------>
-        <!-------------------ENCART DONNEES PHOTOGRAPHE--------------->
-        <!------------------------------------------------------------>
-      </section>
-      <div class="photographer__data">
-        <p>
-          <span class="photographer__likes"></span
-          ><i class="fa-solid fa-heart"></i>
-        </p>
-        <span class="photographer__rate"></span>
-      </div>
-    </main>
-
-    <!------------------------------------------------------------>
-    <!-----------------------MODALE FORMULAIRE-------------------->
-    <!------------------------------------------------------------>
-
-    <aside
-      class="modal"
-      id="form-modal"
-      aria-hidden="true"
-      aria-labelledby="modal-title"
-    >
-      <header class="modal-header">
-        <div class="modal-header__text">
-          <h2 id="modal-title">Contactez-moi</h2>
-          <span class="modal-header__name">Mimi Keel</span>
-        </div>
-        <button class="modal__close">
-          <img src="assets/icons/close.svg" alt="bouton de fermeture" />
-        </button>
-      </header>
-      <span class="name"></span>
-      <form
-        id="form"
-        name="form"
-        action="photographer.html"
-        method="get"
-        novalidate
-      >
+    <span class="name"></span>
+    <form id="form" name="form" action="photographer.html" method="get" novalidate>
+      <fieldset>
+        <legend class="visually-hidden">Contactez-moi</legend>
         <div>
-          <label
-            ><span class="visually-hidden" aria-hidden="true">Prénom</span>Votre
-            prénom</label
-          >
-          <input id="firstname" name="firstname" />
+          <label for="firstname"><span class="visually-hidden" aria-hidden="true">Prénom</span>Votre
+            prénom</label>
+          <input id="firstname" name="firstname" aria-required="true" autocomplete="given-name"
+            aria-autocomplete="list" />
           <span id="firstname-error" class="error-message"></span><br />
-          <label
-            ><span class="visually-hidden" aria-hidden="true">Nom</span>Votre
-            nom</label
-          >
-          <input id="lastname" name="lastname" />
+          <label for="lastname"><span class="visually-hidden" aria-hidden="true">Nom</span>Votre
+            nom</label>
+          <input id="lastname" name="lastname" aria-required="true" autocomplete="family-name"
+            aria-autocomplete="list" />
           <span id="lastname-error" class="error-message"></span><br />
-          <label
-            ><span class="visually-hidden" aria-hidden="true">Email</span>Votre
-            email</label
-          >
-          <input id="email" type="email" name="email" />
+          <label for="email"><span class="visually-hidden" aria-hidden="true">Email</span>Votre
+            email</label>
+          <input id="email" type="email" name="email" aria-required="true" autocomplete="email"
+            aria-autocomplete="list" />
           <span id="email-error" class="error-message"></span>
-          <label
-            ><span class="visually-hidden" aria-hidden="true"
-              >Votre message</span
-            >Votre message</label
-          >
+          <label for="message"><span class="visually-hidden" aria-hidden="true">Votre message</span>Votre
+            message</label>
           <textarea id="message" name="message"></textarea>
           <span id="message-error" class="error-message"></span>
         </div>
         <input type="submit" class="contact-button submit" value="Envoyer" />
-      </form>
-    </aside>
+      </fieldset>
+    </form>
+  </aside>
 
-    <!------------------------------------------------------------>
-    <!-----------------------MODALE LIGHTBOX---------------------->
-    <!------------------------------------------------------------>
+  <!------------------------------------------------------------>
+  <!-----------------------MODALE LIGHTBOX---------------------->
+  <!------------------------------------------------------------>
 
-    <aside
-      class="modal"
-      id="lightbox"
-      aria-hidden="true"
-      aria-labelledby="modal-title"
-    >
-      <div class="lightbox" contenteditable="true">
-        <h2 id="lightbox-title" class="visually-hidden">Lightbox</h2>
-        <button class="lightbox__previous">
-          <span class="visually-hidden">Image précédente</span>
-          <i class="fa-solid fa-chevron-left fa-3x"></i>
+  <aside class="modal" id="lightbox" aria-hidden="true" aria-labelledby="lightbox-title">
+    <div class="lightbox" contentditable="true">
+      <h2 id="lightbox-title" class="visually-hidden">Lightbox</h2>
+      <button class="lightbox__previous">
+        <span class="visually-hidden">Image précédente</span>
+        <i class="fa-solid fa-chevron-left fa-3x"></i>
+      </button>
+      <figure class="lightbox-container">
+        <div></div>
+        <img src="data:," alt="" class="hidden lightbox__image" />
+        <video src="data:," class="hidden lightbox__video"></video>
+        <figcaption class="lightbox-caption">
+          <span class="lightbox-caption__text"></span>
+          <label class="lightbox-caption__like-label" for="like"></label>
+          <input type="checkbox" id="like" class="lightbox-caption__like-btn" />
+          <div class="lightbox-caption__like-display">
+            <i class="lightbox-caption__like_active fa-solid fa-heart"></i>
+            <i class="lightbox-caption__like_inactive fa-solid fa-heart"></i>
+          </div>
+
+        </figcaption>
+      </figure>
+      <div class="lightbox__right">
+        <button class="lightbox__close">
+          <img src="assets/icons/lightboxClose.svg" alt="bouton de fermeture" />
         </button>
-        <figure class="lightbox-container">
-          <div></div>
-          <img src="data:," alt="" class="hidden lightbox__image" />
-          <video src="data:," class="hidden lightbox__video"></video>
-          <figcaption class="lightbox-caption">
-            <span class="lightbox-caption__text"></span>
-            <label class="lightbox-caption__like-label" for="like"></label>
-              <input
-                type="checkbox"
-                id="like"
-                class="lightbox-caption__like-btn"
-              />
-              <div class="lightbox-caption__like-display">
-                <i class="lightbox-caption__like_active fa-solid fa-heart"></i>
-                <i
-                  class="lightbox-caption__like_inactive fa-solid fa-heart"
-                ></i>
-              </div>
-           
-          </figcaption>
-        </figure>
-        <div class="lightbox__right">
-          <button class="lightbox__close">
-            <img
-              src="assets/icons/lightboxClose.svg"
-              alt="bouton de fermeture"
-            />
-          </button>
-          <button class="lightbox__next">
-            <span class="visually-hidden">Image suivante</span>
-            <i class="fa-solid fa-chevron-right fa-3x"></i>
-          </button>
-        </div>
+        <button class="lightbox__next">
+          <span class="visually-hidden">Image suivante</span>
+          <i class="fa-solid fa-chevron-right fa-3x"></i>
+        </button>
       </div>
-    </aside>
-  </body>
+    </div>
+  </aside>
+</body>
+
 </html>
