@@ -36,14 +36,13 @@ export const lightbox = (
      * AFFICHAGE DU MEDIA
      */
     DOM.mediasSection.classList.add('hidden')
-    DOM.mediasSection.setAttribute('hidden', true)
-
+  
     previouslyFocusedElement = document.querySelector(':focus').parentElement
 
     /**
      * attributs de lecture sur balise vidéo
      */
-    videoDisplay.controls = true //TODO Gestion des controls au clavier
+    videoDisplay.controls = true
     videoDisplay.setAttribute('type', 'video/mp4')
     videoDisplay.setAttribute('tabIndex', '0')
 
@@ -228,7 +227,6 @@ export const lightbox = (
     DOM.lightbox.removeAttribute('aria-modal')
 
     DOM.mediasSection.classList.remove('hidden')
-    DOM.mediasSection.setAttribute('hidden', false)
 
     previouslyFocusedElement?.firstChild?.focus()
 
@@ -287,10 +285,14 @@ addReactionTo('keydown')
  * Changement de focus au clavier et maintien du focus dans la modale
  */
 export const focusInLightbox = e => {
+  const isVideoDisplayed = !document
+    .querySelector('.lightbox__video')
+    .classList.contains('hidden')
+
   /**
    * On récupère les éléments qui acquerront le focus
    */
-  const focusableElements = 'button, input, video'
+  const focusableElements = `button, input, ${isVideoDisplayed && 'video'}`
 
   /**
    * On crée un tableau des éléments focusables

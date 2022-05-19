@@ -83,6 +83,7 @@ const mutationObserver = new MutationObserver(() => {
           likedMedia.querySelector(
             '.media-card__likesNbr > span'
           ).textContent = `${media.likes} `
+          
           media.isLikedByMe
             ? likedMedia.children[2].classList.remove('hidden')
             : likedMedia.children[2].classList.add('hidden')
@@ -154,7 +155,7 @@ const getDatas = async (sortingChoice = 'Popularité') => {
   )
 
   {
-    //TODO {}?
+ 
     /**
      * Stockage de toutes les images du photographe dans le local storage
      */

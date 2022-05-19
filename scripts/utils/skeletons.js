@@ -4,11 +4,11 @@ import DOM from './domElements.js'
 const cardTemplate = document.getElementById('card-template')
 const mediaTemplate = document.getElementById('media-template')
 
-const setSkeletons = nbr => pValue => {
+const setSkeletons = nbr => action => {
   /**
    * Fonction fadein/fadeout skeletons
    */
-  const printSkeleton = direction =>
+  const printSkeletons = direction =>
     [...document.getElementsByClassName('photographer__card')].map(card => {
       card.classList.add(direction)
       direction === 'fadeout' &&
@@ -22,16 +22,16 @@ const setSkeletons = nbr => pValue => {
    */
   if (nbr === 0) return
 
-  if (pValue === 'to print') {
+  if (action === 'to print') {
     DOM.photographersSection?.append(cardTemplate.content.cloneNode(true))
     DOM.mediasSection?.append(mediaTemplate.content.cloneNode(true))
 
-    printSkeleton('fadein')
-    setSkeletons(nbr - 1)(pValue)
+    printSkeletons('fadein')
+    setSkeletons(nbr - 1)(action)
   }
 
-  if (pValue === 'to hide') {
-    printSkeleton('fadeout')
+  if (action === 'to hide') {
+    printSkeletons('fadeout')
     setSkeletons(nbr - 1)
   }
 }
