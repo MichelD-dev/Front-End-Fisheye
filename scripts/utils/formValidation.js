@@ -1,6 +1,7 @@
 import DOM from './domElements.js'
 import { form } from '../modals/form.js'
 import { isInputValid } from './utils.js'
+import { addReactionTo } from './eventListener.js'
 
 let firstName = {
   value: '',
@@ -57,13 +58,15 @@ export const validate = e => {
 /**
  * Validation et fermeture au clavier
  */
-DOM.modalForm.onkeydown = e => {
-  if (e.key === 'Enter') {
-    if (DOM.formModal.hasAttribute('aria-modal')) return validate(e)
-  }
-  if (e.key === 'Escape') {
-    form().hide()
-  }
-}
+addReactionTo('keydown')
+  .on(DOM.formModal)
+  .withFunction(e => {
+    if (e.key === 'Enter') {
+      if (DOM.formModal.hasAttribute('aria-modal')) return e => validate(e)
+    }
+    if (e.key === 'Escape') {
+      form().hide()
+    }
+  })
 
 export { firstName, lastName, email, message }

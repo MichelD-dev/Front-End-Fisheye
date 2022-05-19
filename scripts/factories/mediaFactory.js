@@ -1,4 +1,4 @@
-import { lightbox } from '../modals/lightbox.js'
+import { lightbox } from '../pages/lightbox.js'
 import {
   addOrRemoveLike,
   getTotalOfLikes,
@@ -6,8 +6,9 @@ import {
   store,
 } from '../API/likesAPI.js'
 import { addReactionTo } from '../utils/eventListener.js'
+import DOM from '../utils/domElements.js'
 
-export function mediaFactory(media, photographer, sortedPhotographerMedias) {
+const mediaFactory = media => photographer => sortedPhotographerMedias => {
   function getMediaCardDOM() {
     /**
      * Création des éléments médias du DOM
@@ -103,10 +104,7 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
     addReactionTo('keydown')
       .on(article)
       .withFunction(e => {
-        if (
-          e.key === 'Enter' &&
-          document.getElementById('lightbox').hasAttribute('aria-hidden')
-        ) {
+        if (e.key === 'Enter' && DOM.lightbox.hasAttribute('aria-hidden')) {
           mediaCard.click()
         }
       })
@@ -128,3 +126,5 @@ export function mediaFactory(media, photographer, sortedPhotographerMedias) {
 
   return { getMediaCardDOM }
 }
+
+export default mediaFactory

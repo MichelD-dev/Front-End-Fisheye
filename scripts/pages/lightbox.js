@@ -17,9 +17,6 @@ export const lightbox = (
   imageId,
   imagePositionInMediasArray = -1
 ) => {
-  const imageDisplay = document.querySelector('.lightbox__image')
-  const videoDisplay = document.querySelector('.lightbox__video')
-
   /**
    *  Récupération du média à afficher dans la lightbox
    */
@@ -36,22 +33,21 @@ export const lightbox = (
      * AFFICHAGE DU MEDIA
      */
     DOM.mediasSection.classList.add('hidden')
+    DOM.mediasSection.hidden = true
 
     previouslyFocusedElement = document.querySelector(':focus').parentElement
 
     /**
      * attributs de lecture sur balise vidéo
      */
-    videoDisplay.controls = true
-    videoDisplay.setAttribute('type', 'video/mp4')
-    videoDisplay.setAttribute('tabIndex', '0')
+    DOM.videoDisplay.controls = true
+    DOM.videoDisplay.setAttribute('type', 'video/mp4')
+    DOM.videoDisplay.tabIndex = 0
 
     /**
      * Affichage du titre du média dans la balise figcaption
      */
-    document.querySelector(
-      '.lightbox-caption__text'
-    ).textContent = `${sortedPhotographerMedias[imagePositionInMediasArray].title}`
+    DOM.lightboxCaption.textContent = `${sortedPhotographerMedias[imagePositionInMediasArray].title}`
 
     /**
      * Si le média est une image
@@ -62,16 +58,16 @@ export const lightbox = (
       /**
        * On passe la balise video en display: none
        */
-      videoDisplay.classList.add('hidden')
-      imageDisplay.classList.remove('hidden')
+      DOM.videoDisplay.classList.add('hidden')
+      DOM.imageDisplay.classList.remove('hidden')
 
       /**
        * On définit la source de l'image
        */
-      imageDisplay.src = `../../assets/images/${
+      DOM.imageDisplay.src = `../../assets/images/${
         photographer.name.split(' ')[0]
       }/${sortedPhotographerMedias[imagePositionInMediasArray].image}`
-      imageDisplay.alt =
+      DOM.imageDisplay.alt =
         sortedPhotographerMedias[imagePositionInMediasArray].title
     }
 
@@ -84,25 +80,24 @@ export const lightbox = (
       /**
        * On passe la balise image en display: none
        */
-      imageDisplay.classList.add('hidden')
-      videoDisplay.classList.remove('hidden')
+      DOM.imageDisplay.classList.add('hidden')
+      DOM.videoDisplay.classList.remove('hidden')
 
       /**
        * On définit la source de la vidéo
        */
-      videoDisplay.src = `../../assets/images/${
+      DOM.videoDisplay.src = `../../assets/images/${
         photographer.name.split(' ')[0]
       }/${sortedPhotographerMedias[imagePositionInMediasArray].video}`
-      videoDisplay.alt =
+      DOM.videoDisplay.alt =
         sortedPhotographerMedias[imagePositionInMediasArray].title
     }
 
     /**
      * On affiche la lightbox
      */
-    const lightbox = document.getElementById('lightbox')
-    lightbox.removeAttribute('aria-hidden')
-    lightbox.ariaModal = true
+    DOM.lightbox.removeAttribute('aria-hidden')
+    DOM.lightbox.ariaModal = true
 
     /**
      * On affiche le like sur la lightbox si le thumbnail est liké
@@ -123,25 +118,25 @@ export const lightbox = (
   const moveToMedia = media => {
     if (media.image) {
       DOM.lightboxContainer.classList.remove('w100')
-      imageDisplay.classList.remove('hidden')
-      videoDisplay.classList.add('hidden')
+      DOM.imageDisplay.classList.remove('hidden')
+      DOM.videoDisplay.classList.add('hidden')
 
-      imageDisplay.src = `../../assets/images/${
+      DOM.imageDisplay.src = `../../assets/images/${
         photographer.name.split(' ')[0]
       }/${media.image}`
     }
 
     if (media.video) {
       DOM.lightboxContainer.classList.add('w100')
-      imageDisplay.classList.add('hidden')
-      videoDisplay.classList.remove('hidden')
+      DOM.imageDisplay.classList.add('hidden')
+      DOM.videoDisplay.classList.remove('hidden')
 
-      videoDisplay.src = `../../assets/images/${
+      DOM.videoDisplay.src = `../../assets/images/${
         photographer.name.split(' ')[0]
       }/${media.video}`
     }
 
-    document.querySelector('.lightbox-caption__text').textContent = media.title
+    DOM.lightboxCaption.textContent = media.title
 
     /**
      * On affiche le like sur la lightbox si le thumbnail est liké
@@ -231,6 +226,7 @@ export const lightbox = (
     DOM.lightbox.removeAttribute('aria-modal')
 
     DOM.mediasSection.classList.remove('hidden')
+    DOM.mediasSection.hidden = false
 
     previouslyFocusedElement?.firstChild?.focus()
 
@@ -244,25 +240,27 @@ export const lightbox = (
   // --------------------------------------------------------------------------- //
 
   addReactionTo('click')
-    .on('.lightbox__previous')
+    .on(DOM.lightboxLeftArrow)
     .withFunction(displayPreviousMedia)
 
-  addReactionTo('click').on('.lightbox__next').withFunction(displayNextMedia)
+  addReactionTo('click')
+    .on(DOM.lightboxRightArrow)
+    .withFunction(displayNextMedia)
 
-  addReactionTo('click').on('.lightbox__close').withFunction(hide)
+  addReactionTo('click').on(DOM.lightboxClose).withFunction(hide)
 
   addReactionTo('keydown').on(window).withFunction(keyboardNavigation)
 
   const removeEventListeners = () => {
     removeReactionTo('click')
-      .on('.lightbox__previous')
+      .on(DOM.lightboxLeftArrow)
       .withFunction(displayPreviousMedia)
 
     removeReactionTo('click')
-      .on('.lightbox__next')
+      .on(DOM.lightboxRightArrow)
       .withFunction(displayNextMedia)
 
-    removeReactionTo('click').on('.lightbox__close').withFunction(hide)
+    removeReactionTo('click').on(DOM.lightboxClose).withFunction(hide)
 
     removeReactionTo('keydown').on(window).withFunction(keyboardNavigation)
   }
@@ -289,9 +287,7 @@ addReactionTo('keydown')
  * Changement de focus au clavier et maintien du focus dans la modale
  */
 export const focusInLightbox = e => {
-  const isVideoDisplayed = !document
-    .querySelector('.lightbox__video')
-    .classList.contains('hidden')
+  const isVideoDisplayed = !DOM.videoDisplay.classList.contains('hidden')
 
   /**
    * On récupère les éléments qui acquerront le focus

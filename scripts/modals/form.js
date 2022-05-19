@@ -29,8 +29,8 @@ export const form = () => {
     /**
      * On rend la modale formulaire visible
      */
-    DOM.modalForm.removeAttribute('aria-hidden')
-    DOM.modalForm.ariaModal = true
+    DOM.formModal.removeAttribute('aria-hidden')
+    DOM.formModal.ariaModal = true
 
     /**
      * On place le focus sur le premier champ
@@ -40,12 +40,12 @@ export const form = () => {
     /**
      * Bouton de fermeture du formulaire
      */
-    DOM.modalCloseBtn.onclick = () => form().hide()
+    DOM.formModalCloseBtn.onclick = () => hide()
 
     /**
      * On place un écouteur d'évènement Submit sur le formulaire
      */
-    DOM.modalForm.onsubmit = formSubmit
+    DOM.formModal.onsubmit = e => formSubmit(e)
   }
 
   const hide = () => {
@@ -55,15 +55,35 @@ export const form = () => {
     if (previouslyFocusedElement !== null) previouslyFocusedElement.focus()
 
     /**
+     * On vide les champs du formulaire de leur contenu et on supprime les messages d'erreur
+     */
+    DOM.formModal
+      .querySelectorAll('input:not([type="submit"]), textArea')
+      .forEach(input => input.classList.remove('error', 'success'))
+
+    firstName.value = ''
+    lastName.value = ''
+    email.value = ''
+    message.value = ''
+    ;[...DOM.formModal.getElementsByClassName('error-message')].forEach(
+      errorMsg => {
+        errorMsg.textContent = ''
+      }
+    )
+    ;[...document.getElementsByClassName('error-message')].map(
+      message => (message.style.border = 'none')
+    )
+
+    /**
      * On vide les champs du formulaire
      */
-    document.getElementById('form').reset()
+    DOM.form.reset()
 
     /**
      * On passe la modale en hidden
      */
-    DOM.modalForm.ariaHidden = true
-    DOM.modalForm.removeAttribute('aria-modal')
+    DOM.formModal.ariaHidden = true
+    DOM.formModal.removeAttribute('aria-modal')
   }
 
   return { show, hide }
@@ -75,8 +95,6 @@ export const form = () => {
  * Fonction de soumission du formulaire
  */
 const formSubmit = e => {
-  e.preventDefault()
-
   if (!validate(e)) return
 
   console.table([
@@ -85,25 +103,6 @@ const formSubmit = e => {
     DOM.emailInput.value,
     DOM.messageInput.value,
   ])
-
-  /**
-   * On vide les champs du formulaire de leur contenu et on supprime les messages d'erreur
-   */
-  DOM.modalForm
-    .getElementsByTagName('input:not([type="submit"]), textArea')
-    .forEach(input => {
-      input.classList.remove('error', 'success')
-      document.getElementById('form').reset()
-    })
-
-  firstName.value = ''
-  lastName.value = ''
-  email.value = ''
-  message.value = ''
-
-  DOM.modalForm.getElementsByClassName('error-message').forEach(errorMsg => {
-    errorMsg.textContent = ''
-  })
 
   /**
    * On ferme la modale et on remet le focus sur le bouton de contact
@@ -134,15 +133,15 @@ const focusableElements = 'input, textArea, button'
 /**
  * On crée un tableau des éléments focusables
  */
-let focusables = [...DOM.modalForm.querySelectorAll(focusableElements)]
+let focusables = [...DOM.formModal.querySelectorAll(focusableElements)]
 
 /**
  * Changement de focus au clavier et maintien du focus dans la modale
  */
 export const focusInModal = e => {
-   e.preventDefault()
+  e.preventDefault()
   let index = focusables.findIndex(
-    elem => elem === DOM.modalForm.querySelector(':focus')
+    elem => elem === DOM.formModal.querySelector(':focus')
   )
   e.shiftKey === true ? index-- : index++
   if (index >= focusables.length) {

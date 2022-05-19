@@ -1,6 +1,6 @@
 import DOM from '../utils/domElements.js'
-import { photographerFactory } from '../factories/photographerFactory.js'
-import { mediaFactory } from '../factories/mediaFactory.js'
+import photographerFactory from '../factories/photographerFactory.js'
+import mediaFactory from '../factories/mediaFactory.js'
 import { form } from '../modals/form.js'
 import { store } from '../API/likesAPI.js'
 import getFetchedDatas from '../API/fetchAPI.js'
@@ -15,14 +15,9 @@ import { select } from '../components/selector.js'
 let id = +new URLSearchParams(document.location.search).get('id')
 
 /**
- * Initialisation de la variable objet possédant le focus
- */
-// let previouslyFocusedElement = null
-
-/**
  * AFFICHAGE DE LA PAGE PHOTOGRAPHE
  */
-export function displayMedias(photographer, sortedPhotographerMedias) {
+const displayMedias = photographer => sortedPhotographerMedias => {
   keyboardNavigation()
 
   /**
@@ -38,21 +33,19 @@ export function displayMedias(photographer, sortedPhotographerMedias) {
   setSkeletons(6)('to print')
 
   /**
+   * Récupération du photographe choisi et affichage du header associé
+   */
+  photographerFactory(photographer).getUserPageDOM()
+
+  /**
    * Récupération des cartes images du photographe
    */
-  const photographerModel = photographerFactory(photographer)
-  photographerModel.getUserPageDOM()
-
   sortedPhotographerMedias.forEach(media => {
     if (media.photographerId !== id) return
 
-    const mediaModel = mediaFactory(
-      media,
-      photographer,
+    const article = mediaFactory(media)(photographer)(
       sortedPhotographerMedias
-    )
-
-    const article = mediaModel.getMediaCardDOM()
+    ).getMediaCardDOM()
 
     // /**
     //  * Masquage des skeletons
@@ -73,7 +66,6 @@ export function displayMedias(photographer, sortedPhotographerMedias) {
 /**
  * Actualisation éventuelle de l'affichage du nbr de likes à la fermeture de la lightbox
  */
-
 const mutationObserver = new MutationObserver(() => {
   const mediaCards = [...DOM.mediasSection.getElementsByClassName('media-card')]
 
@@ -101,7 +93,7 @@ mutationObserver.observe(DOM.mediasSection, {
 /**
  * Récupération d'un photographe et des médias associés par critère de tri
  */
-export const getMediasSorting = (photographers, medias, sortingChoice) => {
+export const getMediasSorting = photographers => medias => sortingChoice => {
   /**
    * Définition du photographe d'après son id
    */
@@ -127,7 +119,7 @@ export const getMediasSorting = (photographers, medias, sortingChoice) => {
       Date: () => photographerMedias.sort((a, b) => a.date - b.date),
     }
 
-    return choices[sortingChoice]()
+    return choices[sortingChoice]?.() ?? 'Critère de choix non reconnu'
   }
 
   const sortedPhotographerMedias = sortBy(sortingChoice)
@@ -150,11 +142,8 @@ export const getDatas = async (sortingChoice = 'Popularité') => {
   /**
    * Récupération d'un photographe spécifique et des médias associés par critère de tri
    */
-  const { photographer, sortedPhotographerMedias } = getMediasSorting(
-    photographers,
-    medias,
-    sortingChoice
-  )
+  const { photographer, sortedPhotographerMedias } =
+    getMediasSorting(photographers)(medias)(sortingChoice)
 
   /**
    * Stockage de toutes les images du photographe dans le local storage
@@ -172,7 +161,7 @@ export const getDatas = async (sortingChoice = 'Popularité') => {
   /**
    * Affichage des médias
    */
-  displayMedias(photographer, sortedPhotographerMedias)
+  displayMedias(photographer)(sortedPhotographerMedias)
 }
 
 getDatas()

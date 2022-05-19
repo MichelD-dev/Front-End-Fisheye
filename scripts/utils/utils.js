@@ -1,5 +1,5 @@
 import { form } from '../modals/form.js'
-import { focusInLightbox, lightbox } from '../modals/lightbox.js'
+import { focusInLightbox, lightbox } from '../pages/lightbox.js'
 import DOM from './domElements.js'
 import { addReactionTo } from './eventListener.js'
 
@@ -43,11 +43,13 @@ const setErrorMessage = (id, message) => {
 
   /* On ajoute une bordure rouge à l'input */
   document.getElementById(id).classList.add('error')
+  error.style.border = '2px solid red'
 
   /* S'il n'y a pas de message d'erreur reçu, il s'agit d'un reset, on affiche alors une bordure verte */
   if (message === '') {
     document.getElementById(id).classList.remove('error')
     document.getElementById(id).classList.add('success')
+    error.style.border = 'none'
   }
 }
 

@@ -103,9 +103,7 @@ export const printLikesNbr = id => likesNbr => {
       if (likedImage.id === id) {
         likesNbr.textContent = `${likedImage.likes} `
 
-        document.querySelector(
-          '.photographer__likes'
-        ).textContent = `${getTotalOfLikes()} `
+        DOM.totalLikesNbr.textContent = `${getTotalOfLikes()} `
       }
     })
 }

@@ -7,8 +7,9 @@ const DOM = {
   contactBtn: document.querySelector('.contact-button'),
 
   modal: document.querySelector('.modal'),
-  modalForm: document.getElementById('form-modal'),
-  modalCloseBtn: document.querySelector('.modal__close'),
+  formModal: document.getElementById('form-modal'),
+  formModalCloseBtn: document.querySelector('.modal__close'),
+  form: document.getElementById('form'),
 
   firstNameInput: document.getElementById('firstname'),
   lastNameInput: document.getElementById('lastname'),
@@ -17,16 +18,19 @@ const DOM = {
 
   lightbox: document.getElementById('lightbox'),
   lightboxContainer: document.querySelector('.lightbox-container'),
+  lightboxCaption: document.querySelector('.lightbox-caption__text'),
   lightboxLikeInCaption: document.querySelector(
     '.lightbox-caption__like-display'
   ),
-  lightboxLeftArrow: document.querySelector('.fa-chevron-left'),
-  lightboxRightArrow: document.querySelector('.fa-chevron-right'),
+  hiddenLikeCheckbox: document.querySelector('.lightbox-caption__like-btn'),
+  lightboxLeftArrow: document.querySelector('.lightbox__previous'),
+  lightboxRightArrow: document.querySelector('.lightbox__next'),
   lightboxClose: document.querySelector('.lightbox__close'),
 
-  totalLikesNbr: document.querySelector('.photographer__likes'),
+  imageDisplay: document.querySelector('.lightbox__image'),
+  videoDisplay: document.querySelector('.lightbox__video'),
 
-  hiddenLikeCheckbox: document.querySelector('.lightbox-caption__like-btn'),
+  totalLikesNbr: document.querySelector('.photographer__likes'),
 
   selector: document.querySelector('.select'),
 }

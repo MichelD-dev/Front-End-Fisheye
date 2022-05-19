@@ -1,5 +1,5 @@
 import DOM from '../utils/domElements.js'
-import { photographerFactory } from '../factories/photographerFactory.js'
+import photographerFactory from '../factories/photographerFactory.js'
 import init from '../utils/init.js'
 
 /**

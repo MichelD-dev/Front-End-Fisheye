@@ -3,5 +3,4 @@
 ## Formation OpenClassrooms
 ### Développeur d'applications JavaScript React
 ### - Projet 6 -
-### Premiers pas en programmation fonctionnelle
 
