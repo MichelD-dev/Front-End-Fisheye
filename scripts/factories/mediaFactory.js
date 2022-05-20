@@ -97,17 +97,6 @@ const mediaFactory = media => photographer => sortedPhotographerMedias => {
       )
 
     /**
-     * Ouverture de la modale au clavier
-     */
-    addReactionTo('keydown')
-      .on(article)
-      .withFunction(e => {
-        if (e.key === 'Enter' && DOM.lightbox.hasAttribute('aria-hidden')) {
-          mediaCard.click()
-        }
-      })
-
-    /**
      * Ajout/retrait d'un like
      */
     addReactionTo('click')
@@ -118,15 +107,27 @@ const mediaFactory = media => photographer => sortedPhotographerMedias => {
       })
 
     /**
-     * Ajout/retrait d'un like au clavier
+     * Ouverture de la modale au clavier
+     * ajout/retrait d'un like au clavier
      */
     addReactionTo('keydown')
       .on(mediaCard)
       .withFunction(e => {
-        if (e.keyCode === 32) {
-          e.preventDefault()
+        const mediaIsLiked = !article.children[2].classList.contains('hidden')
+
+        if (e.key === '+' && mediaIsLiked) return
+        if (e.key === '-' && !mediaIsLiked) return
+        
+        if (
+          (e.key === '+' && !mediaIsLiked) ||
+          (e.key === '-' && mediaIsLiked)
+        ) {
           addOrRemoveLike(media)
           printLikesNbr(media.id)(likesNbr)
+        }
+
+        if (e.key === 'Enter') {
+          mediaCard.click()
         }
       })
 
