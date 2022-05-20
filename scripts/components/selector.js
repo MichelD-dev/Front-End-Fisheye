@@ -11,7 +11,7 @@ export const select = () => {
   if (!document.querySelector('.select').classList.contains('open')) {
     document.querySelector('.select').classList.add('open')
     document
-      .getElementsByClassName('custom-options')
+      .querySelector('.custom-options')
       .setAttribute('aria-expanded', true)
 
     /**

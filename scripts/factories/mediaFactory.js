@@ -20,9 +20,9 @@ const mediaFactory = media => photographer => sortedPhotographerMedias => {
     article.id = media.id
 
     const mediaCard = document.createElement(media.image ? 'img' : 'video')
-    mediaCard.src = `./assets/thumbnails/${
-      photographer.name.split(' ')[0]
-    }/${media.image || media.video}`
+    mediaCard.src = `./assets/thumbnails/${photographer.name.split(' ')[0]}/${
+      media.image || media.video
+    }`
     media.image && (mediaCard.alt = media.title)
     mediaCard.classList.add('media-card__image')
     media.video && mediaCard.classList.add('media-card__image_video')
@@ -115,6 +115,19 @@ const mediaFactory = media => photographer => sortedPhotographerMedias => {
       .withFunction(() => {
         addOrRemoveLike(media)
         printLikesNbr(media.id)(likesNbr)
+      })
+
+    /**
+     * Ajout/retrait d'un like au clavier
+     */
+    addReactionTo('keydown')
+      .on(mediaCard)
+      .withFunction(e => {
+        if (e.keyCode === 32) {
+          e.preventDefault()
+          addOrRemoveLike(media)
+          printLikesNbr(media.id)(likesNbr)
+        }
       })
 
     return article
