@@ -149,3 +149,14 @@ export const focusInModal = e => {
   }
   focusables[index].focus()
 }
+
+addReactionTo('keydown')
+  .on(DOM.messageInput)
+  .withFunction(e => {
+    if (e.key === 'Enter') {
+      DOM.messageInput.classList.remove('error')
+      DOM.messageInput.classList.add('success')
+      document.getElementById('message-error').textContent = ''
+      document.getElementById('message-error').style.border = 'none'
+    }
+  })
