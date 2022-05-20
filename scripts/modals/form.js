@@ -16,11 +16,11 @@ let previouslyFocusedElement = null
 /**
  * MODALE FORMULAIRE
  */
-export const form = () => {
+export const form = {
   /**
    * Ouverture de la modale formulaire
    */
-  const show = () => {
+  show: () => {
     /**
      * Mémorisation présence du focus sur bouton de contact
      */
@@ -40,15 +40,14 @@ export const form = () => {
     /**
      * Bouton de fermeture du formulaire
      */
-    DOM.formModalCloseBtn.onclick = () => hide()
+    DOM.formModalCloseBtn.onclick = () => form.hide()
 
     /**
      * On place un écouteur d'évènement Submit sur le formulaire
      */
     DOM.formModal.onsubmit = e => formSubmit(e)
-  }
-
-  const hide = () => {
+  },
+  hide: () => {
     /**
      * A la fermeture, retour du focus sur le bouton de contact
      */
@@ -84,9 +83,7 @@ export const form = () => {
      */
     DOM.formModal.ariaHidden = true
     DOM.formModal.removeAttribute('aria-modal')
-  }
-
-  return { show, hide }
+  },
 }
 
 // -------------------------------------------------------------------- //
@@ -107,7 +104,7 @@ const formSubmit = e => {
   /**
    * On ferme la modale et on remet le focus sur le bouton de contact
    */
-  form().hide()
+  form.hide()
 }
 
 // --------------------------------------------------------------------------- //

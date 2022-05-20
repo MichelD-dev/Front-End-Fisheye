@@ -1,4 +1,4 @@
-import { lightbox } from '../pages/lightbox.js'
+import { lightbox } from '../modals/lightbox.js'
 import {
   addOrRemoveLike,
   getTotalOfLikes,
@@ -20,7 +20,7 @@ const mediaFactory = media => photographer => sortedPhotographerMedias => {
     article.id = media.id
 
     const mediaCard = document.createElement(media.image ? 'img' : 'video')
-    mediaCard.src = `../../assets/thumbnails/${
+    mediaCard.src = `./assets/thumbnails/${
       photographer.name.split(' ')[0]
     }/${media.image || media.video}`
     media.image && (mediaCard.alt = media.title)
@@ -51,13 +51,11 @@ const mediaFactory = media => photographer => sortedPhotographerMedias => {
     const likesNbr = document.createElement('span')
     likesNbr.setAttribute('aria-live', 'polite')
 
-    store()
-      .getLikedImages()
-      .find(likedImage => {
-        if (likedImage.id === media.id) {
-          likesNbr.textContent = `${media.likes} `
-        }
-      })
+    store.getLikedImages().find(likedImage => {
+      if (likedImage.id === media.id) {
+        likesNbr.textContent = `${media.likes} `
+      }
+    })
 
     const likeIcon = document.createElement('i')
     likeIcon.classList.add('fa-solid', 'fa-heart')

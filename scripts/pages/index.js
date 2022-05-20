@@ -21,7 +21,7 @@ async function displayPhotographers(photographers) {
  * Demande de fetch et affichage des photographes
  */
 init({
-  url: 'https://micheld-dev.github.io/json-files/photographers.json',
+  url: './photographers.json',
   storageName: 'original datas',
   doSomethingWith: displayPhotographers,
   thisParticularData: 'photographers',

@@ -1,5 +1,5 @@
 import { form } from '../modals/form.js'
-import { focusInLightbox, lightbox } from '../pages/lightbox.js'
+import { focusInLightbox, lightbox } from '../modals/lightbox.js'
 import DOM from './domElements.js'
 import { addReactionTo } from './eventListener.js'
 
@@ -62,7 +62,7 @@ const keyboardNavigation = () => {
           (e.key === 'Escape' || e.key === 'Esc') &&
           DOM.modal.hasAttribute('aria-modal')
         ) {
-          form().hide()
+          form.hide()
         }
         if (
           (e.key === 'Escape' || e.key === 'Esc') &&

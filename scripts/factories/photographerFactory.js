@@ -56,7 +56,7 @@ const photographerFactory = (data) => {
     name.ariaLabel = 'Nom du photographe'
 
     const articleHeader = document.createElement('a')
-    articleHeader.href = `/photographer.html?id=${id}`
+    articleHeader.href = `./photographer.html?id=${id}`
     articleHeader.classList.add('photographer-card__header')
     articleHeader.appendChild(img)
     articleHeader.appendChild(name)

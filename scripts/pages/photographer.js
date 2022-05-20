@@ -69,21 +69,19 @@ const displayMedias = photographer => sortedPhotographerMedias => {
 const mutationObserver = new MutationObserver(() => {
   const mediaCards = [...DOM.mediasSection.getElementsByClassName('media-card')]
 
-  store()
-    .getLikedImages()
-    .map(media => {
-      mediaCards.find(likedMedia => {
-        if (+likedMedia.id === media.id) {
-          likedMedia.querySelector(
-            '.media-card__likesNbr > span'
-          ).textContent = `${media.likes} `
+  store.getLikedImages().map(media => {
+    mediaCards.find(likedMedia => {
+      if (+likedMedia.id === media.id) {
+        likedMedia.querySelector(
+          '.media-card__likesNbr > span'
+        ).textContent = `${media.likes} `
 
-          media.isLikedByMe
-            ? likedMedia.children[2].classList.remove('hidden')
-            : likedMedia.children[2].classList.add('hidden')
-        }
-      })
+        media.isLikedByMe
+          ? likedMedia.children[2].classList.remove('hidden')
+          : likedMedia.children[2].classList.add('hidden')
+      }
     })
+  })
 })
 
 mutationObserver.observe(DOM.mediasSection, {
@@ -155,7 +153,7 @@ export const getDatas = async (sortingChoice = 'Popularité') => {
       ...likedMedias,
       { id: media.id, likes: media.likes, isLikedByMe: false },
     ]
-    store().setLikedImages(likedMedias)
+    store.setLikedImages(likedMedias)
   })
 
   /**
@@ -173,7 +171,7 @@ getDatas()
 /**
  * Bouton d'affichage du formulaire de contact
  */
-DOM.contactBtn.onclick = () => form().show()
+DOM.contactBtn.onclick = () => form.show()
 
 /*------------------------------------------------------------ */
 /*------------------------- SELECTEUR ------------------------ */

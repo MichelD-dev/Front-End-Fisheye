@@ -64,7 +64,7 @@ export const lightbox = (
       /**
        * On définit la source de l'image
        */
-      DOM.imageDisplay.src = `../../assets/images/${
+      DOM.imageDisplay.src = `./assets/images/${
         photographer.name.split(' ')[0]
       }/${sortedPhotographerMedias[imagePositionInMediasArray].image}`
       DOM.imageDisplay.alt =
@@ -86,7 +86,7 @@ export const lightbox = (
       /**
        * On définit la source de la vidéo
        */
-      DOM.videoDisplay.src = `../../assets/images/${
+      DOM.videoDisplay.src = `./assets/images/${
         photographer.name.split(' ')[0]
       }/${sortedPhotographerMedias[imagePositionInMediasArray].video}`
       DOM.videoDisplay.alt =
@@ -121,7 +121,7 @@ export const lightbox = (
       DOM.imageDisplay.classList.remove('hidden')
       DOM.videoDisplay.classList.add('hidden')
 
-      DOM.imageDisplay.src = `../../assets/images/${
+      DOM.imageDisplay.src = `./assets/images/${
         photographer.name.split(' ')[0]
       }/${media.image}`
     }
@@ -131,7 +131,7 @@ export const lightbox = (
       DOM.imageDisplay.classList.add('hidden')
       DOM.videoDisplay.classList.remove('hidden')
 
-      DOM.videoDisplay.src = `../../assets/images/${
+      DOM.videoDisplay.src = `./assets/images/${
         photographer.name.split(' ')[0]
       }/${media.video}`
     }

@@ -4,19 +4,17 @@ import DOM from '../utils/domElements.js'
 /**
  * On stocke les likes du photographe dans le local storage
  */
-export const store = () => {
-  const setLikedImages = likes => {
+export const store = {
+  setLikedImages: likes => {
     localStorage.setItem("photographer's liked medias", JSON.stringify(likes))
-  }
+  },
 
   /**
    * On récupère les likes du photographe du local storage
    */
-  const getLikedImages = () => {
+  getLikedImages: () => {
     return JSON.parse(localStorage.getItem("photographer's liked medias"))
-  }
-
-  return { setLikedImages, getLikedImages }
+  },
 }
 
 // ------------------------------------------------------------ //
@@ -36,15 +34,13 @@ export const addOrRemoveLike = media => {
   /* On actualise le tableau des ids des medias likés */
   const updatedLikedImages = addLike => {
     /* On le mémorise  dans le local storage */
-    store().setLikedImages(
-      store()
-        .getLikedImages()
-        .map(likedImage => {
-          if (likedImage.id === media.id) {
-            return { ...likedImage, likes: media.likes, isLikedByMe: !!addLike }
-          }
-          return likedImage
-        })
+    store.setLikedImages(
+      store.getLikedImages().map(likedImage => {
+        if (likedImage.id === media.id) {
+          return { ...likedImage, likes: media.likes, isLikedByMe: !!addLike }
+        }
+        return likedImage
+      })
     )
   }
 
@@ -97,15 +93,13 @@ export const addOrRemoveLike = media => {
  * Affichage nombre de likes par image
  */
 export const printLikesNbr = id => likesNbr => {
-  store()
-    .getLikedImages()
-    .find(likedImage => {
-      if (likedImage.id === id) {
-        likesNbr.textContent = `${likedImage.likes} `
+  store.getLikedImages().find(likedImage => {
+    if (likedImage.id === id) {
+      likesNbr.textContent = `${likedImage.likes} `
 
-        DOM.totalLikesNbr.textContent = `${getTotalOfLikes()} `
-      }
-    })
+      DOM.totalLikesNbr.textContent = `${getTotalOfLikes()} `
+    }
+  })
 }
 
 /**
@@ -113,7 +107,7 @@ export const printLikesNbr = id => likesNbr => {
  */
 export const getTotalOfLikes = () => {
   let likesTotal =
-    store()
+    store
       .getLikedImages()
       ?.map(media => media.likes)
       .reduce((total, current) => total + current, 0) ?? []
@@ -136,28 +130,24 @@ printTotalOfLikes()
 export const printLikeOnLightbox = media => {
   const updatedLikedImages = addLike => {
     /* On le mémorise  dans le local storage */
-    store().setLikedImages(
-      store()
-        .getLikedImages()
-        .map(likedImage => {
-          if (likedImage.id === media.id) {
-            return { ...likedImage, likes: media.likes, isLikedByMe: !!addLike }
-          }
-          return likedImage
-        })
+    store.setLikedImages(
+      store.getLikedImages().map(likedImage => {
+        if (likedImage.id === media.id) {
+          return { ...likedImage, likes: media.likes, isLikedByMe: !!addLike }
+        }
+        return likedImage
+      })
     )
   }
 
   /**
    * On vérifie dans le storage quels sont les médias likés
    */
-  store()
-    .getLikedImages()
-    .map(likedImage => {
-      if (likedImage.id === media.id) {
-        DOM.hiddenLikeCheckbox.checked = likedImage.isLikedByMe
-      }
-    })
+  store.getLikedImages().map(likedImage => {
+    if (likedImage.id === media.id) {
+      DOM.hiddenLikeCheckbox.checked = likedImage.isLikedByMe
+    }
+  })
 
   if (!DOM.hiddenLikeCheckbox.checked) {
     media.likes += 1
@@ -182,11 +172,9 @@ export const printLikeOnLightbox = media => {
  * Affichage like sur lightbox si thumbnail liké
  */
 export const printIfThisMediaIsLiked = media => {
-  store()
-    .getLikedImages()
-    .find(thisMedia => {
-      if (thisMedia.id === media.id) {
-        DOM.hiddenLikeCheckbox.checked = thisMedia.isLikedByMe
-      }
-    })
+  store.getLikedImages().find(thisMedia => {
+    if (thisMedia.id === media.id) {
+      DOM.hiddenLikeCheckbox.checked = thisMedia.isLikedByMe
+    }
+  })
 }
