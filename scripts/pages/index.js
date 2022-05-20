@@ -21,7 +21,7 @@ async function displayPhotographers(photographers) {
  * Demande de fetch et affichage des photographes
  */
 init({
-  url: './photographers.json',
+  url: './data/photographers.json',
   storageName: 'original datas',
   doSomethingWith: displayPhotographers,
   thisParticularData: 'photographers',

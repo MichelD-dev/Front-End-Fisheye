@@ -33,7 +33,6 @@ export const lightbox = (
      * AFFICHAGE DU MEDIA
      */
     DOM.mediasSection.classList.add('hidden')
-    DOM.mediasSection.hidden = true
 
     previouslyFocusedElement = document.querySelector(':focus').parentElement
 
@@ -226,8 +225,7 @@ export const lightbox = (
     DOM.lightbox.removeAttribute('aria-modal')
 
     DOM.mediasSection.classList.remove('hidden')
-    DOM.mediasSection.hidden = false
-
+ 
     previouslyFocusedElement?.firstChild?.focus()
 
     removeEventListeners()

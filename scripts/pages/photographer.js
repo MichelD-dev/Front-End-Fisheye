@@ -85,7 +85,7 @@ const mutationObserver = new MutationObserver(() => {
 })
 
 mutationObserver.observe(DOM.mediasSection, {
-  attributeFilter: ['hidden'],
+  attributeFilter: ['class'],
 })
 
 /**
