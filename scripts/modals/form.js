@@ -20,7 +20,7 @@ export const form = {
   /**
    * Ouverture de la modale formulaire
    */
-  show: () => {
+  show: ({ name: photographerName }) => {
     /**
      * Mémorisation présence du focus sur bouton de contact
      */
@@ -31,6 +31,11 @@ export const form = {
      */
     DOM.formModal.removeAttribute('aria-hidden')
     DOM.formModal.ariaModal = true
+
+    /**
+     * Affichage nom du photographe dans la modale formulaire
+     */
+    document.querySelector('.modal-header__name').textContent = photographerName
 
     /**
      * On place le focus sur le premier champ

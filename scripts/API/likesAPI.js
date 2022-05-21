@@ -37,7 +37,7 @@ export const addOrRemoveLike = media => {
     store.setLikedImages(
       store.getLikedImages().map(likedImage => {
         if (likedImage.id === media.id) {
-          return { ...likedImage, likes: media.likes, isLikedByMe: !!addLike }
+          return { ...likedImage, likes: media.likes, isLiked: !!addLike }
         }
         return likedImage
       })
@@ -133,7 +133,7 @@ export const printLikeOnLightbox = media => {
     store.setLikedImages(
       store.getLikedImages().map(likedImage => {
         if (likedImage.id === media.id) {
-          return { ...likedImage, likes: media.likes, isLikedByMe: !!addLike }
+          return { ...likedImage, likes: media.likes, isLiked: !!addLike }
         }
         return likedImage
       })
@@ -145,7 +145,7 @@ export const printLikeOnLightbox = media => {
    */
   store.getLikedImages().map(likedImage => {
     if (likedImage.id === media.id) {
-      DOM.hiddenLikeCheckbox.checked = likedImage.isLikedByMe
+      DOM.hiddenLikeCheckbox.checked = likedImage.isLiked
     }
   })
 
@@ -174,7 +174,7 @@ export const printLikeOnLightbox = media => {
 export const printIfThisMediaIsLiked = media => {
   store.getLikedImages().find(thisMedia => {
     if (thisMedia.id === media.id) {
-      DOM.hiddenLikeCheckbox.checked = thisMedia.isLikedByMe
+      DOM.hiddenLikeCheckbox.checked = thisMedia.isLiked
     }
   })
 }

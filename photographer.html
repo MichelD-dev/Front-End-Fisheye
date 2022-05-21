@@ -14,7 +14,7 @@
       rel="stylesheet"
     />
     <script>
-      FontAwesomeConfig = { keepOriginalSource: false }
+      FontAwesomeConfig = { keepOriginalSource: false };
     </script>
     <script
       src="https://kit.fontawesome.com/9adb84594d.js"
@@ -51,12 +51,14 @@
             <span class="photographer__tagline"></span>
           </div>
         </div>
-        <button class="contact-button">Contactez-moi</button>
-        <img
-          class="photographer__portrait"
-          src="data:,"
-          alt="Portrait du photographe"
-        />
+        <div class="photographer-header__right">
+          <button class="contact-button">Contactez-moi</button>
+          <img
+            class="photographer__portrait"
+            src="data:,"
+            alt="Portrait du photographe"
+          />
+        </div>
       </div>
 
       <!------------------------------------------------------------>
@@ -64,7 +66,7 @@
       <!------------------------------------------------------------>
 
       <label for="medias-sort">Trier par </label>
-      <input id="medias-sort" class="visually-hidden" />
+      <input id="medias-sort" class="visually-hidden" tabindex="-1" />
       <div class="select-wrapper">
         <div class="select">
           <div tabindex="0" class="select__trigger">
@@ -152,7 +154,7 @@
       <header class="modal-header">
         <div class="modal-header__text">
           <h2 id="modal-title">Contactez-moi</h2>
-          <span class="modal-header__name">Mimi Keel</span>
+          <span class="modal-header__name"></span>
         </div>
         <button class="modal__close">
           <img src="assets/icons/close.svg" alt="" />

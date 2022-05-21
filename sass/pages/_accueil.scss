@@ -1,8 +1,12 @@
 @use '../utils/variables' as *;
+@use '../utils/mixins' as *;
 
 body {
   font-family: 'DM Sans', sans-serif;
   margin: 0;
+  @include media-max(768px) {
+    overflow-x: hidden;
+  }
 }
 
 #main {
@@ -10,7 +14,7 @@ body {
   justify-content: center;
 }
 
-.header {
+.index-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -19,6 +23,13 @@ body {
   &__title {
     color: $primary-color;
     margin-right: 100px;
+    @include media-max(768px) {
+      margin: 0%;
+    }
+  }
+  @include media-max(768px) {
+    flex-direction: column;
+    align-items: center;
   }
 }
 
@@ -30,10 +41,20 @@ a[aria-label="Page d'accueil"] {
     outline: 4px solid black;
     border-radius: 5px;
   }
+  @include media-max(768px) {
+    justify-content: center;
+    margin: 60px 0 30px;
+  }
 }
 
 .logo {
   height: 50px;
+  @include media-max(768px) {
+    height: 60px;
+  }
+  @include media-max(768px) {
+    height: 80px;
+  }
 }
 
 .photographers-section {
@@ -42,6 +63,14 @@ a[aria-label="Page d'accueil"] {
   gap: 70px;
   margin-top: 100px;
   width: 100vw;
+  @include media-max(992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include media-max(768px) {
+    grid-template-columns: repeat(1, 1fr);
+    margin-top: 120px;
+    gap: 0;
+  }
 }
 
 .photographer {
@@ -50,6 +79,13 @@ a[aria-label="Page d'accueil"] {
     flex-direction: column;
     align-items: center;
     pointer-events: auto;
+    & img {
+      @include media-max(768px) {
+        width: 90vw;
+        height: 500px;
+        // height: 600px;
+      }
+    }
   }
   &__card {
     display: flex;
@@ -78,12 +114,23 @@ a[aria-label="Page d'accueil"] {
       & .photographer__portrait {
         transition: opacity 0.25s linear;
         opacity: 0.7;
+        @include media-max(768px) {
+          opacity: 1;
+        }
+      }
+      @include media-max(768px) {
+        border: 3px solid transparent;
+        box-shadow: none;
+        transform: none;
       }
     }
     &:active {
       transform: scale(1);
       box-shadow: none;
       transition: all 0.05s linear;
+      @include media-max(768px) {
+        transform: scale(0.98);
+      }
     }
   }
   &__name {
@@ -97,6 +144,10 @@ a[aria-label="Page d'accueil"] {
     height: 200px;
     width: 200px;
     object-fit: cover;
+    @include media-max(768px) {
+      border-radius: 5px;
+      width: 100%;
+    }
   }
   &__location {
     color: $primary-color;

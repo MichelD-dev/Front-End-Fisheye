@@ -1,11 +1,30 @@
-@use '../utils/variables' as *;
-
+@use "../utils/variables" as *;
+@use "../utils/mixins" as *;
 // @use 'sass:color';
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 90px;
+  &__title {
+    color: $primary-color;
+    margin-right: 100px;
+  }
+  @include media-max(768px) {
+    justify-content: center;
+    margin: 35px 0 15px;
+  }
+}
 
 .main_photograph {
   flex-direction: column;
   margin: 0 auto;
   width: 95vw;
+  @include media-max(768px) {
+    text-align: center;
+  }
 }
 
 .photograph-header {
@@ -18,6 +37,13 @@
   &__id {
     display: flex;
     flex-direction: column;
+  }
+  @include media-max(768px) {
+    flex-direction: column;
+    text-align: center;
+    height: 650px;
+    margin-bottom: 50px;
+    padding-bottom: 100px;
   }
 }
 
@@ -35,9 +61,30 @@
   &:focus {
     outline: 4px solid black;
   }
+  @include media-max(1200px) {
+    height: 55px;
+  }
+  @include media-max(768px) {
+    height: 70px;
+  }
 }
 
 .photographer {
+  &-header {
+    &__right {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 55%;
+      @include media-max(1200px) {
+        flex-direction: column-reverse;
+        height: 80%;
+      }
+      @include media-max(768px) {
+        height: 100%;
+      }
+    }
+  }
   &__info {
     display: flex;
     flex-direction: column;
@@ -57,12 +104,23 @@
     padding: 15px 40px;
     border-radius: 5px 5px 0 0;
   }
+  &__portrait {
+    @include media-max(1200px) {
+      width: 160px;
+      height: 160px;
+    }
+    @include media-max(768px) {
+      height: 300px;
+      width: 300px;
+      margin: 40px;
+    }
+  }
 }
 
 .modal {
   border-radius: 5px;
   background-color: $modal-bg;
-  width: 50%;
+  width: 650px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,6 +135,10 @@
   visibility: visible;
   opacity: 1;
   transition: opacity 0.3s;
+  @include media-max(768px) {
+    max-width: 90%;
+    left: 48vw;
+  }
   &__close {
     background-color: transparent;
     border: none;
@@ -85,7 +147,7 @@
       border-radius: 5px;
     }
   }
-  &[aria-hidden='true'] {
+  &[aria-hidden="true"] {
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s 0.3s, opacity 0.3s;
@@ -340,10 +402,21 @@ form {
 .medias {
   &__section {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 70px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4%;
     margin-top: 100px;
     width: 100%;
+    @include media-max(1200px) {
+      gap: 1.8%;
+    }
+    @include media-max(992px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @include media-max(768px) {
+      grid-template-columns: 1fr;
+      gap: 0.8%;
+      margin-top: 60px;
+    }
   }
 }
 
@@ -423,7 +496,7 @@ form {
   background-color: $primary-color;
   position: relative;
   &::before {
-    content: '';
+    content: "";
     display: block;
     height: 2px;
     margin: 0 auto;
@@ -450,7 +523,12 @@ form {
   }
 }
 
-label[for='medias-sort'] {
+.no-btm-border-radius {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+label[for="medias-sort"] {
   font-size: 1.25rem;
   font-weight: bold;
 }
@@ -461,7 +539,7 @@ label[for='medias-sort'] {
   width: 15px;
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0px;
     width: 0.2rem;
@@ -501,8 +579,8 @@ label[for='medias-sort'] {
   justify-self: center;
   cursor: pointer;
   padding: 4px;
-  overflow: hidden;
   position: relative;
+  border: 5px solid transparent;
   transition: opacity 300ms ease-in-out;
   opacity: 0;
   &__image {
@@ -518,8 +596,13 @@ label[for='medias-sort'] {
       transform: scale(1.02);
       box-shadow: 3px 6px 10px #ddd;
       opacity: 0.7;
+      @include media-max(768px) {
+        transform: none;
+        box-shadow: none;
+        opacity: 1;
+      }
     }
-    &:focus {
+    &:focus, &:active {
       border-radius: 0;
       transition: all 0.15s linear;
       transform: scale(1.03);
@@ -527,6 +610,11 @@ label[for='medias-sort'] {
       opacity: 0.7;
       border: 5px solid black;
       border-radius: 5px;
+      @include media-max(768px) {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: none;
+      }
     }
   }
   &__video-icon {
@@ -538,7 +626,7 @@ label[for='medias-sort'] {
   }
   &:active {
     & .media-card__image {
-      transform: scale(1);
+      transform: scale(.97);
       box-shadow: none;
       transition: all 0.05s linear;
     }
@@ -564,6 +652,7 @@ label[for='medias-sort'] {
   color: $primary-color;
   padding-top: 10px;
   font-size: 1.5rem;
+  padding-right: 15px;
 }
 
 .hidden {
