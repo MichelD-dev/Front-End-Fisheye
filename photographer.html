@@ -69,11 +69,12 @@
       <input id="medias-sort" class="visually-hidden" tabindex="-1" />
       <div class="select-wrapper">
         <div class="select">
-          <div tabindex="0" class="select__trigger">
+          <div tabindex="0" class="select__trigger" aria-label="Sélecteur">
             <span>Popularité</span>
             <div class="arrow"></div>
           </div>
           <div
+            aria-label="Options de tri"
             class="custom-options"
             role="listbox"
             aria-haspopup="listbox"
@@ -90,7 +91,6 @@
             <span
               tabindex="0"
               role="option"
-              aria-selected="false"
               class="custom-option"
               data-value="date"
               >Date</span
@@ -98,7 +98,6 @@
             <span
               tabindex="0"
               role="option"
-              aria-selected="false"
               class="custom-option"
               data-value="title"
               >Titre</span
@@ -134,7 +133,12 @@
       </section>
       <div class="photographer__data">
         <p>
-          <span class="photographer__likes" aria-live="polite"></span
+          <span
+            class="photographer__likes"
+            role="complementary"
+            aria-label="Nombre total de likes"
+            aria-live="polite"
+          ></span
           ><i class="fa-solid fa-heart"></i>
         </p>
         <span class="photographer__rate"></span>
@@ -156,7 +160,7 @@
           <h2 id="modal-title">Contactez-moi</h2>
           <span class="modal-header__name"></span>
         </div>
-        <button class="modal__close">
+        <button class="modal__close" title="Fermeture">
           <img src="assets/icons/close.svg" alt="" />
         </button>
       </header>
@@ -246,17 +250,8 @@
         </button>
         <figure class="lightbox-container">
           <div></div>
-          <img
-            src="data:,"
-            alt=""
-            class="hidden lightbox__image"
-            aria-describedby="media-title"
-          />
-          <video
-            src="data:,"
-            class="hidden lightbox__video"
-            aria-describedby="media-title"
-          ></video>
+          <img src="data:," alt="" class="hidden lightbox__image" />
+          <video src="data:," class="hidden lightbox__video"></video>
           <figcaption class="lightbox-caption" id="media-title">
             <span class="lightbox-caption__text"></span>
             <label class="lightbox-caption__like-label" for="like"
@@ -275,7 +270,7 @@
             </label>
           </figcaption>
         </figure>
-        <button class="lightbox__close">
+        <button class="lightbox__close" title="Fermeture">
           <img src="assets/icons/lightboxClose.svg" alt="" />
         </button>
         <button class="lightbox__next">

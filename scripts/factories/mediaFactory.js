@@ -20,6 +20,11 @@ const mediaFactory =
       article.ariaBusy = true;
       article.id = media.id;
 
+      const imgTitle = document.createElement("span");
+      imgTitle.classList.add("image__title");
+      imgTitle.textContent = media.title;
+      imgTitle.setAttribute("id", `${media.title}`);
+
       const mediaCard = document.createElement(media.image ? "img" : "video");
       mediaCard.src = `./assets/thumbnails/${photographer.name.split(" ")[0]}/${
         media.image || media.video
@@ -28,7 +33,8 @@ const mediaFactory =
       mediaCard.classList.add("media-card__image");
       media.video && mediaCard.classList.add("media-card__image_video");
       mediaCard.tabIndex = "0";
-      mediaCard.setAttribute('loading', "lazy")
+      mediaCard.setAttribute("loading", "lazy");
+      mediaCard.setAttribute("labelledBy", `${imgTitle.id}`);
 
       const playIconContainer = document.createElement("div");
 
@@ -43,14 +49,11 @@ const mediaFactory =
       const imgDatas = document.createElement("div");
       imgDatas.classList.add("image__datas");
 
-      const imgTitle = document.createElement("span");
-      imgTitle.classList.add("image__title");
-      imgTitle.textContent = media.title;
-
       const likes = document.createElement("p");
       likes.classList.add("media-card__likesNbr");
 
       const likesNbr = document.createElement("span");
+      likesNbr.setAttribute("aria-label", "Nombre de likes");
       likesNbr.setAttribute("aria-live", "polite");
 
       store.getLikedImages().find((likedImage) => {

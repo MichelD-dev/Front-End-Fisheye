@@ -87,7 +87,7 @@ const selectDisplaySorting = (option) => {
   if (!option.classList.contains("selected")) {
     option.parentNode
       .querySelector(".custom-option.selected")
-      .setAttribute("aria-selected", false);
+      .removeAttribute("aria-selected");
     option.parentNode
       .querySelector(".custom-option.selected")
       .classList.remove("selected");

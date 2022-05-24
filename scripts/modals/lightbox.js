@@ -127,6 +127,8 @@ export const lightbox = (
       DOM.imageDisplay.src = `./assets/images/${
         photographer.name.split(" ")[0]
       }/${media.image}`;
+      DOM.imageDisplay.alt =
+        sortedPhotographerMedias[imagePositionInMediasArray].title;
     }
 
     if (media.video) {
@@ -137,7 +139,10 @@ export const lightbox = (
       DOM.videoDisplay.src = `./assets/images/${
         photographer.name.split(" ")[0]
       }/${media.video}`;
+      DOM.videoDisplay.alt =
+        sortedPhotographerMedias[imagePositionInMediasArray].title;
     }
+    
 
     DOM.lightboxCaption.textContent = media.title;
 
