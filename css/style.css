@@ -404,16 +404,9 @@ a[aria-label="Page d'accueil"]:focus {
 }
 
 .modal {
-  border-radius: 5px;
   background-color: #db8876;
   width: 650px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
   padding: 35px 10px;
-  margin: auto;
-  z-index: 1;
   position: fixed;
   top: 50vh;
   left: 50vw;
@@ -531,19 +524,20 @@ form textarea:focus {
 }
 
 .lightbox {
+  position: relative;
   height: 90vh;
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
-.lightbox__right {
-  position: relative;
-  outline: none;
-}
 .lightbox__previous {
   border: none;
   padding-right: 10px;
   outline: none;
+  align-items: center;
+  height: 20vh;
+  align-self: center;
+  margin-bottom: 6vh;
 }
 .lightbox__previous .fa-chevron-left {
   border: 2px solid transparent;
@@ -554,11 +548,42 @@ form textarea:focus {
   padding: 100px 25px;
   border-radius: 5px;
 }
+@media screen and (max-width: 768px) {
+  .lightbox__previous {
+    position: absolute;
+    left: 10px;
+    top: 35%;
+    z-index: 10;
+  }
+  .lightbox__previous-bg {
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 10px 7px 6px;
+  }
+  .lightbox__previous .fa-chevron-left {
+    border: none;
+    padding: 0;
+  }
+  .lightbox__previous:focus .fa-chevron-left {
+    padding: 200px 200px 200px 17px;
+    width: 60px;
+    height: 100%;
+    position: relative;
+    transform: scale(0.91);
+    top: -204px;
+    left: -34px;
+  }
+}
 .lightbox__next {
   border: none;
   outline: none;
-  height: 100%;
+  align-items: center;
   padding-left: 10px;
+  height: 20vh;
+  align-self: center;
+  margin-bottom: 6vh;
 }
 .lightbox__next .fa-chevron-right {
   border: 2px solid transparent;
@@ -569,12 +594,39 @@ form textarea:focus {
   padding: 100px 25px;
   border-radius: 5px;
 }
+@media screen and (max-width: 768px) {
+  .lightbox__next {
+    position: absolute;
+    right: 10px;
+    top: 35%;
+    z-index: 10;
+  }
+  .lightbox__next-bg {
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 10px 7px 6px;
+  }
+  .lightbox__next .fa-chevron-right {
+    border: none;
+    padding: 0;
+  }
+  .lightbox__next:focus .fa-chevron-right {
+    padding: 200px 17px 200px 200px;
+    width: 60px;
+    height: 100%;
+    position: relative;
+    transform: scale(0.91);
+    top: -204px;
+    left: -201px;
+  }
+}
 .lightbox__close {
   outline: none;
   position: absolute;
   top: -15px;
   right: 0;
-  width: 100%;
   padding: 25px 15px;
   border: 2px solid transparent;
 }
@@ -594,6 +646,8 @@ form textarea:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  max-width: calc(100% - 13vw);
+  margin: auto;
 }
 .lightbox-container img {
   object-fit: contain;
@@ -603,6 +657,11 @@ form textarea:focus {
 .lightbox-container video {
   width: 100%;
   border-radius: 5px;
+}
+@media screen and (max-width: 768px) {
+  .lightbox-container {
+    max-width: 100%;
+  }
 }
 .lightbox__text {
   color: #901c1c;

@@ -118,16 +118,16 @@
 }
 
 .modal {
-  border-radius: 5px;
+  // border-radius: 5px;
   background-color: $modal-bg;
   width: 650px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: space-between;
   padding: 35px 10px;
-  margin: auto;
-  z-index: 1;
+  // margin: auto;
+  // z-index: 1;
   position: fixed;
   top: 50vh;
   left: 50vw;
@@ -253,18 +253,19 @@ form {
 }
 
 .lightbox {
+  position: relative;
   height: 90vh;
   width: 100%;
   display: flex;
   justify-content: space-between;
-  &__right {
-    position: relative;
-    outline: none;
-  }
   &__previous {
     border: none;
     padding-right: 10px;
     outline: none;
+    align-items: center;
+    height: 20vh;
+    align-self: center;
+    margin-bottom: 6vh;
     & .fa-chevron-left {
       border: 2px solid transparent;
       padding: 100px 25px;
@@ -276,12 +277,42 @@ form {
         border-radius: 5px;
       }
     }
+    @include media-max(768px) {
+      position: absolute;
+      left: 10px;
+      top: 35%;
+      z-index: 10;
+      &-bg {
+        width: 60px;
+        height: 60px;
+        background-color: white;
+        border-radius: 50%;
+        padding: 10px 7px 6px;
+      }
+      & .fa-chevron-left {
+        border: none;
+        padding: 0;
+      }
+      &:focus {
+        .fa-chevron-left {
+          padding: 200px 200px 200px 17px;
+          width: 60px;
+          height: 100%;
+          position: relative;
+          transform: scale(0.91);
+          top: -204px;
+          left: -34px;
+        }
+    }}
   }
   &__next {
     border: none;
     outline: none;
-    height: 100%;
+    align-items: center;
     padding-left: 10px;
+    height: 20vh;
+    align-self: center;
+    margin-bottom: 6vh;
     & .fa-chevron-right {
       border: 2px solid transparent;
       padding: 100px 25px;
@@ -293,13 +324,40 @@ form {
         border-radius: 5px;
       }
     }
+    @include media-max(768px) {
+      position: absolute;
+      right: 10px;
+      top: 35%;
+      z-index: 10;
+      &-bg {
+        width: 60px;
+        height: 60px;
+        background-color: white;
+        border-radius: 50%;
+        padding: 10px 7px 6px;
+      }
+      & .fa-chevron-right {
+        border: none;
+        padding: 0;
+      }
+      &:focus {
+        .fa-chevron-right {
+          padding: 200px 17px 200px 200px;
+          width: 60px;
+          height: 100%;
+          position: relative;
+          transform: scale(0.91);
+          top: -204px;
+          left: -201px;
+        }
+      }
+    }
   }
   &__close {
     outline: none;
     position: absolute;
     top: -15px;
     right: 0;
-    width: 100%;
     padding: 25px 15px;
     border: 2px solid transparent;
     &:focus {
@@ -321,6 +379,8 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    max-width: calc(100% - 13vw);
+    margin: auto;
     & img {
       object-fit: contain;
       width: 100%;
@@ -329,6 +389,9 @@ form {
     & video {
       width: 100%;
       border-radius: 5px;
+    }
+    @include media-max(768px) {
+      max-width: 100%;
     }
   }
   &__text {
@@ -602,7 +665,8 @@ label[for="medias-sort"] {
         opacity: 1;
       }
     }
-    &:focus, &:active {
+    &:focus,
+    &:active {
       border-radius: 0;
       transition: all 0.15s linear;
       transform: scale(1.03);
@@ -626,7 +690,7 @@ label[for="medias-sort"] {
   }
   &:active {
     & .media-card__image {
-      transform: scale(.97);
+      transform: scale(0.97);
       box-shadow: none;
       transition: all 0.05s linear;
     }

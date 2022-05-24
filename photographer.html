@@ -239,8 +239,10 @@
       <div class="lightbox">
         <h2 id="lightbox-title" class="visually-hidden">Lightbox</h2>
         <button class="lightbox__previous">
-          <span class="visually-hidden">Image précédente</span>
-          <i class="fa-solid fa-chevron-left fa-3x"></i>
+          <div class="lightbox__previous-bg">
+            <span class="visually-hidden">Image précédente</span>
+            <i class="fa-solid fa-chevron-left fa-3x"></i>
+          </div>
         </button>
         <figure class="lightbox-container">
           <div></div>
@@ -273,15 +275,15 @@
             </label>
           </figcaption>
         </figure>
-        <div class="lightbox__right">
-          <button class="lightbox__close">
-            <img src="assets/icons/lightboxClose.svg" alt="" />
-          </button>
-          <button class="lightbox__next">
+        <button class="lightbox__close">
+          <img src="assets/icons/lightboxClose.svg" alt="" />
+        </button>
+        <button class="lightbox__next">
+          <div class="lightbox__next-bg">
             <span class="visually-hidden">Image suivante</span>
             <i class="fa-solid fa-chevron-right fa-3x"></i>
-          </button>
-        </div>
+          </div>
+        </button>
       </div>
     </aside>
   </body>
