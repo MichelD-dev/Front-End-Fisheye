@@ -415,12 +415,6 @@ a[aria-label="Page d'accueil"]:focus {
   opacity: 1;
   transition: opacity 0.3s;
 }
-@media screen and (max-width: 768px) {
-  .modal {
-    max-width: 90%;
-    left: 48vw;
-  }
-}
 .modal__close {
   background-color: transparent;
   border: none;
@@ -551,7 +545,7 @@ form textarea:focus {
 @media screen and (max-width: 768px) {
   .lightbox__previous {
     position: absolute;
-    left: 10px;
+    left: 8%;
     top: 35%;
     z-index: 10;
   }
@@ -597,7 +591,7 @@ form textarea:focus {
 @media screen and (max-width: 768px) {
   .lightbox__next {
     position: absolute;
-    right: 10px;
+    right: 8%;
     top: 35%;
     z-index: 10;
   }
@@ -634,6 +628,12 @@ form textarea:focus {
   border: 2px solid black;
   padding: 25px 15px;
   border-radius: 5px;
+}
+@media screen and (max-width: 768px) {
+  .lightbox__close {
+    top: 5px;
+    right: 8%;
+  }
 }
 .lightbox__previous, .lightbox__next, .lightbox__close {
   cursor: pointer;
@@ -895,7 +895,6 @@ label[for=medias-sort] {
   width: 100%;
   justify-self: center;
   cursor: pointer;
-  padding: 4px;
   position: relative;
   border: 5px solid transparent;
   transition: opacity 300ms ease-in-out;

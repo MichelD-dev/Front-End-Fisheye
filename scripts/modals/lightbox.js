@@ -32,6 +32,18 @@ export const lightbox = (
    */
   imagePositionInMediasArray = sortedPhotographerMedias.indexOf(media);
 
+  /**
+   * Ajout/retrait d'un like
+   */
+  const addLike = (e) => {
+    if (e.key !== "+" && e.key !== "-") return;
+
+    setLikeOnLightbox(e, media);
+  };
+
+  /**
+   * Affichage de la lightbox
+   */
   const show = () => {
     /**
      * AFFICHAGE DU MEDIA
@@ -113,12 +125,19 @@ export const lightbox = (
     DOM.hiddenLikeCheckbox.onchange = () => {
       printLikeOnLightbox(media);
     };
+
+    /**
+     * ajout/retrait d'un like au clavier
+     */
+    addReactionTo("keydown").on(window).withFunction(addLike);
   };
 
   /**
    * Fonction de changement d'image dans la lightbox
    */
   const moveToMedia = (media) => {
+    window.removeEventListener("keydown", addLike);
+
     if (media.image) {
       DOM.lightboxContainer.classList.remove("w100");
       DOM.imageDisplay.classList.remove("hidden");
@@ -142,7 +161,6 @@ export const lightbox = (
       DOM.videoDisplay.alt =
         sortedPhotographerMedias[imagePositionInMediasArray].title;
     }
-    
 
     DOM.lightboxCaption.textContent = media.title;
 
@@ -157,6 +175,20 @@ export const lightbox = (
     DOM.hiddenLikeCheckbox.onchange = () => {
       printLikeOnLightbox(media);
     };
+
+    window.onkeydown = () => {};
+    /**
+     * ajout/retrait d'un like au clavier
+     */
+    addReactionTo("keydown")
+      .on(window)
+      .withFunction(
+        (e) => {
+          if (e.key !== "+" && e.key !== "-") return;
+          setLikeOnLightbox(e, media);
+        },
+        { once: true }
+      );
   };
 
   // --------------------------------------------------------------------------- //
@@ -225,6 +257,24 @@ export const lightbox = (
     }
   };
 
+  /**
+   * Fonction d'ajout/retrait d'un like au clavier
+   */
+  const setLikeOnLightbox = (e, media) => {
+    if (e.key !== "+" && e.key !== "-") return;
+
+    if (DOM.lightbox.hasAttribute("aria-modal")) {
+      const mediaIsLiked = DOM.hiddenLikeCheckbox.checked;
+
+      if (e.key === "+" && mediaIsLiked) return;
+      if (e.key === "-" && !mediaIsLiked) return;
+
+      if ((e.key === "+" && !mediaIsLiked) || (e.key === "-" && mediaIsLiked)) {
+        printLikeOnLightbox(media);
+      }
+    }
+  };
+
   // --------------------------------------------------------------------------- //
   // ------------------------FERMETURE DE LA LIGHTBOX--------------------------- //
   // --------------------------------------------------------------------------- //
@@ -257,22 +307,6 @@ export const lightbox = (
   addReactionTo("click").on(DOM.lightboxClose).withFunction(hide);
 
   addReactionTo("keydown").on(window).withFunction(keyboardNavigation);
-
-  /**
-   * ajout/retrait d'un like au clavier
-   */
-  addReactionTo("keydown")
-    .on(window)
-    .withFunction((e) => {
-      const mediaIsLiked = DOM.hiddenLikeCheckbox.checked;
-
-      if (e.key === "+" && mediaIsLiked) return;
-      if (e.key === "-" && !mediaIsLiked) return;
-
-      if ((e.key === "+" && !mediaIsLiked) || (e.key === "-" && mediaIsLiked)) {
-        printLikeOnLightbox(media); //FIXME incremente de 2, 3, ...
-      }
-    });
 
   const removeEventListeners = () => {
     removeReactionTo("click")

@@ -114,6 +114,10 @@ const mediaFactory =
           printLikesNbr(media.id)(likesNbr);
         });
 
+      addReactionTo("mousedown")
+        .on(likes)
+        .withFunction(() => (mediaCard.style.transform = "none"));
+
       /**
        * ajout/retrait d'un like au clavier
        */
