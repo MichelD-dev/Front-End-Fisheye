@@ -49,6 +49,7 @@ export const lightbox = (
      * AFFICHAGE DU MEDIA
      */
     DOM.mediasSection.classList.add("hidden");
+    DOM.selector.classList.add("hidden");
 
     previouslyFocusedElement = document.querySelector(":focus").parentElement;
 
@@ -284,6 +285,7 @@ export const lightbox = (
     DOM.lightbox.removeAttribute("aria-modal");
 
     DOM.mediasSection.classList.remove("hidden");
+    DOM.selector.classList.remove("hidden");
 
     previouslyFocusedElement?.firstChild?.focus();
 

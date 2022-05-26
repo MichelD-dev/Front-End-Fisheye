@@ -8,7 +8,10 @@ import { addReactionTo } from "../utils/eventListener.js";
 export const sortBy = (medias) => {
   return (sortingChoice) => {
     const choices = {
-      Titre: () => medias.sort((a, b) => a.title.localeCompare(b.title)),
+      Titre: () =>
+        medias.sort((a, b) =>
+          a.title.localeCompare(b.title)
+        ),
       Popularité: () => medias.sort((a, b) => b.likes - a.likes),
       Date: () => medias.sort((a, b) => a.date - b.date),
     };

@@ -33,6 +33,14 @@ figure {
   margin: 0;
 }
 
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
 body {
   font-family: "DM Sans", sans-serif;
   margin: 0;

@@ -6,7 +6,6 @@ import {
   store,
 } from "../API/likesAPI.js";
 import { addReactionTo } from "../utils/eventListener.js";
-import DOM from "../utils/domElements.js";
 
 const mediaFactory =
   (media) => (photographer) => (sortedPhotographerMedias) => {
@@ -29,7 +28,7 @@ const mediaFactory =
       mediaCard.src = `./assets/thumbnails/${photographer.name.split(" ")[0]}/${
         media.image || media.video
       }`;
-      media.image && (mediaCard.alt = media.title);
+      media.image && (mediaCard.alt = `Image titrée ${media.title}`);
       mediaCard.classList.add("media-card__image");
       media.video && mediaCard.classList.add("media-card__image_video");
       mediaCard.tabIndex = "0";
@@ -49,10 +48,11 @@ const mediaFactory =
       const imgDatas = document.createElement("div");
       imgDatas.classList.add("image__datas");
 
-      const likes = document.createElement("p");
+      const likes = document.createElement("h2");
       likes.classList.add("media-card__likesNbr");
 
       const likesNbr = document.createElement("span");
+      likesNbr.setAttribute("role", "note");
       likesNbr.setAttribute("aria-label", "Nombre de likes");
       likesNbr.setAttribute("aria-live", "polite");
 
@@ -98,7 +98,7 @@ const mediaFactory =
         .withFunction(() =>
           lightbox(photographer, sortedPhotographerMedias, media.id).show()
         );
-      addReactionTo("click")
+      addReactionTo("click") //FIXME click sur icone lecture ne fonctionne pas
         .on(playIconContainer)
         .withFunction(() =>
           lightbox(photographer, sortedPhotographerMedias, media.id).show()
@@ -124,6 +124,10 @@ const mediaFactory =
       addReactionTo("keydown")
         .on(mediaCard)
         .withFunction((e) => {
+          if (e.key === "Enter") {
+            return mediaCard.click();
+          }
+
           const mediaIsLiked =
             !article.children[2].classList.contains("hidden");
 
@@ -136,10 +140,6 @@ const mediaFactory =
           ) {
             addOrRemoveLike(media);
             printLikesNbr(media.id)(likesNbr);
-          }
-
-          if (e.key === "Enter") {
-            mediaCard.click();
           }
         });
 

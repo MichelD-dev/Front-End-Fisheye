@@ -65,11 +65,16 @@
       <!--------------------------SELECTEUR------------------------->
       <!------------------------------------------------------------>
 
-      <label for="medias-sort">Trier par </label>
+      <label id="medias-sort-label" for="medias-sort">Trier par </label>
       <input id="medias-sort" class="visually-hidden" tabindex="-1" />
       <div class="select-wrapper">
         <div class="select">
-          <div tabindex="0" class="select__trigger" aria-label="Sélecteur">
+          <div
+            tabindex="0"
+            class="select__trigger"
+            role="note"
+            aria-labelledby="medias-sort-label"
+          >
             <span>Popularité</span>
             <div class="arrow"></div>
           </div>
@@ -108,7 +113,7 @@
       <section
         class="medias__section"
         role="application"
-        aria-labelledby="section-medias"
+        aria-label="section médias"
         hidden="false"
       >
         <h2 class="visually-hidden" id="section-medias">Section médias</h2>
@@ -131,16 +136,16 @@
         <!-------------------ENCART DONNEES PHOTOGRAPHE--------------->
         <!------------------------------------------------------------>
       </section>
+      <h2 class="visually-hidden">Encart photographe</h2>
       <div class="photographer__data">
-        <p>
+        <h3>
           <span
             class="photographer__likes"
-            role="complementary"
             aria-label="Nombre total de likes"
             aria-live="polite"
           ></span
           ><i class="fa-solid fa-heart"></i>
-        </p>
+        </h3>
         <span class="photographer__rate"></span>
       </div>
     </main>
@@ -155,7 +160,7 @@
       aria-hidden="true"
       aria-labelledby="modal-title"
     >
-      <header class="modal-header">
+      <div class="modal-header">
         <div class="modal-header__text">
           <h2 id="modal-title">Contactez-moi</h2>
           <span class="modal-header__name"></span>
@@ -163,7 +168,7 @@
         <button class="modal__close" title="Fermeture">
           <img src="assets/icons/close.svg" alt="" />
         </button>
-      </header>
+      </div>
       <span class="name"></span>
       <form
         id="form"
@@ -175,10 +180,8 @@
         <fieldset>
           <legend class="visually-hidden">Contactez-moi</legend>
           <div>
-            <label for="firstname"
-              ><span class="visually-hidden" aria-hidden="true">Prénom</span
-              >Votre prénom</label
-            >
+            <label for="firstname">Votre prénom</label
+            ><span class="visually-hidden" aria-hidden="true">Prénom</span>
             <input
               id="firstname"
               name="firstname"
@@ -187,10 +190,8 @@
               aria-autocomplete="list"
             />
             <span id="firstname-error" class="error-message"></span><br />
-            <label for="lastname"
-              ><span class="visually-hidden" aria-hidden="true">Nom</span>Votre
-              nom</label
-            >
+            <label for="lastname">Votre nom</label
+            ><span class="visually-hidden" aria-hidden="true">Nom</span>
             <input
               id="lastname"
               name="lastname"
@@ -199,10 +200,8 @@
               aria-autocomplete="list"
             />
             <span id="lastname-error" class="error-message"></span><br />
-            <label for="email"
-              ><span class="visually-hidden" aria-hidden="true">Email</span
-              >Votre email</label
-            >
+            <label for="email">Votre email</label
+            ><span class="visually-hidden" aria-hidden="true">Email</span>
             <input
               id="email"
               type="email"
@@ -212,10 +211,9 @@
               aria-autocomplete="list"
             />
             <span id="email-error" class="error-message"></span>
-            <label for="message"
-              ><span class="visually-hidden" aria-hidden="true"
-                >Votre message</span
-              >Votre message</label
+            <label for="message">Votre message</label
+            ><span class="visually-hidden" aria-hidden="true"
+              >Votre message</span
             >
             <textarea
               id="message"
@@ -251,15 +249,17 @@
         <figure class="lightbox-container">
           <div></div>
           <img src="data:," alt="" class="hidden lightbox__image" />
-          <video src="data:," class="hidden lightbox__video"></video>
+          <video src="data:," alt="" class="hidden lightbox__video"></video>
           <figcaption class="lightbox-caption" id="media-title">
             <span class="lightbox-caption__text"></span>
-            <label class="lightbox-caption__like-label" for="like"
-              ><span class="visually-hidden">Titre du média</span>
+            <span class="visually-hidden">Titre du média</span>
+            <label class="lightbox-caption__like-label" for="like">
+              <span class="visually-hidden">Lightbox like</span>
               <input
                 type="checkbox"
                 id="like"
                 class="lightbox-caption__like-btn"
+                label="bouton like"
               />
               <div class="lightbox-caption__like-display">
                 <i class="lightbox-caption__like_active fa-solid fa-heart"></i>
