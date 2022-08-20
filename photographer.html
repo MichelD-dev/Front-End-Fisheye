@@ -240,7 +240,7 @@
     >
       <div class="lightbox">
         <h2 id="lightbox-title" class="visually-hidden">Lightbox</h2>
-        <button class="lightbox__previous">
+        <button class="lightbox__previous" tabindex="0">
           <div class="lightbox__previous-bg">
             <span class="visually-hidden">Image précédente</span>
             <i class="fa-solid fa-chevron-left fa-3x"></i>
@@ -249,7 +249,7 @@
         <figure class="lightbox-container">
           <div></div>
           <img src="data:," alt="" class="hidden lightbox__image" />
-          <video src="data:," alt="" class="hidden lightbox__video"></video>
+          <video src="data:," alt="" class="hidden lightbox__video" tabindex="1"></video>
           <figcaption class="lightbox-caption" id="media-title">
             <span class="lightbox-caption__text"></span>
             <span class="visually-hidden">Titre du média</span>
@@ -260,6 +260,7 @@
                 id="like"
                 class="lightbox-caption__like-btn"
                 label="bouton like"
+                tabindex="3"
               />
               <div class="lightbox-caption__like-display">
                 <i class="lightbox-caption__like_active fa-solid fa-heart"></i>
@@ -270,10 +271,10 @@
             </label>
           </figcaption>
         </figure>
-        <button class="lightbox__close" title="Fermeture">
+        <button class="lightbox__close" title="Fermeture" tabindex="4">
           <img src="assets/icons/lightboxClose.svg" alt="" />
         </button>
-        <button class="lightbox__next">
+        <button class="lightbox__next" tabindex="2">
           <div class="lightbox__next-bg">
             <span class="visually-hidden">Image suivante</span>
             <i class="fa-solid fa-chevron-right fa-3x"></i>

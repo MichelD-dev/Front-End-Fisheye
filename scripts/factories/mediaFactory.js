@@ -36,6 +36,7 @@ const mediaFactory =
       mediaCard.setAttribute("labelledBy", `${imgTitle.id}`);
 
       const playIconContainer = document.createElement("div");
+      playIconContainer.classList.add("media-card__video-icon-container");
 
       const playIcon = document.createElement("i");
       playIcon.classList.add(
@@ -98,7 +99,7 @@ const mediaFactory =
         .withFunction(() =>
           lightbox(photographer, sortedPhotographerMedias, media.id).show()
         );
-      addReactionTo("click") //FIXME click sur icone lecture ne fonctionne pas
+      addReactionTo("click")
         .on(playIconContainer)
         .withFunction(() =>
           lightbox(photographer, sortedPhotographerMedias, media.id).show()

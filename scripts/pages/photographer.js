@@ -7,6 +7,7 @@ import getFetchedDatas from "../API/fetchAPI.js";
 import setSkeletons from "../components/skeletons.js";
 import { keyboardNavigation } from "../utils/utils.js";
 import { sortBy } from "../components/selector.js";
+import { addReactionTo, removeReactionTo } from "../utils/eventListener.js";
 
 /**
  * Récupération de l'id du photographe
@@ -119,7 +120,7 @@ export const getMediasSorting =
 /**
  * Récupération des données photographes/médias, par popularité par défaut
  */
-export const getDatas = async (sortingChoice = "Popularité") => {
+const getDatas = async () => {
   /**
    * Récupération de l'ensemble des data
    */
@@ -128,9 +129,15 @@ export const getDatas = async (sortingChoice = "Popularité") => {
     storageName: "original datas",
   });
 
-  /**
-   * Récupération d'un photographe spécifique et des médias associés par critère de tri
-   */
+  return { photographers, medias };
+};
+
+const { photographers, medias } = await getDatas();
+
+/**
+ * Récupération d'un photographe spécifique et des médias associés par critère de tri
+ */
+export const sort = (sortingChoice = "Popularité") => {
   const { photographer: forThisPhotographer, sortedPhotographerMedias } =
     getMediasSorting(photographers)(medias)(sortingChoice);
 
@@ -153,9 +160,59 @@ export const getDatas = async (sortingChoice = "Popularité") => {
   displayMedias(forThisPhotographer)(sortedPhotographerMedias);
 
   /**
+   * On récupère les éléments qui acquerront le focus
+   */
+  const focusableElements =
+    '[aria-label="Page d\'accueil"], button.contact-button, .select__trigger, .media-card__image';
+
+  /**
+   * On crée un tableau des éléments focusables
+   */
+  let focusables = [...document.querySelectorAll(focusableElements)];
+
+  /**
+   * Changement de focus au clavier et maintien du focus dans la fenêtre
+   */
+  const focusInWindow = (e) => {
+    console.log(document.querySelector(":focus"));
+    e.preventDefault();
+    let index = focusables.findIndex(
+      (elem) => elem === document.querySelector(":focus")
+    );
+    e.shiftKey === true ? index-- : index++;
+    if (index >= focusables.length) {
+      index = 0;
+    }
+    if (index < 0) {
+      index = focusables.length - 1;
+    }
+    focusables[index].focus();
+  };
+
+  const tabulate = (e) => {
+    if (
+      e.key === "Tab" &&
+      !DOM.modal.hasAttribute("aria-modal") &&
+      !document.querySelector(".select.open") &&
+      !DOM.lightbox.hasAttribute("aria-modal")
+    ) {
+      focusInWindow(e);
+    }
+  };
+  /**
+   * Navigation au clavier
+   */
+  addReactionTo("keydown") //FIXME ajoute un 2eme listener...
+    .on(window)
+    .withFunction(tabulate);
+
+  // if (document.querySelector(".select.open")) removeReactionTo("keydown")
+  // .on(window)
+  // .withFunction(tabulate);
+  /**
    * Bouton d'affichage du formulaire de contact
    */
   DOM.contactBtn.onclick = () => form.show(forThisPhotographer);
 };
 
-getDatas();
+sort();

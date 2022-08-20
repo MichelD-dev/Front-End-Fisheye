@@ -1,4 +1,4 @@
-import { getDatas } from "../pages/photographer.js";
+import { sort } from "../pages/photographer.js";
 import DOM from "../utils/domElements.js";
 import { addReactionTo } from "../utils/eventListener.js";
 
@@ -8,10 +8,7 @@ import { addReactionTo } from "../utils/eventListener.js";
 export const sortBy = (medias) => {
   return (sortingChoice) => {
     const choices = {
-      Titre: () =>
-        medias.sort((a, b) =>
-          a.title.localeCompare(b.title)
-        ),
+      Titre: () => medias.sort((a, b) => a.title.localeCompare(b.title)),
       Popularité: () => medias.sort((a, b) => b.likes - a.likes),
       Date: () => medias.sort((a, b) => a.date - b.date),
     };
@@ -185,7 +182,7 @@ addReactionTo("keydown")
       focusables.forEach((elem) => elem.classList.remove("no-white-line"));
       document.querySelector(".select__trigger").focus();
     }
-    if (e.key === "Tab" && !!document.querySelector(".select.open")) {
+    if (e.key === "Tab" && document.querySelector(".select.open")) {
       focusInSelector(e);
     }
   });
@@ -222,7 +219,7 @@ for (const selected of document.querySelectorAll(".custom-option")) {
     .on(selected)
     .withFunction(() => {
       const sortingChoice = selected.textContent;
-      getDatas(sortingChoice);
+      sort(sortingChoice);
     });
 
   addReactionTo("keydown")
@@ -230,7 +227,7 @@ for (const selected of document.querySelectorAll(".custom-option")) {
     .withFunction((e) => {
       if (e.key === "Enter") {
         const sortingChoice = selected.textContent;
-        getDatas(sortingChoice);
+        sort(sortingChoice);
       }
     });
 }

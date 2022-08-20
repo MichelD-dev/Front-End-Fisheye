@@ -354,9 +354,11 @@ export const focusInLightbox = (e) => {
   const focusableElements = `button, input, ${isVideoDisplayed && "video"}`;
 
   /**
-   * On crée un tableau des éléments focusables
+   * On crée un tableau des éléments focusables (et on ordonne l'ordre du focus sur tabulation en triant les tabindex)
    */
-  const focusables = [...DOM.lightbox.querySelectorAll(focusableElements)];
+  const focusables = [...DOM.lightbox.querySelectorAll(focusableElements)].sort(
+    (a, b) => a.tabIndex - b.tabIndex
+  );
 
   e.preventDefault();
   let index = focusables.findIndex(

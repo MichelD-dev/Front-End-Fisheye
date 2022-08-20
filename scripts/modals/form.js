@@ -130,7 +130,7 @@ addReactionTo('keydown')
 /**
  * On récupère les éléments qui acquerront le focus
  */
-const focusableElements = 'input, textArea, button'
+const focusableElements = 'input, textArea, .modal__close'
 
 /**
  * On crée un tableau des éléments focusables
@@ -140,7 +140,7 @@ let focusables = [...DOM.formModal.querySelectorAll(focusableElements)]
 /**
  * Changement de focus au clavier et maintien du focus dans la modale
  */
-export const focusInModal = e => {
+const focusInModal = e => {
   e.preventDefault()
   let index = focusables.findIndex(
     elem => elem === DOM.formModal.querySelector(':focus')
