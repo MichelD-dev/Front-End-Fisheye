@@ -5,7 +5,7 @@ import { form } from "../modals/form.js";
 import { store } from "../API/likesAPI.js";
 import getFetchedDatas from "../API/fetchAPI.js";
 import setSkeletons from "../components/skeletons.js";
-import { keyboardNavigation } from "../utils/utils.js";
+import { keyboardNavigation, observer } from "../utils/utils.js";
 import { sortBy } from "../components/selector.js";
 import { addReactionTo, removeReactionTo } from "../utils/eventListener.js";
 
@@ -56,10 +56,11 @@ const displayMedias = (photographer) => (sortedPhotographerMedias) => {
      * Affichage des cartes images du photographe
      */
     DOM.mediasSection.appendChild(article);
-    setTimeout(() => {
-      article.classList.add("fadein");
-      article.setAttribute("aria-busy", false);
-    }, 1200);
+
+    /**
+     * On implémente un intersectionObserver pour ne rendre les cartes que lorsqu'elles sont dans le champ d'affichage
+     */
+    observer.observe(article);
   });
 };
 

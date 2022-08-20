@@ -78,4 +78,20 @@ const keyboardNavigation = () => {
     );
 };
 
-export { isInputValid, setErrorMessage, keyboardNavigation };
+/* intersection Observer */
+const observer = new IntersectionObserver(
+  (entries) =>
+    entries.forEach((entry, i = 1) => {
+      setTimeout(() => {
+        entry.target.classList.toggle("fadein", entry.isIntersecting);
+      }, 100 * i);
+      entry.target.setAttribute("aria-busy", false);
+      i++;
+      if (entry.isIntersecting) observer.unobserve(entry.target);
+    }),
+  {
+    threshold: 0.5,
+  }
+);
+
+export { isInputValid, setErrorMessage, keyboardNavigation, observer };
