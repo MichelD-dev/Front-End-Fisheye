@@ -185,22 +185,22 @@ export const sort = (sortingChoice = "Popularité") => {
       !DOM.lightbox.hasAttribute("aria-modal")
     ) {
       focusInWindow(e);
+      removeReactionTo("keydown").on(window).withFunction(tabulate);
     }
   };
+
   /**
    * Navigation au clavier
    */
-  addReactionTo("keydown") //FIXME ajoute un 2eme listener...
-    .on(window)
-    .withFunction(tabulate);
+  addReactionTo("keydown").on(window).withFunction(tabulate);
 
-  // if (document.querySelector(".select.open")) removeReactionTo("keydown")
-  // .on(window)
-  // .withFunction(tabulate);
   /**
    * Bouton d'affichage du formulaire de contact
    */
   DOM.contactBtn.onclick = () => form.show(forThisPhotographer);
 };
 
+/**
+ * Tri initial par popularité
+ */
 sort();
