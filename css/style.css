@@ -554,10 +554,8 @@ form textarea:focus {
   .lightbox__previous {
     position: absolute;
     left: 8%;
-    top: 35%;
+    top: 43%;
     z-index: 10;
-  }
-  .lightbox__previous-bg {
     width: 60px;
     height: 60px;
     background-color: white;
@@ -600,10 +598,8 @@ form textarea:focus {
   .lightbox__next {
     position: absolute;
     right: 8%;
-    top: 35%;
+    top: 43%;
     z-index: 10;
-  }
-  .lightbox__next-bg {
     width: 60px;
     height: 60px;
     background-color: white;
@@ -640,13 +636,25 @@ form textarea:focus {
 @media screen and (max-width: 768px) {
   .lightbox__close {
     top: 5px;
-    right: 8%;
   }
 }
 .lightbox__previous, .lightbox__next, .lightbox__close {
   cursor: pointer;
   color: #901c1c;
   background-color: transparent;
+}
+@media screen and (max-width: 768px) {
+  .lightbox__previous, .lightbox__next, .lightbox__close {
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    border-radius: 50%;
+  }
+  .lightbox__previous img, .lightbox__next img, .lightbox__close img {
+    position: relative;
+    top: -18px;
+    left: -8px;
+  }
 }
 .lightbox-container {
   height: auto;

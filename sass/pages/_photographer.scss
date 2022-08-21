@@ -269,15 +269,13 @@ form {
     @include media-max(768px) {
       position: absolute;
       left: 8%;
-      top: 35%;
+      top: 43%;
       z-index: 10;
-      &-bg {
-        width: 60px;
-        height: 60px;
-        background-color: white;
-        border-radius: 50%;
-        padding: 10px 7px 6px;
-      }
+      width: 60px;
+      height: 60px;
+      background-color: white;
+      border-radius: 50%;
+      padding: 10px 7px 6px;
       & .fa-chevron-left {
         border: none;
         padding: 0;
@@ -317,15 +315,13 @@ form {
     @include media-max(768px) {
       position: absolute;
       right: 8%;
-      top: 35%;
+      top: 43%;
       z-index: 10;
-      &-bg {
-        width: 60px;
-        height: 60px;
-        background-color: white;
-        border-radius: 50%;
-        padding: 10px 7px 6px;
-      }
+      width: 60px;
+      height: 60px;
+      background-color: white;
+      border-radius: 50%;
+      padding: 10px 7px 6px;
       & .fa-chevron-right {
         border: none;
         padding: 0;
@@ -357,7 +353,6 @@ form {
     }
     @include media-max(768px) {
       top: 5px;
-      right: 8%;
     }
   }
   &__previous,
@@ -366,6 +361,17 @@ form {
     cursor: pointer;
     color: #901c1c;
     background-color: transparent;
+    @include media-max(768px) {
+      width: 60px;
+      height: 60px;
+      background-color: white;
+      border-radius: 50%;
+      & img {
+        position: relative;
+        top: -18px;
+        left: -8px;
+      }
+    }
   }
   &-container {
     height: auto;

@@ -114,7 +114,6 @@
         class="medias__section"
         role="application"
         aria-label="section médias"
-        hidden="false"
       >
         <h2 class="visually-hidden" id="section-medias">Section médias</h2>
 
@@ -138,14 +137,14 @@
       </section>
       <h2 class="visually-hidden">Encart photographe</h2>
       <div class="photographer__data">
-        <h3>
+        <div>
           <span
             class="photographer__likes"
-            aria-label="Nombre total de likes"
+            role="status"
             aria-live="polite"
           ></span
           ><i class="fa-solid fa-heart"></i>
-        </h3>
+        </div>
         <span class="photographer__rate"></span>
       </div>
     </main>
@@ -241,27 +240,29 @@
       <div class="lightbox">
         <h2 id="lightbox-title" class="visually-hidden">Lightbox</h2>
         <button class="lightbox__previous" tabindex="0">
-          <div class="lightbox__previous-bg">
-            <span class="visually-hidden">Image précédente</span>
-            <i class="fa-solid fa-chevron-left fa-3x"></i>
-          </div>
+          <span class="visually-hidden">Image précédente</span>
+          <i class="fa-solid fa-chevron-left fa-3x"></i>
         </button>
         <figure class="lightbox-container">
           <div></div>
           <img src="data:," alt="" class="hidden lightbox__image" />
-          <video src="data:," alt="" class="hidden lightbox__video" tabindex="1"></video>
+          <video
+            src="data:,"
+            class="hidden lightbox__video"
+            tabindex="1"
+          ></video>
           <figcaption class="lightbox-caption" id="media-title">
             <span class="lightbox-caption__text"></span>
             <span class="visually-hidden">Titre du média</span>
+            <input
+              type="checkbox"
+              id="like"
+              class="lightbox-caption__like-btn"
+              label="bouton like"
+              tabindex="3"
+            />
             <label class="lightbox-caption__like-label" for="like">
               <span class="visually-hidden">Lightbox like</span>
-              <input
-                type="checkbox"
-                id="like"
-                class="lightbox-caption__like-btn"
-                label="bouton like"
-                tabindex="3"
-              />
               <div class="lightbox-caption__like-display">
                 <i class="lightbox-caption__like_active fa-solid fa-heart"></i>
                 <i
@@ -275,10 +276,8 @@
           <img src="assets/icons/lightboxClose.svg" alt="" />
         </button>
         <button class="lightbox__next" tabindex="2">
-          <div class="lightbox__next-bg">
-            <span class="visually-hidden">Image suivante</span>
-            <i class="fa-solid fa-chevron-right fa-3x"></i>
-          </div>
+          <span class="visually-hidden">Image suivante</span>
+          <i class="fa-solid fa-chevron-right fa-3x"></i>
         </button>
       </div>
     </aside>
