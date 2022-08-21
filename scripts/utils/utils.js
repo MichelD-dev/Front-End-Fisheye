@@ -1,3 +1,4 @@
+import { store } from "../API/likesAPI.js";
 import { form } from "../modals/form.js";
 import { focusInLightbox, lightbox } from "../modals/lightbox.js";
 import DOM from "./domElements.js";
@@ -90,8 +91,35 @@ const observer = new IntersectionObserver(
       if (entry.isIntersecting) observer.unobserve(entry.target);
     }),
   {
-    threshold: 0.5,
+    threshold: 0.2,
   }
 );
 
-export { isInputValid, setErrorMessage, keyboardNavigation, observer };
+/* Mutation Observer */
+const mutationObserver = new MutationObserver(() => {
+  const mediaCards = [
+    ...DOM.mediasSection.getElementsByClassName("media-card"),
+  ];
+
+  store.getLikedImages().map((media) => {
+    mediaCards.find((likedMedia) => {
+      if (+likedMedia.id === media.id) {
+        likedMedia.querySelector(
+          ".media-card__likesNbr > span"
+        ).textContent = `${media.likes} `;
+
+        media.isLiked
+          ? likedMedia.children[2].classList.remove("hidden")
+          : likedMedia.children[2].classList.add("hidden");
+      }
+    });
+  });
+});
+
+export {
+  isInputValid,
+  setErrorMessage,
+  keyboardNavigation,
+  observer,
+  mutationObserver,
+};

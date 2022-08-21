@@ -5,7 +5,11 @@ import { form } from "../modals/form.js";
 import { store } from "../API/likesAPI.js";
 import getFetchedDatas from "../API/fetchAPI.js";
 import setSkeletons from "../components/skeletons.js";
-import { keyboardNavigation, observer } from "../utils/utils.js";
+import {
+  keyboardNavigation,
+  mutationObserver,
+  observer,
+} from "../utils/utils.js";
 import { sortBy } from "../components/selector.js";
 import { addReactionTo, removeReactionTo } from "../utils/eventListener.js";
 
@@ -67,26 +71,6 @@ const displayMedias = (photographer) => (sortedPhotographerMedias) => {
 /**
  * Actualisation éventuelle de l'affichage du nbr de likes à la fermeture de la lightbox
  */
-const mutationObserver = new MutationObserver(() => {
-  const mediaCards = [
-    ...DOM.mediasSection.getElementsByClassName("media-card"),
-  ];
-
-  store.getLikedImages().map((media) => {
-    mediaCards.find((likedMedia) => {
-      if (+likedMedia.id === media.id) {
-        likedMedia.querySelector(
-          ".media-card__likesNbr > span"
-        ).textContent = `${media.likes} `;
-
-        media.isLiked
-          ? likedMedia.children[2].classList.remove("hidden")
-          : likedMedia.children[2].classList.add("hidden");
-      }
-    });
-  });
-});
-
 mutationObserver.observe(DOM.mediasSection, {
   attributeFilter: ["class"],
 });

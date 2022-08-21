@@ -10,7 +10,7 @@ export const sortBy = (medias) => {
     const choices = {
       Titre: () => medias.sort((a, b) => a.title.localeCompare(b.title)),
       Popularité: () => medias.sort((a, b) => b.likes - a.likes),
-      Date: () => medias.sort((a, b) => a.date - b.date),
+      Date: () => medias.sort((a, b) => new Date(b.date) - new Date(a.date)),
     };
 
     return choices[sortingChoice]?.() ?? "Critère de choix non reconnu";
