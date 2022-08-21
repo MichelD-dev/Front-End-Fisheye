@@ -28,7 +28,7 @@ export const addOrRemoveLike = media => {
    * On récupère le média sur lequel on ajoute/enlève un like
    */
   const [mediaCard] = [...document.getElementsByClassName('media-card')].filter(
-    elem => +elem.id === media.id
+    elem => +elem.id === media.id,
   )
 
   /* On actualise le tableau des ids des medias likés */
@@ -37,10 +37,10 @@ export const addOrRemoveLike = media => {
     store.setLikedImages(
       store.getLikedImages().map(likedImage => {
         if (likedImage.id === media.id) {
-          return { ...likedImage, likes: media.likes, isLiked: !!addLike }
+          return {...likedImage, likes: media.likes, isLiked: !!addLike}
         }
         return likedImage
-      })
+      }),
     )
   }
 
@@ -133,10 +133,10 @@ export const printLikeOnLightbox = media => {
     store.setLikedImages(
       store.getLikedImages().map(likedImage => {
         if (likedImage.id === media.id) {
-          return { ...likedImage, likes: media.likes, isLiked: !!addLike }
+          return {...likedImage, likes: media.likes, isLiked: !!addLike}
         }
         return likedImage
-      })
+      }),
     )
   }
 

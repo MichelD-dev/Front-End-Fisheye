@@ -1,13 +1,13 @@
-import getFetchedDatas from "../API/fetchAPI.js";
+import getFetchedDatas from '../API/fetchAPI.js'
 
 /**
  * Initialisation
  */
-async function init({ url, storageName, doSomethingWith, thisParticularData }) {
+async function init({url, storageName, doSomethingWith, thisParticularData}) {
   /* Récupération des données */
-  await getFetchedDatas({ url, storageName })
+  await getFetchedDatas({url, storageName})
     /* Utilisation des données */
-    .then((loadedDatas) => doSomethingWith(loadedDatas[thisParticularData]));
+    .then(loadedDatas => doSomethingWith(loadedDatas[thisParticularData]))
 }
 
-export default init;
+export default init

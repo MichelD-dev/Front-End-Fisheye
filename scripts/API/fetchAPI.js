@@ -1,30 +1,30 @@
-import setSkeletons from "../components/skeletons.js";
+import setSkeletons from '../components/skeletons.js'
 
-const getFetchedDatas = async ({ url, storageName }) => {
-  setSkeletons(9)("to print");
+const getFetchedDatas = async ({url, storageName}) => {
+  setSkeletons(9)('to print')
   const data =
     JSON.parse(localStorage.getItem(storageName)) ??
-    (await fetchDatas(url, storageName));
+    (await fetchDatas(url, storageName))
 
-  setSkeletons(9)("to hide");
+  setSkeletons(9)('to hide')
 
-  return data;
-};
+  return data
+}
 
 const fetchDatas = async (url, storageName) => {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url)
     if (!response.ok) {
-      console.error(`Une erreur est survenue: ${response.status}`);
+      console.error(`Une erreur est survenue: ${response.status}`)
     }
-    const data = await response.json();
+    const data = await response.json()
 
-    localStorage.setItem(storageName, JSON.stringify(data));
+    localStorage.setItem(storageName, JSON.stringify(data))
 
-    return data;
+    return data
   } catch (err) {
-    console.error("La connexion n'a pu être établie", err);
+    console.error("La connexion n'a pu être établie", err)
   }
-};
+}
 
-export default getFetchedDatas;
+export default getFetchedDatas

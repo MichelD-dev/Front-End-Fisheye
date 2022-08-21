@@ -1,25 +1,25 @@
 import DOM from './domElements.js'
-import { form } from '../modals/form.js'
-import { isInputValid } from './utils.js'
-import { addReactionTo } from './eventListener.js'
+import {form} from '../modals/form.js'
+import {isInputValid} from './utils.js'
+import {addReactionTo} from './eventListener.js'
 
 let firstName = {
   value: '',
-  regex: /^[a-z][ a-z0-9á-ÿæœ\._\-]{1,}$/i,
+  regex: /^[a-z][ a-z0-9á-ÿæœ._-]{1,}$/i,
   id: 'firstname',
   errorText: 'Vous devez indiquer un prénom valide.',
 }
 
 let lastName = {
   value: '',
-  regex: /^[a-z][ a-z0-9á-ÿæœ\._\-]{1,}$/i,
+  regex: /^[a-z][ a-z0-9á-ÿæœ._-]{1,}$/i,
   id: 'lastname',
   errorText: 'Vous devez indiquer un nom valide.',
 }
 
 let email = {
   value: '',
-  regex: /^[a-z0-9\-_]+[a-z0-9\.\-_]*@[a-z0-9\-_]{2,}\.[a-z\\.\-_]+[a-z\-_]+/i,
+  regex: /^[a-z0-9\-_]+[a-z0-9.\-_]*@[a-z0-9\-_]{2,}\.[a-z\\.\-_]+[a-z\-_]+/i,
   id: 'email',
   errorText: 'Vous devez indiquer une adresse mail valide.',
 }
@@ -69,4 +69,4 @@ addReactionTo('keydown')
     }
   })
 
-export { firstName, lastName, email, message }
+export {firstName, lastName, email, message}

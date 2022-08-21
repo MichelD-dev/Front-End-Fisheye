@@ -1,6 +1,6 @@
-import { addReactionTo } from '../utils/eventListener.js'
+import {addReactionTo} from '../utils/eventListener.js'
 
-const photographerFactory = (data) => {
+const photographerFactory = data => {
   const {
     id,
     name: phoName,
@@ -32,7 +32,7 @@ const photographerFactory = (data) => {
     portrait.src = picture
     portrait.alt = `${phoName} - Fiche individuelle`
 
-    return { name, location, tagline, portrait }
+    return {name, location, tagline, portrait}
   }
 
   /**
@@ -79,7 +79,7 @@ const photographerFactory = (data) => {
     price.setAttribute('role', 'text')
     price.ariaLabel = 'Tarif journalier'
 
-    article.appendChild(articleHeader)  
+    article.appendChild(articleHeader)
     article.appendChild(location)
     article.appendChild(tagline)
     article.appendChild(price)
@@ -94,7 +94,7 @@ const photographerFactory = (data) => {
 
     return article
   }
-  return { getUserCardDOM, getUserPageDOM }
+  return {getUserCardDOM, getUserPageDOM}
 }
 
 export default photographerFactory

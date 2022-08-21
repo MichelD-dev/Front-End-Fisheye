@@ -1,5 +1,5 @@
 import DOM from '../utils/domElements.js'
-import { addReactionTo } from '../utils/eventListener.js'
+import {addReactionTo} from '../utils/eventListener.js'
 import {
   validate,
   firstName,
@@ -20,7 +20,7 @@ export const form = {
   /**
    * Ouverture de la modale formulaire
    */
-  show: ({ name: photographerName }) => {
+  show: ({name: photographerName}) => {
     /**
      * Mémorisation présence du focus sur bouton de contact
      */
@@ -72,10 +72,10 @@ export const form = {
     ;[...DOM.formModal.getElementsByClassName('error-message')].forEach(
       errorMsg => {
         errorMsg.textContent = ''
-      }
+      },
     )
     ;[...document.getElementsByClassName('error-message')].map(
-      message => (message.style.border = 'none')
+      message => (message.style.border = 'none'),
     )
 
     /**
@@ -143,7 +143,7 @@ let focusables = [...DOM.formModal.querySelectorAll(focusableElements)]
 const focusInModal = e => {
   e.preventDefault()
   let index = focusables.findIndex(
-    elem => elem === DOM.formModal.querySelector(':focus')
+    elem => elem === DOM.formModal.querySelector(':focus'),
   )
   e.shiftKey === true ? index-- : index++
   if (index >= focusables.length) {
