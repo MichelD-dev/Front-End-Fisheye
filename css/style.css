@@ -985,6 +985,7 @@ label[for='medias-sort'] {
   z-index: 2;
   top: 0;
   left: 0;
+  pointer-events: none;
 }
 .media-card:active .media-card__image {
   transform: scale(0.97);

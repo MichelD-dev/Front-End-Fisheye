@@ -664,7 +664,7 @@ label[for="medias-sort"] {
         opacity: 1;
       }
     }
-    &:focus,
+      &:focus,
     &:active {
       border-radius: 0;
       transition: all 0.15s linear;
@@ -693,6 +693,7 @@ label[for="medias-sort"] {
       z-index: 2;
       top: 0;
       left: 0;
+      pointer-events: none;
     }
   }
   &:active {
