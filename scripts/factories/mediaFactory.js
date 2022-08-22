@@ -28,6 +28,7 @@ const mediaFactory = media => photographer => sortedPhotographerMedias => {
       media.image || media.video
     }`
     media.image && (mediaCard.alt = `Image titrée ${media.title}`)
+    media.video && (mediaCard.title = `Vidéo titrée ${media.title}`)
     mediaCard.classList.add('media-card__image')
     media.video && mediaCard.classList.add('media-card__image_video')
     mediaCard.tabIndex = '0'
@@ -54,7 +55,6 @@ const mediaFactory = media => photographer => sortedPhotographerMedias => {
     const likesNbr = document.createElement('span')
     likesNbr.setAttribute('role', 'note')
     likesNbr.setAttribute('aria-label', 'Nombre de likes')
-    likesNbr.setAttribute('aria-live', 'polite')
 
     store.getLikedImages().find(likedImage => {
       if (likedImage.id === media.id) {
@@ -64,7 +64,7 @@ const mediaFactory = media => photographer => sortedPhotographerMedias => {
 
     const likeIcon = document.createElement('i')
     likeIcon.classList.add('fa-solid', 'fa-heart')
-
+  
     const likeDisplayedOnMedia = document.createElement('div')
     likeDisplayedOnMedia.classList.add('media-card__like', 'hidden')
 

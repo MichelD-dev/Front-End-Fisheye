@@ -14,11 +14,16 @@ import {addReactionTo, removeReactionTo} from '../utils/eventListener.js'
  */
 const id = +new URLSearchParams(document.location.search).get('id')
 
+document.querySelector('[aria-label="Lien page d\'accueil"]').focus()
+
 /**
  * AFFICHAGE DE LA PAGE PHOTOGRAPHE
  */
 const displayMedias = photographer => sortedPhotographerMedias => {
+  document.title = `Fisheye - photographe ${photographer.name}`
+
   keyboardNavigation()
+
 
   /**
    * On réinitialise la grille d'images
@@ -148,7 +153,7 @@ export const sort = (sortingChoice = 'Popularité') => {
    * On récupère les éléments qui acquerront le focus
    */
   const focusableElements =
-    '[aria-label="Page d\'accueil"], button.contact-button, .select__trigger, .media-card__image'
+    '[aria-label="Lien page d\'accueil"], button.contact-button, summary, .media-card__image'
 
   /**
    * On crée un tableau des éléments focusables
@@ -160,10 +165,13 @@ export const sort = (sortingChoice = 'Popularité') => {
    */
   const focusInWindow = e => {
     e.preventDefault()
+
     let index = focusables.findIndex(
       elem => elem === document.querySelector(':focus'),
     )
+
     e.shiftKey === true ? index-- : index++
+
     if (index >= focusables.length) {
       index = 0
     }
@@ -173,11 +181,14 @@ export const sort = (sortingChoice = 'Popularité') => {
     focusables[index].focus()
   }
 
+  /**
+   * Navigation au clavier
+   */
   const tabulate = e => {
     if (
       e.key === 'Tab' &&
       !DOM.modal.hasAttribute('aria-modal') &&
-      !document.querySelector('.select.open') &&
+      !DOM.selector.hasAttribute('open') &&
       !DOM.lightbox.hasAttribute('aria-modal')
     ) {
       focusInWindow(e)
@@ -185,9 +196,6 @@ export const sort = (sortingChoice = 'Popularité') => {
     }
   }
 
-  /**
-   * Navigation au clavier
-   */
   addReactionTo('keydown').on(window).withFunction(tabulate)
 
   /**

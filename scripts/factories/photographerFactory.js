@@ -41,7 +41,7 @@ const photographerFactory = data => {
   function getUserCardDOM() {
     const article = document.createElement('article')
     article.classList.add('photographer__card', 'card')
-    article.ariaLabel = 'Fiche photographe'
+    article.ariaLabel = `Fiche photographe, ${phoName}, ${city}, ${rate}€ par jour, sa devise, ${tag}`
     article.ariaBusy = true
     article.tabIndex = '0'
 

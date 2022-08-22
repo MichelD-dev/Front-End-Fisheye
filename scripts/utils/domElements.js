@@ -29,10 +29,12 @@ const DOM = {
 
   imageDisplay: document.querySelector('.lightbox__image'),
   videoDisplay: document.querySelector('.lightbox__video'),
+  videoDescription: document.querySelector('#lightbox__video-description'),
 
   totalLikesNbr: document.querySelector('.photographer__likes'),
 
-  selector: document.querySelector('.select'),
+  selector: document.querySelector('#selector'),
+  summary: document.querySelector('#summary'),
 }
 
 export default DOM

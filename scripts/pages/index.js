@@ -20,8 +20,7 @@ async function displayPhotographers(photographers) {
   /**
    * On récupère les éléments qui acquerront le focus
    */
-  const focusableElements =
-    'a:not(.photographer-card__header), article:not(.skeleton__card)'
+  const focusableElements = 'article:not(.skeleton__card)'
 
   /**
    * On crée un tableau des éléments focusables

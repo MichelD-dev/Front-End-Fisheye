@@ -20,112 +20,69 @@ export const sortBy = medias => {
 // --------------------------------------------------------------------------- //
 // ------------------------------------UTILS---------------------------------- //
 // --------------------------------------------------------------------------- //
-
-/**
- * Changements d'apparence du selecteur sur events
- */
-const selectorChange = () => {
-  /**
-   * Déclaration d'un tableau des selections non choisies
-   */
-  let notSelectedsOptionsArray = []
-
-  /**
-   * Ouverture du selecteur
-   */
-  if (!document.querySelector('.select').classList.contains('open')) {
-    document.querySelector('.select').classList.add('open')
-    document
-      .querySelector('.custom-options')
-      .setAttribute('aria-expanded', true)
-
-    /**
-     * Mise en tableau des selections non choisies
-     */
-    notSelectedsOptionsArray = [
-      ...document.getElementsByClassName('custom-option'),
-    ].filter(el => !el.classList.contains('selected'))
-
-    /**
-     * Border-radius placé dynamiquement en bas de la dernière selection non choisie
-     */
-    notSelectedsOptionsArray[notSelectedsOptionsArray.length - 1].classList.add(
-      'custom-option_last',
-    )
-
-    document.querySelector('.selected').focus()
-  } else {
-    /**
-     * Fermeture du selecteur
-     */
-    document.querySelector('.select').classList.remove('open')
-    document
-      .querySelector('.custom-options')
-      .setAttribute('aria-expanded', false)
-
-    /**
-     * On retire le bottom border-radius des selections avant de positionner une nouvelle selection en dernière position
-     */
-    ;[...document.getElementsByClassName('custom-option')].forEach(option =>
-      option.classList.remove('custom-option_last'),
-    )
-  }
-}
-
+document.querySelector('#medias-sort-label > span').textContent = DOM.summary.textContent
 /**
  * Affichage de l'option selectionnée
  */
 const selectDisplaySorting = option => {
-  for (const hidden of document.querySelectorAll(
-    '.custom-option.hidden, .select__trigger',
-  )) {
-    hidden.classList.remove('hidden')
-    document
-      .querySelector('.select__trigger')
-      .classList.add('no-btm-border-radius')
-  }
-  if (!option.classList.contains('selected')) {
-    option.parentNode
-      .querySelector('.custom-option.selected')
-      .removeAttribute('aria-selected')
-    option.parentNode
-      .querySelector('.custom-option.selected')
-      .classList.remove('selected')
+  function swap() {
+    const x = document.querySelector('#summary > span').textContent
+    const y = option.textContent
+    document.querySelector('#summary > span').textContent = y
+    option.textContent = x
+    
+    document.querySelector('#medias-sort-label > span').textContent = DOM.summary.textContent
+    
 
-    option.classList.add('selected')
-    option.setAttribute('aria-selected', true)
-    option.classList.add('hidden')
-    setTimeout(() => {
-      document
-        .querySelector('.select__trigger')
-        .classList.remove('no-btm-border-radius')
-    }, 200)
-
-    option
-      .closest('.select')
-      .querySelector('.select__trigger span').textContent = option.textContent
-    document
-      .querySelector('.select__trigger')
-      .setAttribute('aria-activedescendant', `${option.textContent}`)
+    DOM.selector.removeAttribute('open')
   }
+
+  swap()
+
+  document
+    .querySelector('#summary')
+    .setAttribute(
+      'aria-activedescendant',
+      `${document.querySelector('#summary > span').textContent.trim()}`,
+    )
+
+  setTimeout(() => {
+    DOM.summary.focus()
+  }, 0)
 }
 
 /**
  * GESTION DU FOCUS
  * Changement de focus au clavier et maintien du focus dans le selecteur
  */
+/**
+ * Navigation au clavier
+ */
+addReactionTo('keydown')
+  .on(window)
+  .withFunction(e => {
+    if (e.key === 'Tab' && DOM.selector.hasAttribute('open')) {
+      focusInSelector(e)
+    }
+  })
+
+addReactionTo('click')
+  .on(DOM.selector)
+  .withFunction(e => {
+    focusInSelector(e)
+  })
+
+/**
+ * On récupère les éléments qui acquerront le focus dans le selecteur
+ */
+const focusableElements = 'details span'
+/**
+ * On crée un tableau des éléments focusables
+ */
+let focusables = [...DOM.selector.querySelectorAll(focusableElements)]
+
 const focusInSelector = e => {
-  e.preventDefault()
-
-  /**
-   * On récupère les éléments qui acquerront le focus dans le selecteur
-   */
-  const focusableElements = '.select__trigger, .custom-option:not(.selected)'
-
-  /**
-   * On crée un tableau des éléments focusables
-   */
-  let focusables = [...DOM.selector.querySelectorAll(focusableElements)]
+  if (DOM.selector.hasAttribute('open')) e.preventDefault()
 
   let index = focusables.findIndex(
     elem => elem === DOM.selector.querySelector(':focus'),
@@ -140,94 +97,42 @@ const focusInSelector = e => {
     index = focusables.length - 1
   }
 
-  let option = focusables[index]
-  option.focus()
-
-  focusables.forEach(elem => elem.classList.remove('no-white-line'))
-  document.activeElement.classList.add('no-white-line')
-
-  return focusables
+  focusables[index].focus()
 }
 
 // --------------------------------------------------------------------------- //
 // -------------------------------EVENT LISTENERS----------------------------- //
 // --------------------------------------------------------------------------- //
 
-/**
- * On ouvre le selecteur
- */
-addReactionTo('click').on('.select-wrapper').withFunction(selectorChange)
-
-/**
- * On ouvre le selecteur avec le clavier
- */
-addReactionTo('keydown')
-  .on('.select-wrapper')
-  .withFunction(e => {
-    if (e.key === 'Enter') {
-      selectorChange()
-      document.querySelector('.select__trigger').focus()
-    }
-  })
-
-/**
- * Navigation au clavier dans le selecteur
- */
-addReactionTo('keydown')
+addReactionTo('click')
   .on(DOM.selector)
-  .withFunction(e => {
-    if (e.key === 'Escape' || e.key === 'Esc') {
-      const focusables = focusInSelector(e)
-      document.querySelector('.select.open')?.classList.remove('open')
-      focusables.forEach(elem => elem.classList.remove('no-white-line'))
-      document.querySelector('.select__trigger').focus()
-    }
-    if (e.key === 'Tab' && document.querySelector('.select.open')) {
-      focusInSelector(e)
+  .withFunction(() => {
+    if (!DOM.selector.hasAttribute('open')) {
+      DOM.selector.setAttribute('aria-expanded', true)
+    } else {
+      DOM.selector.setAttribute('aria-expanded', false)
     }
   })
-
-/**
- * Selection
- */
-for (const option of document.getElementsByClassName('custom-option')) {
-  addReactionTo('click')
-    .on(option)
-    .withFunction(() => {
-      selectDisplaySorting(option)
-    })
-  addReactionTo('keydown')
-    .on(option)
-    .withFunction(e => {
-      if (
-        e.key === 'Enter' &&
-        document.querySelector('.select.open') &&
-        !document.activeElement.classList.contains('select__trigger')
-      ) {
-        const focusables = focusInSelector(e)
-        focusables.forEach(elem => elem.classList.remove('no-white-line'))
-        selectDisplaySorting(option)
-      }
-    })
-}
 
 /**
  * Récupération des données selon la catégorie sélectionnée
  */
-for (const selected of document.querySelectorAll('.custom-option')) {
+const selected = document.querySelector('.selected')
+for (const sortingChoice of document.querySelectorAll('.custom-option')) {
   addReactionTo('click')
-    .on(selected)
+    .on(sortingChoice)
     .withFunction(() => {
-      const sortingChoice = selected.textContent
-      sort(sortingChoice)
+      selectDisplaySorting(sortingChoice)
+      sort(selected.textContent.trim())
+      DOM.summary.focus()
     })
 
   addReactionTo('keydown')
-    .on(selected)
+    .on(sortingChoice)
     .withFunction(e => {
       if (e.key === 'Enter') {
-        const sortingChoice = selected.textContent
-        sort(sortingChoice)
+        selectDisplaySorting(sortingChoice)
+        sort(selected.textContent.trim())
       }
     })
 }
@@ -237,9 +142,11 @@ for (const selected of document.querySelectorAll('.custom-option')) {
  */
 addReactionTo('click')
   .on(window)
-  .withFunction(e => {
-    const select = document.querySelector('.select')
-    if (!select.contains(e.target)) {
-      select.classList.remove('open')
-    }
-  })
+  .withFunction(() => DOM.selector.removeAttribute('open'))
+
+/**
+ * On garde le focus sur le selecteur à sa fermeture
+ */
+DOM.summary.onclick = () => {
+  if (!DOM.summary.hasAttribute('open')) DOM.summary.focus()
+}

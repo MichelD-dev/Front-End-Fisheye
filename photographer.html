@@ -22,12 +22,12 @@
       crossorigin="anonymous"
     ></script>
     <script type="module" src="scripts/pages/photographer.js"></script>
-    <title>Fisheye - photographe</title>
+    <title></title>
   </head>
 
   <body>
     <header class="header">
-      <a href="./index.html" aria-label="Page d'accueil">
+      <a href="./index.html" aria-label="Lien page d'accueil">
         <span class="visually-hidden">Logo de FishEye</span>
         <img
           src="assets/logo/logo.png"
@@ -65,56 +65,42 @@
       <!--------------------------SELECTEUR------------------------->
       <!------------------------------------------------------------>
 
-      <label id="medias-sort-label" for="medias-sort">Trier par </label>
+      <label id="medias-sort-label" for="medias-sort">Trier par <span class="visually-hidden"></span></label>
       <input id="medias-sort" class="visually-hidden" tabindex="-1" />
-      <div class="select-wrapper">
-        <div class="select">
-          <div
+      <details id="selector">
+        <summary
+          id="summary"
+          class="summary"
+          aria-labelledby="medias-sort-label"
+          aria-activedescendant="Popularité"
+        >
+          <span
+          id="test"
             tabindex="0"
-            class="select__trigger"
-            role="note"
-            aria-labelledby="medias-sort-label"
+            role="option"
+            aria-selected="true"
+            class="selected"
+            data-value="popularity"
+          >Popularité</span
           >
-            <span>Popularité</span>
-            <div class="arrow"></div>
-          </div>
-          <div
-            aria-label="Options de tri"
-            class="custom-options"
-            role="listbox"
-            aria-haspopup="listbox"
-            aria-expanded="false"
-          >
-            <span
-              tabindex="0"
-              role="option"
-              aria-selected="true"
-              class="custom-option selected hidden"
-              data-value="popularity"
-              >Popularité</span
-            >
-            <span
-              tabindex="0"
-              role="option"
-              class="custom-option"
-              data-value="date"
-              >Date</span
-            >
-            <span
-              tabindex="0"
-              role="option"
-              class="custom-option"
-              data-value="title"
-              >Titre</span
-            >
-          </div>
-        </div>
-      </div>
+          <div class="arrow"></div>
+        </summary>
+        <span tabindex="0" role="option" class="custom-option" data-value="date"
+          >Date</span
+        >
+        <span
+          tabindex="0"
+          role="option"
+          class="custom-option"
+          data-value="title"
+          >Titre</span
+        >
+      </details>
       <section
         class="medias__section"
         role="application"
         aria-label="section médias"
-      >
+              >
         <h2 class="visually-hidden" id="section-medias">Section médias</h2>
 
         <!------------------------------------------------------------>
@@ -138,11 +124,7 @@
       <h2 class="visually-hidden">Encart photographe</h2>
       <div class="photographer__data">
         <div>
-          <span
-            class="photographer__likes"
-            role="status"
-            aria-live="polite"
-          ></span
+          <span class="photographer__likes"></span
           ><i class="fa-solid fa-heart"></i>
         </div>
         <span class="photographer__rate"></span>
@@ -244,13 +226,15 @@
           <i class="fa-solid fa-chevron-left fa-3x"></i>
         </button>
         <figure class="lightbox-container">
-          <div></div>
           <img src="data:," alt="" class="hidden lightbox__image" />
           <video
             src="data:,"
             class="hidden lightbox__video"
             tabindex="1"
+            controls="muted"
+            aria-describedby="lightbox__video-description"
           ></video>
+          <div id="lightbox__video-description" class="visually-hidden"></div>
           <figcaption class="lightbox-caption" id="media-title">
             <span class="lightbox-caption__text"></span>
             <span class="visually-hidden">Titre du média</span>
@@ -262,7 +246,7 @@
                 label="bouton like"
                 tabindex="3"
               />
-              <span class="visually-hidden">Lightbox like</span>
+              <span class="visually-hidden">Bouton like</span>
               <div class="lightbox-caption__like-display">
                 <i class="lightbox-caption__like_active fa-solid fa-heart"></i>
                 <i
