@@ -22,6 +22,11 @@ export const form = {
    */
   show: ({name: photographerName}) => {
     /**
+     * Reset du message vocal de confirmation de soumission
+     */
+    document.querySelector('#submit-confirmation').textContent = ''
+
+    /**
      * Mémorisation présence du focus sur bouton de contact
      */
     previouslyFocusedElement = document.activeElement
@@ -98,6 +103,11 @@ export const form = {
  */
 const formSubmit = e => {
   if (!validate(e)) return
+
+  /**
+   * Message vocal
+   */
+  document.querySelector('#submit-confirmation').textContent = 'Message envoyé'
 
   console.table([
     DOM.firstNameInput.value,

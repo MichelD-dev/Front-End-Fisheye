@@ -150,34 +150,15 @@
           <div>
             <label for="firstname">Votre prénom</label
             ><span class="visually-hidden" aria-hidden="true">Prénom</span>
-            <input
-              id="firstname"
-              name="firstname"
-              aria-required="true"
-              autocomplete="given-name"
-              aria-autocomplete="list"
-            />
+            <input id="firstname" name="firstname" aria-required="true" />
             <span id="firstname-error" class="error-message"></span><br />
             <label for="lastname">Votre nom</label
             ><span class="visually-hidden" aria-hidden="true">Nom</span>
-            <input
-              id="lastname"
-              name="lastname"
-              aria-required="true"
-              autocomplete="family-name"
-              aria-autocomplete="list"
-            />
+            <input id="lastname" name="lastname" aria-required="true" />
             <span id="lastname-error" class="error-message"></span><br />
             <label for="email">Votre email</label
             ><span class="visually-hidden" aria-hidden="true">Email</span>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              aria-required="true"
-              autocomplete="email"
-              aria-autocomplete="list"
-            />
+            <input id="email" type="email" name="email" aria-required="true" />
             <span id="email-error" class="error-message"></span>
             <label for="message">Votre message</label
             ><span class="visually-hidden" aria-hidden="true"
@@ -192,6 +173,11 @@
             <span id="message-error" class="error-message"></span>
           </div>
           <input type="submit" class="contact-button submit" value="Envoyer" />
+          <span
+            id="submit-confirmation"
+            class="visually-hidden"
+            aria-live="assertive"
+          ></span>
         </fieldset>
       </form>
     </aside>
@@ -233,7 +219,9 @@
             <label class="lightbox-caption__like-label" for="like">
               <span class="visually-hidden">Bouton like</span>
               <span class="lightbox-caption__like-display">
-                <span class="lightbox-caption__like_active fa-solid fa-heart"></span>
+                <span
+                  class="lightbox-caption__like_active fa-solid fa-heart"
+                ></span>
                 <span
                   class="lightbox-caption__like_inactive fa-solid fa-heart"
                 ></span>

@@ -697,6 +697,7 @@ form textarea:focus {
   font-size: 1.5rem;
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
 .lightbox-caption__like-label {
   display: flex;
@@ -736,9 +737,9 @@ form textarea:focus {
   opacity: 0;
   margin: 20px;
   padding: 20px;
-  left: 60px;
-  position: relative;
-  top: -4px;
+  right: 3px;
+  top: 0px;
+  position: absolute;
 }
 .lightbox-caption__like-btn:focus ~ label .lightbox-caption__like-display {
   border: 2px solid black;

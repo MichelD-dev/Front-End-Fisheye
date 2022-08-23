@@ -27,9 +27,9 @@ document.querySelector('#medias-sort-label > span').textContent =
  */
 const selectDisplaySorting = option => {
   function swap() {
-    const x = document.querySelector('#summary > span').textContent
+    const x = document.querySelector('#summary').textContent
     const y = option.textContent
-    document.querySelector('#summary > span').textContent = y
+    document.querySelector('#summary').textContent = y
     option.textContent = x
 
     document.querySelector('#medias-sort-label > span').textContent =
@@ -40,15 +40,9 @@ const selectDisplaySorting = option => {
 
   swap()
 
-  document
-    .querySelector('#summary')
-    .setAttribute(
-      'aria-activedescendant',
-      `${document.querySelector('#summary > span').textContent.trim()}`,
-    )
-
   setTimeout(() => {
     DOM.summary.focus()
+    // removeReactionTo('keydown').on(window).withFunction(tabulate)
   }, 0)
 }
 

@@ -398,6 +398,7 @@ form {
     font-size: 1.5rem;
     display: flex;
     justify-content: space-between;
+    position: relative;
     &__like {
       &-label {
         display: flex;
@@ -437,10 +438,10 @@ form {
         opacity: 0;
         margin: 20px;
     padding: 20px;
-    left: 60px;
-    position: relative;
-    top: -4px;
-        &:focus ~ label {
+    right: 3px;
+    top:0px;
+    position: absolute;
+            &:focus ~ label {
           & .lightbox-caption__like-display {
             border: 2px solid black;
             border-radius: 5px;

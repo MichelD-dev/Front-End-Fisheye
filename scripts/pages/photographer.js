@@ -7,7 +7,7 @@ import getFetchedDatas from '../API/fetchAPI.js'
 import setSkeletons from '../components/skeletons.js'
 import {keyboardNavigation, mutationObserver, observer} from '../utils/utils.js'
 import {sortBy} from '../components/selector.js'
-import {addReactionTo, removeReactionTo} from '../utils/eventListener.js'
+import {addReactionTo} from '../utils/eventListener.js'
 
 /**
  * Récupération de l'id du photographe
@@ -193,9 +193,15 @@ export const sort = (sortingChoice = 'Popularité') => {
     ) {
       focusInWindow(e)
     }
+    if (DOM.selector.hasAttribute('open')) {
+      controller.abort()
+    }
   }
 
-  addReactionTo('keydown').on(window).withFunction(tabulate)
+  const controller = new AbortController()
+  addReactionTo('keydown')
+    .on(window)
+    .withFunction(tabulate, {signal: controller.signal})
 
   /**
    * Bouton d'affichage du formulaire de contact

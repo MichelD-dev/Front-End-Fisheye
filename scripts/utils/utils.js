@@ -16,6 +16,8 @@ const isInputValid = ({value, regex, id, errorText}) => {
   if (!regex.test(trimmedValue) || !value) {
     setErrorMessage(id, errorText)
     document.getElementById(id).focus()
+    document.getElementById(id).setAttribute('aria-invalid', 'true')
+    document.getElementById(id).setAttribute('aria-describedby', `${id}-error`)
     return false
   }
 
@@ -28,6 +30,10 @@ const isInputValid = ({value, regex, id, errorText}) => {
     document.getElementById(id).value = trimmedValue
       .toLowerCase()
       .replace(/  +/g, ' ')
+    document.getElementById(id).removeAttribute('aria-invalid', 'true')
+    document
+      .getElementById(id)
+      .removeAttribute('aria-describedby', `${id}-error`)
   }
   return true
 }
@@ -105,6 +111,10 @@ const mutationObserver = new MutationObserver(() => {
         likedMedia.querySelector(
           '.media-card__likesNbr > span',
         ).textContent = `${media.likes} `
+
+        likedMedia
+          .querySelector('.media-card__likesNbr > span')
+          .setAttribute('aria-label', `${media.likes} likes`)
 
         media.isLiked
           ? likedMedia.children[2].classList.remove('hidden')
