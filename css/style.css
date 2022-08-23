@@ -740,18 +740,20 @@ form textarea:focus {
   position: relative;
   top: -4px;
 }
-.lightbox-caption__like-btn:focus ~ .lightbox-caption__like-display {
+.lightbox-caption__like-btn:focus ~ label .lightbox-caption__like-display {
   border: 2px solid black;
   border-radius: 5px;
   padding: 30px;
 }
 .lightbox-caption__like-btn:checked
-  ~ .lightbox-caption__like-display
+  + label
+  .lightbox-caption__like-display
   > .lightbox-caption__like_inactive {
   opacity: 0;
 }
 .lightbox-caption__like-btn:checked
-  ~ .lightbox-caption__like-display
+  + label
+  .lightbox-caption__like-display
   > .lightbox-caption__like_active {
   opacity: 1;
 }

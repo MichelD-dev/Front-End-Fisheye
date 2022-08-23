@@ -22,7 +22,7 @@
       crossorigin="anonymous"
     ></script>
     <script type="module" src="scripts/pages/photographer.js"></script>
-    <title></title>
+    <title>Fisheye - photographe</title>
   </head>
 
   <body>
@@ -65,42 +65,29 @@
       <!--------------------------SELECTEUR------------------------->
       <!------------------------------------------------------------>
 
-      <label id="medias-sort-label" for="medias-sort">Trier par <span class="visually-hidden"></span></label>
+      <label id="medias-sort-label" for="medias-sort"
+        >Trier par <span class="visually-hidden"></span
+      ></label>
       <input id="medias-sort" class="visually-hidden" tabindex="-1" />
       <details id="selector">
         <summary
           id="summary"
-          class="summary"
+          class="summary selected"
           aria-labelledby="medias-sort-label"
-          aria-activedescendant="Popularité"
-        >
-          <span
-          id="test"
-            tabindex="0"
-            role="option"
-            aria-selected="true"
-            class="selected"
-            data-value="popularity"
-          >Popularité</span
-          >
-          <div class="arrow"></div>
-        </summary>
-        <span tabindex="0" role="option" class="custom-option" data-value="date"
-          >Date</span
-        >
-        <span
           tabindex="0"
-          role="option"
-          class="custom-option"
-          data-value="title"
-          >Titre</span
+          data-value="popularity"
         >
+          Popularité
+          <span class="arrow"></span>
+        </summary>
+        <p tabindex="0" class="custom-option" data-value="date">Date</p>
+        <p tabindex="0" class="custom-option" data-value="title">Titre</p>
       </details>
       <section
         class="medias__section"
         role="application"
         aria-label="section médias"
-              >
+      >
         <h2 class="visually-hidden" id="section-medias">Section médias</h2>
 
         <!------------------------------------------------------------>
@@ -125,7 +112,7 @@
       <div class="photographer__data">
         <div>
           <span class="photographer__likes"></span
-          ><i class="fa-solid fa-heart"></i>
+          ><span class="fa-solid fa-heart"></span>
         </div>
         <span class="photographer__rate"></span>
       </div>
@@ -223,7 +210,7 @@
         <h2 id="lightbox-title" class="visually-hidden">Lightbox</h2>
         <button class="lightbox__previous" tabindex="0">
           <span class="visually-hidden">Image précédente</span>
-          <i class="fa-solid fa-chevron-left fa-3x"></i>
+          <span class="fa-solid fa-chevron-left fa-3x"></span>
         </button>
         <figure class="lightbox-container">
           <img src="data:," alt="" class="hidden lightbox__image" />
@@ -231,28 +218,26 @@
             src="data:,"
             class="hidden lightbox__video"
             tabindex="1"
-            controls="muted"
             aria-describedby="lightbox__video-description"
           ></video>
           <div id="lightbox__video-description" class="visually-hidden"></div>
           <figcaption class="lightbox-caption" id="media-title">
             <span class="lightbox-caption__text"></span>
             <span class="visually-hidden">Titre du média</span>
+            <input
+              type="checkbox"
+              id="like"
+              class="lightbox-caption__like-btn"
+              tabindex="3"
+            />
             <label class="lightbox-caption__like-label" for="like">
-              <input
-                type="checkbox"
-                id="like"
-                class="lightbox-caption__like-btn"
-                label="bouton like"
-                tabindex="3"
-              />
               <span class="visually-hidden">Bouton like</span>
-              <div class="lightbox-caption__like-display">
-                <i class="lightbox-caption__like_active fa-solid fa-heart"></i>
-                <i
+              <span class="lightbox-caption__like-display">
+                <span class="lightbox-caption__like_active fa-solid fa-heart"></span>
+                <span
                   class="lightbox-caption__like_inactive fa-solid fa-heart"
-                ></i>
-              </div>
+                ></span>
+              </span>
             </label>
           </figcaption>
         </figure>
@@ -261,7 +246,7 @@
         </button>
         <button class="lightbox__next" tabindex="2">
           <span class="visually-hidden">Image suivante</span>
-          <i class="fa-solid fa-chevron-right fa-3x"></i>
+          <span class="fa-solid fa-chevron-right fa-3x"></span>
         </button>
       </div>
     </aside>

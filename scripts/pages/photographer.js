@@ -24,7 +24,6 @@ const displayMedias = photographer => sortedPhotographerMedias => {
 
   keyboardNavigation()
 
-
   /**
    * On réinitialise la grille d'images
    */
@@ -178,6 +177,7 @@ export const sort = (sortingChoice = 'Popularité') => {
     if (index < 0) {
       index = focusables.length - 1
     }
+
     focusables[index].focus()
   }
 
@@ -192,7 +192,6 @@ export const sort = (sortingChoice = 'Popularité') => {
       !DOM.lightbox.hasAttribute('aria-modal')
     ) {
       focusInWindow(e)
-      removeReactionTo('keydown').on(window).withFunction(tabulate)
     }
   }
 

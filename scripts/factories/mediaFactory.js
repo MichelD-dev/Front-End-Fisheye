@@ -64,7 +64,7 @@ const mediaFactory = media => photographer => sortedPhotographerMedias => {
 
     const likeIcon = document.createElement('i')
     likeIcon.classList.add('fa-solid', 'fa-heart')
-  
+
     const likeDisplayedOnMedia = document.createElement('div')
     likeDisplayedOnMedia.classList.add('media-card__like', 'hidden')
 

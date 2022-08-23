@@ -95,7 +95,7 @@ export const addOrRemoveLike = media => {
 export const printLikesNbr = id => likesNbr => {
   store.getLikedImages().find(likedImage => {
     if (likedImage.id === id) {
-       likesNbr.textContent = `${likedImage.likes} `
+      likesNbr.textContent = `${likedImage.likes} `
       likesNbr.setAttribute('aria-label', `${likedImage.likes} likes`)
       likesNbr.nextSibling.setAttribute(
         'aria-label',

@@ -43,6 +43,7 @@ const photographerFactory = data => {
     article.classList.add('photographer__card', 'card')
     article.ariaLabel = `Fiche photographe, ${phoName}, ${city}, ${rate}€ par jour, sa devise, ${tag}`
     article.ariaBusy = true
+    article.role= "link"
     article.tabIndex = '0'
 
     const img = document.createElement('img')

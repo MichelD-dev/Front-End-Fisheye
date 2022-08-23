@@ -20,7 +20,8 @@ export const sortBy = medias => {
 // --------------------------------------------------------------------------- //
 // ------------------------------------UTILS---------------------------------- //
 // --------------------------------------------------------------------------- //
-document.querySelector('#medias-sort-label > span').textContent = DOM.summary.textContent
+document.querySelector('#medias-sort-label > span').textContent =
+  DOM.summary.textContent
 /**
  * Affichage de l'option selectionnée
  */
@@ -30,9 +31,9 @@ const selectDisplaySorting = option => {
     const y = option.textContent
     document.querySelector('#summary > span').textContent = y
     option.textContent = x
-    
-    document.querySelector('#medias-sort-label > span').textContent = DOM.summary.textContent
-    
+
+    document.querySelector('#medias-sort-label > span').textContent =
+      DOM.summary.textContent
 
     DOM.selector.removeAttribute('open')
   }
@@ -75,7 +76,7 @@ addReactionTo('click')
 /**
  * On récupère les éléments qui acquerront le focus dans le selecteur
  */
-const focusableElements = 'details span'
+const focusableElements = 'details > *'
 /**
  * On crée un tableau des éléments focusables
  */

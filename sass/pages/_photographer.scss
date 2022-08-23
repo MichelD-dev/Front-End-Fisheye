@@ -171,22 +171,14 @@ fieldset {
 }
 
 form {
-  // display: flex;
   width: 100%;
-  // flex-direction: column;
-  // align-items: flex-start;
-
   & label {
     color: #312e2e;
     font-size: 1.6rem;
-    // width: 100%;
   }
-
   & div {
     display: flex;
     flex-direction: column;
-    // width: 100%;
-    // align-items: self-start;
     margin-bottom: 26px;
   }
 
@@ -448,21 +440,21 @@ form {
     left: 60px;
     position: relative;
     top: -4px;
-        &:focus ~ {
+        &:focus ~ label {
           & .lightbox-caption__like-display {
             border: 2px solid black;
             border-radius: 5px;
             padding: 30px;
           }
         }
-        &:checked ~ .lightbox-caption__like-display {
+        &:checked + label {.lightbox-caption__like-display {
           & > .lightbox-caption__like_inactive {
             opacity: 0;
           }
           & > .lightbox-caption__like_active {
             opacity: 1;
           }
-        }
+        }}
       }
     }
   }
