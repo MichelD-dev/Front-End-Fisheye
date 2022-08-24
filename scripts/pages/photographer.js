@@ -178,6 +178,13 @@ export const sort = (sortingChoice = 'Popularité') => {
     }
 
     focusables[index].focus()
+
+    /**
+     * Suppression du nouvel event listener sur le selecteur après chaque choix selectionné, pour éviter leur multiplication
+     */
+    ;[...document.querySelectorAll('details > *')].forEach(
+      el => (el.onclick = () => controller.abort()),
+    )
   }
 
   /**
@@ -192,12 +199,11 @@ export const sort = (sortingChoice = 'Popularité') => {
     ) {
       focusInWindow(e)
     }
-    if (DOM.selector.hasAttribute('open')) {
-      controller.abort()
-    }
   }
 
   const controller = new AbortController()
+
+  // Création d'un nouvel event listener sur le selecteur
   addReactionTo('keydown')
     .on(window)
     .withFunction(tabulate, {signal: controller.signal})

@@ -13,6 +13,9 @@ export const sortBy = medias => {
       Date: () => medias.sort((a, b) => new Date(b.date) - new Date(a.date)),
     }
 
+    if (sortingChoice === 'Date')
+      choices[sortingChoice]().forEach(media => console.log(media.date))
+
     return choices[sortingChoice]?.() ?? 'Critère de choix non reconnu'
   }
 }

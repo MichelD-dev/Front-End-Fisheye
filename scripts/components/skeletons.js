@@ -19,9 +19,9 @@ const setSkeletons = nbr => action => {
     DOM.photographersSection?.append(cardTemplate.content.cloneNode(true))
     DOM.mediasSection?.append(mediaTemplate.content.cloneNode(true))
   }
-
   ;[...document.getElementsByClassName('photographer__card')].map(card => {
     card.classList.add(direction[action])
+
     if (action === 'to hide') {
       setTimeout(() => {
         card.setAttribute('aria-hidden', true)
