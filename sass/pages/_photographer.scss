@@ -22,15 +22,13 @@
   flex-direction: column;
   margin: 0 auto;
   width: 95vw;
-  @include media-max(768px) {
-    text-align: center;
-  }
 }
 
 .photograph-header {
   background-color: $quaternary-color;
   height: 300px;
   padding: 0 50px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -479,6 +477,9 @@ form {
       gap: 0.8%;
       margin-top: 60px;
     }
+    @include media-max(768px) {
+      position: relative;
+      }
   }
 }
 
@@ -672,6 +673,10 @@ label[for="medias-sort"] {
 #medias-sort-label {
   position: relative;
   top: 20px;
+  @include media-max(768px) {
+    // position: absolute;
+    left: 9%;
+    }
 }
 
 details {
@@ -694,6 +699,10 @@ details {
       }
     }
   }
+  @include media-max(768px) {
+    position: absolute;
+    left: 25%;
+    }
 }
 
 .selected {
@@ -711,7 +720,6 @@ details {
 summary {
   width: 300px;
   list-style : none;
-    align-items: center;
     height: 65px;
     color: white;
     line-height: 60px;

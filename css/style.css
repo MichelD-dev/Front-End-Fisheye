@@ -307,16 +307,12 @@ a[aria-label="Page d'accueil"]:focus {
   margin: 0 auto;
   width: 95vw;
 }
-@media screen and (max-width: 768px) {
-  .main_photograph {
-    text-align: center;
-  }
-}
 
 .photograph-header {
   background-color: #fafafa;
   height: 300px;
   padding: 0 50px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -783,6 +779,11 @@ form textarea:focus {
     margin-top: 60px;
   }
 }
+@media screen and (max-width: 768px) {
+  .medias__section {
+    position: relative;
+  }
+}
 
 /* ------------------------------------------------------- */
 .select {
@@ -974,6 +975,11 @@ label[for='medias-sort'] {
   position: relative;
   top: 20px;
 }
+@media screen and (max-width: 768px) {
+  #medias-sort-label {
+    left: 9%;
+  }
+}
 
 details {
   margin-left: 20px;
@@ -992,6 +998,12 @@ details[open] .arrow::after {
   left: 6px;
   transform: rotate(-45deg);
 }
+@media screen and (max-width: 768px) {
+  details {
+    position: absolute;
+    left: 25%;
+  }
+}
 
 .selected {
   position: relative;
@@ -1008,7 +1020,6 @@ details[open] .arrow::after {
 summary {
   width: 300px;
   list-style: none;
-  align-items: center;
   height: 65px;
   color: white;
   line-height: 60px;
