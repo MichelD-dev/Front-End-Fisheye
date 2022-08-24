@@ -42,7 +42,6 @@ const photographerFactory = data => {
     const article = document.createElement('article')
     article.classList.add('photographer__card', 'card')
     article.ariaLabel = `Fiche photographe, ${phoName}, ${city}, ${rate}€ par jour, sa devise, ${tag}`
-    article.ariaBusy = true
     article.role = 'link'
     article.tabIndex = '0'
 
@@ -54,7 +53,6 @@ const photographerFactory = data => {
     const name = document.createElement('h2')
     name.textContent = phoName
     name.classList.add('photographer__name')
-    name.ariaLabel = 'Nom du photographe'
 
     const articleHeader = document.createElement('a')
     articleHeader.href = `./photographer.html?id=${id}`
@@ -67,18 +65,15 @@ const photographerFactory = data => {
     location.textContent = `${city}, ${country}`
     location.classList.add('photographer__location')
     location.setAttribute('role', 'text')
-    location.ariaLabel = 'Localisation du photographe'
 
     const tagline = document.createElement('span')
     tagline.textContent = tag
     tagline.setAttribute('role', 'text')
-    tagline.ariaLabel = 'Slogan du photographe'
 
     const price = document.createElement('span')
     price.textContent = `${rate}€/jour`
     price.classList.add('photographer__price')
     price.setAttribute('role', 'text')
-    price.ariaLabel = 'Tarif journalier'
 
     article.appendChild(articleHeader)
     article.appendChild(location)

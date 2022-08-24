@@ -69,10 +69,16 @@
         >Trier par <span class="visually-hidden"></span
       ></label>
       <input id="medias-sort" class="visually-hidden" tabindex="-1" />
-      <details id="selector" role="listbox" aria-expanded="false">
+      <details
+        id="selector"
+        role="listbox"
+        aria-label="selecteur"
+        aria-expanded="false"
+      >
         <summary
           id="summary"
           class="summary selected"
+          role="option"
           aria-labelledby="medias-sort-label"
           tabindex="0"
           data-value="popularity"
@@ -80,14 +86,14 @@
           Popularité
           <span class="arrow"></span>
         </summary>
-        <p tabindex="0" class="custom-option" data-value="date">Date</p>
-        <p tabindex="0" class="custom-option" data-value="title">Titre</p>
+        <p tabindex="0" class="custom-option" data-value="date" role="option">
+          Date
+        </p>
+        <p tabindex="0" class="custom-option" data-value="title" role="option">
+          Titre
+        </p>
       </details>
-      <section
-        class="medias__section"
-        role="application"
-        aria-label="section médias"
-      >
+      <section class="medias__section">
         <h2 class="visually-hidden" id="section-medias">Section médias</h2>
 
         <!------------------------------------------------------------>
@@ -148,22 +154,21 @@
         <fieldset>
           <legend class="visually-hidden">Contactez-moi</legend>
           <div>
-            <label for="firstname">Votre prénom</label
-            ><span class="visually-hidden" aria-hidden="true">Prénom</span>
+            <label for="firstname">Votre prénom</label>
             <input id="firstname" name="firstname" aria-required="true" />
-            <span id="firstname-error" class="error-message"></span><br />
-            <label for="lastname">Votre nom</label
-            ><span class="visually-hidden" aria-hidden="true">Nom</span>
+            <span
+              id="firstname-error"
+              aria-live="polite"
+              class="error-message"
+            ></span
+            ><br />
+            <label for="lastname">Votre nom</label>
             <input id="lastname" name="lastname" aria-required="true" />
             <span id="lastname-error" class="error-message"></span><br />
-            <label for="email">Votre email</label
-            ><span class="visually-hidden" aria-hidden="true">Email</span>
+            <label for="email">Votre email</label>
             <input id="email" type="email" name="email" aria-required="true" />
             <span id="email-error" class="error-message"></span>
-            <label for="message">Votre message</label
-            ><span class="visually-hidden" aria-hidden="true"
-              >Votre message</span
-            >
+            <label for="message">Votre message</label>
             <textarea
               id="message"
               name="message"

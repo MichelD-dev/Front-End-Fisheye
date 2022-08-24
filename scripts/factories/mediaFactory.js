@@ -14,8 +14,6 @@ const mediaFactory = media => photographer => sortedPhotographerMedias => {
      */
     const article = document.createElement('article')
     article.classList.add('media-card')
-    article.ariaLabel = 'photo'
-    article.ariaBusy = true
     article.id = media.id
 
     const imgTitle = document.createElement('span')

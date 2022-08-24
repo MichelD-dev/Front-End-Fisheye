@@ -13,7 +13,6 @@ async function displayPhotographers(photographers) {
     DOM.photographersSection.appendChild(userCardDOM)
     setTimeout(() => {
       userCardDOM.classList.add('fadein')
-      userCardDOM.setAttribute('aria-busy', false)
     }, 1000)
   })
 
