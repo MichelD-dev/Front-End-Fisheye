@@ -117,6 +117,8 @@ export const getTotalOfLikes = () => {
       ?.map(media => media.likes)
       .reduce((total, current) => total + current, 0) ?? []
 
+  DOM.totalLikesNbr.textContent = `${likesTotal} `
+
   return likesTotal
 }
 
@@ -126,8 +128,6 @@ export const getTotalOfLikes = () => {
 export const printTotalOfLikes = () => {
   DOM.totalLikesNbr.textContent = `${getTotalOfLikes()} `
 }
-
-printTotalOfLikes()
 
 /**
  * Affichage du like dans la lightbox
