@@ -97,10 +97,6 @@ export const getMediasSorting = photographers => medias => {
 }
 
 /**
- * Récupération des données photographes/médias, par popularité par défaut
- */
-
-/**
  * Récupération de l'ensemble des data
  */
 const {photographers, medias} = await getFetchedDatas({
@@ -115,7 +111,7 @@ const {photographer: forThisPhotographer, photographerMedias} =
   getMediasSorting(photographers)(medias)
 
 /**
- * Stockage de toutes les images du photographe dans le local storage
+ * Stockage de toutes les images du photographe( id, nbr de likes, isLiked) dans le local storage
  */
 let likedMedias = []
 
@@ -127,6 +123,9 @@ photographerMedias.forEach(media => {
   store.setLikedImages(likedMedias)
 })
 
+/**
+ * Récupération des données photographes/médias, par popularité par défaut
+ */
 export const sort = (sortingChoice = 'Popularité') => {
   /**
    * Tri de l'ordre d'affichage des images selon choix utilisateur
@@ -139,7 +138,7 @@ export const sort = (sortingChoice = 'Popularité') => {
   displayMedias(forThisPhotographer)(sortedPhotographerMedias)
 
   /**
-   * Maintien de l'affichage du like au changement d'ordre de tri
+   * Maintien de l'affichage des likes au changement d'ordre de tri
    */
   mutationObserver.observe(
     [...DOM.mediasSection.getElementsByClassName('media-card')][0],

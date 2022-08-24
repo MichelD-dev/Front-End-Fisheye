@@ -20,8 +20,13 @@ export const sortBy = medias => {
 // --------------------------------------------------------------------------- //
 // ------------------------------------UTILS---------------------------------- //
 // --------------------------------------------------------------------------- //
+
+/**
+ * Affichage caché de l'ordre de tri initial, pour être lu par le screen reader
+ */
 document.querySelector('#medias-sort-label > span').textContent =
   DOM.summary.textContent
+
 /**
  * Affichage de l'option selectionnée
  */
@@ -42,14 +47,9 @@ const selectDisplaySorting = option => {
 
   setTimeout(() => {
     DOM.summary.focus()
-    // removeReactionTo('keydown').on(window).withFunction(tabulate)
   }, 0)
 }
 
-/**
- * GESTION DU FOCUS
- * Changement de focus au clavier et maintien du focus dans le selecteur
- */
 /**
  * Navigation au clavier
  */
@@ -76,6 +76,9 @@ const focusableElements = 'details > *'
  */
 let focusables = [...DOM.selector.querySelectorAll(focusableElements)]
 
+/**
+ * Changement de focus au clavier et maintien du focus dans le selecteur
+ */
 const focusInSelector = e => {
   if (DOM.selector.hasAttribute('open')) e.preventDefault()
 
@@ -113,13 +116,13 @@ addReactionTo('click')
  * Récupération des données selon la catégorie sélectionnée
  */
 const selected = document.querySelector('.selected')
+
 for (const sortingChoice of document.querySelectorAll('.custom-option')) {
   addReactionTo('click')
     .on(sortingChoice)
     .withFunction(() => {
       selectDisplaySorting(sortingChoice)
       sort(selected.textContent.trim())
-      DOM.summary.focus()
     })
 
   addReactionTo('keydown')

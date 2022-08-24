@@ -62,7 +62,7 @@ addReactionTo('keydown')
   .on(DOM.formModal)
   .withFunction(e => {
     if (e.key === 'Enter') {
-      if (DOM.formModal.hasAttribute('aria-modal')) return e => validate(e)
+      if (DOM.formModal.hasAttribute('aria-modal')) return validate
     }
     if (e.key === 'Escape') {
       form.hide()

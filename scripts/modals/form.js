@@ -105,7 +105,7 @@ const formSubmit = e => {
   if (!validate(e)) return
 
   /**
-   * Message vocal
+   * Message vocal de confirmation de soumission
    */
   document.querySelector('#submit-confirmation').textContent = 'Message envoyé'
 

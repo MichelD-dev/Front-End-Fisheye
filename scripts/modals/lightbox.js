@@ -175,7 +175,8 @@ export const lightbox = (
       printLikeOnLightbox(media)
     }
 
-    window.onkeydown = () => {}
+    // window.onkeydown = () => {}
+
     /**
      * ajout/retrait d'un like au clavier
      */
@@ -358,6 +359,7 @@ export const focusInLightbox = e => {
   )
 
   e.preventDefault()
+
   let index = focusables.findIndex(
     elem => elem === DOM.lightbox.querySelector(':focus'),
   )
