@@ -7,7 +7,7 @@
   "scripts": {
     "sass": "sass -w ./style.scss:./css/style.css",
     "lint": "eslint .",
-    "prettier": "prettier **/*.{js,json,html,css}",
+    "prettier": "prettier --ignore-path .gitignore **/*.{js,json,html,scss}",
     "format": "yarn prettier --write",
     "check-format": "yarn prettier --list-different",
     "validate": "npm-run-all --parallel check-format lint",
