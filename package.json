@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "types": "index.d.ts",
+  "private": true,
   "scripts": {
     "sass": "sass -w ./style.scss:./css/style.css",
     "lint": "eslint .",
     "prettier": "prettier **/*.{js,json,html,css}",
     "format": "yarn prettier --write",
     "check-format": "yarn prettier --list-different",
-    "validate": "npm-run-all --parallel check-format lint"
+    "validate": "npm-run-all --parallel check-format lint",
+    "postinstall": "husky install"
   },
   "repository": "https://github.com/MichelD-dev/Front-End-Fisheye.git",
   "author": "michelD-dev <delaunaymichel@hotmail.fr>",
