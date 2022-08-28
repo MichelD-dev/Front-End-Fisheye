@@ -49,6 +49,10 @@ a[aria-label="Page d'accueil"] {
 
 .logo {
   height: 50px;
+  margin-left: 20px;
+  &_accueil {
+    margin-left: 100px;
+  }
   @include media-max(768px) {
     height: 60px;
   }
