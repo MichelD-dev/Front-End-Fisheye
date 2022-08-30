@@ -6,7 +6,7 @@ import {addReactionTo} from '../utils/eventListener.js'
 /**
  * Affichage de la page d'accueil
  */
-async function displayPhotographers(photographers) {
+function displayPhotographers(photographers) {
   photographers.forEach(photographer => {
     const photographerModel = photographerFactory(photographer)
     const userCardDOM = photographerModel.getUserCardDOM()

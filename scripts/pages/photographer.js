@@ -19,6 +19,9 @@ document.querySelector('[aria-label="Lien page d\'accueil"]').focus()
 /**
  * AFFICHAGE DE LA PAGE PHOTOGRAPHE
  */
+// On implémente un cache pour n'avoir les skeletons que lors du premier affichage
+let cache = {}
+
 const displayMedias = photographer => sortedPhotographerMedias => {
   document.title = `Fisheye - photographe ${photographer.name}`
 
@@ -34,7 +37,8 @@ const displayMedias = photographer => sortedPhotographerMedias => {
   /**
    * Affichage des skeletons
    */
-  setSkeletons(mediasNbr)('to print')
+  if (!('sortedPhotographerMedias' in cache))
+    setSkeletons(mediasNbr)('to print')
 
   /**
    * Récupération du photographe choisi et affichage du header associé
@@ -54,7 +58,13 @@ const displayMedias = photographer => sortedPhotographerMedias => {
     // /**
     //  * Masquage des skeletons
     //  */
-    setSkeletons(mediasNbr)('to hide')
+    if (!('sortedPhotographerMedias' in cache))
+      setSkeletons(mediasNbr)('to hide')
+
+    /**
+     * On ajoute les medias au cache, ainsi les skeletons ne s'afficheront pas lors d'un simple tri
+     */
+    cache = {...cache, sortedPhotographerMedias}
 
     /**
      * Affichage des cartes images du photographe
